@@ -5,6 +5,17 @@ html(lang='en')
         meta(http-equiv='X-UA-Compatible' content='IE=edge')
         meta(name='description' content='OpEdAni is a place to rank and discuss anime opening and ending songs and animations.')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        title OpEdAni
+        title OpEdAni - Anime Openings & Endings
+        link(rel='stylesheet' href='/css/layout.css')
+        script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+        script(src='/js/layout.js')
     body
+        div.nav-main
+            div.nav-main-item#navMainHome
+                i.fa-solid.fa-house.fa-2x
+            div.nav-main-item#navMainSearch
+                i.fa-solid.fa-magnifying-glass.fa-2x
+            div.nav-main-item#navMainMenu
+                i.fa-solid.fa-bars.fa-2x
         block content
