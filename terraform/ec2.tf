@@ -19,3 +19,13 @@ resource "aws_instance" "web_server_ec2" {
   instance_type = "t2.micro"
   user_data     = file("init.sh")
 }
+
+
+# Public IP for ec2 instance (Elastic IP)
+resource "aws_eip" "web_server_eip" {
+  instance = aws_instance.web_server_ec2.id
+  vpc      = true
+}
+
+
+
