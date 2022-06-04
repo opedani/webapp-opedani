@@ -1,4 +1,0 @@
-Light: #dbe7f2
-Dark: #25292d
-Blue: #3675af
-Green: #2f873d
