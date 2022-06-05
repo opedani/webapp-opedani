@@ -28,4 +28,25 @@ resource "aws_eip" "web_server_eip" {
 }
 
 
+resource "aws_route53_zone" "opedani_hosted_zone" {
+  name = "opedani.net"
+}
 
+
+resource "aws_route53_record" "nameservers" {
+  allow_overwrite = true
+  name            = "opedani.net"
+  ttl             = 3600
+  type            = "NS"
+  zone_id         = aws_route53_zone.opedani_hosted_zone.zone_id
+  records         = aws_route53_zone.opedani_hosted_zone.name_servers
+}
+
+
+resource "aws_route53_record" "web_server_dns_record" {
+  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
+  name    = "opedani.net"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.web_server_eip.public_ip]
+}
