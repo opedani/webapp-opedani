@@ -4,7 +4,6 @@
 resource "aws_security_group" "web_server_sg" {
   name        = "web_server_sg"
   description = "Security Group for web server"
-  vpc_id      = aws_eip.web_server_eip.id
 }
 
 
@@ -14,6 +13,7 @@ resource "aws_security_group_rule" "http_in" {
   from_port         = 80
   to_port           = 80
   protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_server_sg.id
 }
 
@@ -24,16 +24,18 @@ resource "aws_security_group_rule" "http_out" {
   from_port         = 80
   to_port           = 80
   protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_server_sg.id
 }
 
 
 resource "aws_security_group_rule" "https_in" {
   description       = "Allows https traffic in"
-  type              = "egress"
+  type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_server_sg.id
 }
 
@@ -44,5 +46,6 @@ resource "aws_security_group_rule" "https_out" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_server_sg.id
 }
