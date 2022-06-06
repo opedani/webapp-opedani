@@ -12,7 +12,7 @@ terraform {
 }
 
 
-# AWS configuration
+# AWS (provider) configuration
 provider "aws" {
   region     = "us-east-2"
   access_key = var.aws_access_key
