@@ -1,0 +1,43 @@
+/*****************************************************************************/
+/* SEARCH BAR
+/*****************************************************************************/
+
+.search-main
+{
+    background-color: var(--color-blue);
+    border-bottom: 5px solid var(--color-blue-dark);
+    border-radius: 10px;
+    color: var(--color-light);
+    display: flex;
+    gap: 10px;
+    margin: auto;
+    padding: 10px;
+    width: max(250px, 80%);
+}
+
+.search-main-submit
+{
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.search-main-submit:hover
+{
+    background-color: var(--color-blue-dark);
+}
+
+.search-main-input
+{
+    background-color: var(--color-light);
+    border: none;
+    border-radius: 10px;
+    color: var(--color-dark);
+    font-size: xx-large;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.search-main-input:focus
+{
+    outline: none;
+}

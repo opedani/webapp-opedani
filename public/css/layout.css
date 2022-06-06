@@ -22,8 +22,21 @@
 html
 {
     background-color: var(--color-light);
-    color: var(--color-light);
+    color: var(--color-dark);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100%;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+::selection
+{
+    background: var(--color-green);
 }
 
 /*****************************************************************************/
@@ -34,6 +47,7 @@ html
 {
     background-color: var(--color-blue);
     border-bottom: 5px solid var(--color-blue-dark);
+    color: var(--color-light);
     display: flex;
     justify-content: flex-end;
     position: sticky;

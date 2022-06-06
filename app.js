@@ -27,4 +27,4 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 
-app.listen(port, () => console.log(`Launched opedani.net on port ${port}.`))
+app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
