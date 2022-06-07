@@ -6,7 +6,7 @@
 {
     align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-flow: column;
     margin-top: 20px;
     width: 100%;
 }
@@ -46,17 +46,6 @@
     width: 75%;
 }
 
-.search-main-submit
-{
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.search-main-submit:hover
-{
-    background-color: var(--color-blue-dark);
-}
-
 .search-main-input
 {
     background-color: var(--color-light);
@@ -71,4 +60,41 @@
 .search-main-input:focus
 {
     outline: none;
+}
+
+/*****************************************************************************/
+/* AUTOCOMPLETE BOX
+/*****************************************************************************/
+
+.autocomplete-anime
+{
+    background-color: var(--color-blue);
+    border-bottom: 5px solid var(--color-blue-dark);
+    border-radius: 10px;
+    color: var(--color-light);
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column;
+    margin-bottom: 20px;
+    max-width: 700px;
+    min-width: 350px;
+    width: 75%;
+}
+
+.autocomplete-anime-item
+{
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.autocomplete-anime-item:hover
+{
+    background-color: var(--color-blue-dark);
+}
+
+.autocomplete-anime-none
+{
+    padding: 10px;
+    text-align: center;
 }

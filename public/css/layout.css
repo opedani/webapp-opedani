@@ -30,7 +30,7 @@ html
 body
 {
     display: flex;
-    flex-direction: column;
+    flex-flow: column;
     min-height: 100%;
 }
 
@@ -61,6 +61,7 @@ body
 
 .nav-main-item
 {
+    cursor: pointer;
     padding: 10px;
 }
 
