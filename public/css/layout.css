@@ -4,8 +4,8 @@
 
 :root
 {
-    --color-light: #c8d9e9;
-    --color-dark: #1f2225;
+    --color-light: #e0e4e8;
+    --color-dark: #202428;
     --color-blue: #3675af;
     --color-blue-dark: #285783;
     --color-green: #2f873d;
@@ -72,3 +72,20 @@ body
 /*****************************************************************************/
 /* FOOTER
 /*****************************************************************************/
+
+footer
+{
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(6, 1fr);
+    margin-top: auto;
+    padding: 20px;
+    place-items: center;
+}
+
+.copyright
+{
+    grid-column: 1 / 7;
+}
