@@ -15,13 +15,13 @@ html(lang='en')
         block head-content
     body
         nav.layout-nav
-            div.layout-nav-button
+            a.layout-nav-button.util-link(href='/')
                 i.fa-solid.fa-house.fa-2x
             div.layout-nav-button#layout-nav-search
                 i.fa-solid.fa-magnifying-glass.fa-2x
             div.layout-nav-button
                 i.fa-solid.fa-bars.fa-2x
-        div.layout-search-wrapper.hidden
+        div.layout-search-wrapper.util-hidden
             i.layout-search-button.fa-solid.fa-magnifying-glass.fa-2x
             input.layout-search-input(type='text' placeholder='Search anime title...')
         block body-content

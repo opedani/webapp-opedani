@@ -15,14 +15,15 @@ const app = express()
 const port = 3000
 const xmlParser = new xml2js.Parser({ attrkey: 'ATTR' })
 
-let animeNames = []
+let animeBriefs = []
 
 ////////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function updateAnimeNames()
+function updateAnimeBriefs()
 {
+    console.log('app.js -> updateAnimeBriefs()')
     https.get('https://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime&nlist=all', (res) =>
     {
         let data = ''
@@ -36,15 +37,15 @@ function updateAnimeNames()
             {
                 if (error)
                 {
-                    console.log('FAILURE: updateAnimeNames()', error)
+                    console.log('FAILURE: app.js -> updateAnimeBriefs()', error)
                 }
                 else
                 {
-                    animeNames = []
+                    animeBriefs = []
                     const animes = result.report.item
                     for (const anime of animes)
                     {
-                        animeNames.push(anime.name[0])
+                        animeBriefs.push({ id: anime.id[0], name: anime.name[0] })
                     }
                 }
             })
@@ -65,8 +66,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
 
-updateAnimeNames()
-setInterval(updateAnimeNames, 86400000)
+updateAnimeBriefs()
+setInterval(updateAnimeBriefs, 86400000)
 
 ////////////////////////////////////////////////////////////////////////////////
 // RESPONSES
@@ -74,17 +75,26 @@ setInterval(updateAnimeNames, 86400000)
 
 function getIndexPage(req, res)
 {
+    console.log('app.js -> getIndexPage()')
     res.render('index')
 }
 
 function getAnimePage(req, res)
 {
+    console.log('app.js -> getAnimePage()')
     res.render('anime')
 }
 
-function getAnimeNames(req, res)
+function getAnimeResultsPage(req, res)
 {
-    res.json(animeNames)
+    console.log('app.js -> getAnimeResultsPage()')
+    res.render('anime-results')
+}
+
+function getAnimeBriefs(req, res)
+{
+    console.log('app.js -> getAnimeBriefs()')
+    res.json(animeBriefs)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,4 +103,5 @@ function getAnimeNames(req, res)
 
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
-app.get('/api/get-anime-names', getAnimeNames)
+app.get('/anime-results', getAnimeResultsPage)
+app.get('/api/get-anime-briefs', getAnimeBriefs)

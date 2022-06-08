@@ -46,14 +46,14 @@
     width: 90%;
 }
 
-.index-search-button-wrapper
+.index-search-button
 {
     border-radius: 10px;
     cursor: pointer;
     padding: 10px;
 }
 
-.index-search-button-wrapper:hover
+.index-search-button:hover
 {
     background-color: var(--color-blue-dark);
 }

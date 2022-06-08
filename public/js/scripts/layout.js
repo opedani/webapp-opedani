@@ -2,7 +2,7 @@
 // DEPENDENCIES
 ///////////////////////////////////////////////////////////////////////////////
 
-import { filterAnimeNames, updateAutocompleteBox } from '/js/modules/autocomplete.js'
+import { filterAnimeBriefs, updateAutocompleteBox } from '/js/modules/autocomplete.js'
 import { initPersistentData } from '/js/modules/persist.js'
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ let layoutSearchWrapper
 
 function layoutNavSearch_OnClick()
 {
-    layoutSearchWrapper.toggleClass('hidden')
+    layoutSearchWrapper.toggleClass('util-hidden')
 }
 
 function setElements()

@@ -49,6 +49,16 @@ input[type=text]:focus
     outline: none;
 }
 
+a
+{
+    color: var(--color-green);
+}
+
+a:hover
+{
+    color: var(--color-green-dark);
+}
+
 ::selection
 {
     background: var(--color-green);
@@ -139,7 +149,17 @@ footer
 /* UTILITIES
 /*****************************************************************************/
 
-.hidden
+.util-hidden
 {
     display: none;
+}
+
+.util-link
+{
+    color: inherit;
+}
+
+.util-link:hover
+{
+    color: inherit;
 }

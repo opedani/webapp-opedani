@@ -2,25 +2,25 @@
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function updateAnimeNames(response)
+function updateAnimeBriefs(response)
 {
-    localStorage.setItem('animeNames', JSON.stringify(response))
+    localStorage.setItem('animeBriefs', JSON.stringify(response))
 }
 
-function getAnimeNames()
+function getAnimeBriefs()
 {
     $.ajax(
     {
-        url: `${location.href}api/get-anime-names`,
+        url: `${location.origin}/api/get-anime-briefs`,
         dataType: 'json',
-        success: updateAnimeNames
+        success: updateAnimeBriefs
     })
 }
 
 export function initPersistentData()
 {
-    if (!localStorage.getItem('animeNames'))
+    if (!localStorage.getItem('animeBriefs'))
     {
-        getAnimeNames()
+        getAnimeBriefs()
     }
 }
