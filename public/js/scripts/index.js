@@ -26,7 +26,7 @@ function setEventListeners()
 {
     indexSearchInput.on('input', (event) =>
     {
-        updateAutocompleteBox(indexAutocompleteWrapper, 'index-autocomplete', filterAnimeNames(event.target.value))
+        updateAutocompleteBox(indexAutocompleteWrapper, 'index-autocomplete', filterAnimeNames(event.target.value, 10))
     })
 }
 

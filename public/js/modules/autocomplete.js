@@ -21,7 +21,7 @@ export function updateAutocompleteBox(element, prefix, suggestions)
     }
 }
 
-export function filterAnimeNames(query)
+export function filterAnimeNames(query, max)
 {
     const suggestions = []
     if (!animeNames)
@@ -38,10 +38,10 @@ export function filterAnimeNames(query)
     {
         for (const name of animeNames)
         {
-            if (name.substring(0, queryNew.length).toLowerCase() == queryNew)
+            if (name.toLowerCase().includes(queryNew))
             {
                 suggestions.push(name)
-                if (suggestions.length == 10)
+                if (suggestions.length == max)
                 {
                     break
                 }

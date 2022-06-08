@@ -9,23 +9,27 @@ import { initPersistentData } from '/js/modules/persist.js'
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let navMainSearchInput
+let layoutNavSearch
+let layoutSearchWrapper
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
+function layoutNavSearch_OnClick()
+{
+    layoutSearchWrapper.toggleClass('hidden')
+}
+
 function setElements()
 {
-    navMainSearchInput = $('.nav-main-search-input')
+    layoutNavSearch = $('#layout-nav-search')
+    layoutSearchWrapper = $('.layout-search-wrapper')
 }
 
 function setEventListeners()
 {
-    navMainSearchInput.on('input', (event) =>
-    {
-        
-    })
+    layoutNavSearch.on('click', layoutNavSearch_OnClick)
 }
 
 ///////////////////////////////////////////////////////////////////////////////

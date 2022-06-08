@@ -14,15 +14,16 @@ html(lang='en')
         script(src='/js/scripts/layout.js' type='module')
         block head-content
     body
-        nav.nav
-            div.nav-button
+        nav.layout-nav
+            div.layout-nav-button
                 i.fa-solid.fa-house.fa-2x
-            div.nav-button
+            div.layout-nav-button#layout-nav-search
                 i.fa-solid.fa-magnifying-glass.fa-2x
-            div.nav-search
-                input.nav-search-input(type='text')
-            div.nav-button
+            div.layout-nav-button
                 i.fa-solid.fa-bars.fa-2x
+        div.layout-search-wrapper.hidden
+            i.layout-search-button.fa-solid.fa-magnifying-glass.fa-2x
+            input.layout-search-input(type='text' placeholder='Search anime title...')
         block body-content
         footer
             div.footer-copyright Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski

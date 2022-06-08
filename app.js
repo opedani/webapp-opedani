@@ -77,6 +77,11 @@ function getIndexPage(req, res)
     res.render('index')
 }
 
+function getAnimePage(req, res)
+{
+    res.render('anime')
+}
+
 function getAnimeNames(req, res)
 {
     res.json(animeNames)
@@ -87,4 +92,5 @@ function getAnimeNames(req, res)
 ////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', getIndexPage)
+app.get('/anime', getAnimePage)
 app.get('/api/get-anime-names', getAnimeNames)
