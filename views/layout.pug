@@ -9,16 +9,20 @@ html(lang='en')
         link(rel='stylesheet' href='/css/layout.css')
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-        script(src='/js/layout.js')
+        script(src='/js/modules/persist.js' type='module')
+        script(src='/js/modules/autocomplete.js' type='module')
+        script(src='/js/scripts/layout.js' type='module')
         block head-content
     body
-        div.nav-main
-            div.nav-main-item#navMainHome
+        nav.nav
+            div.nav-button
                 i.fa-solid.fa-house.fa-2x
-            div.nav-main-item#navMainSearch
+            div.nav-button
                 i.fa-solid.fa-magnifying-glass.fa-2x
-            div.nav-main-item#navMainMenu
+            div.nav-search
+                input.nav-search-input(type='text')
+            div.nav-button
                 i.fa-solid.fa-bars.fa-2x
         block body-content
         footer
-            div.copyright Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
+            div.footer-copyright Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski

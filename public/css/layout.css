@@ -24,6 +24,7 @@ html
     background-color: var(--color-light);
     color: var(--color-dark);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
     height: 100%;
 }
 
@@ -32,6 +33,21 @@ body
     display: flex;
     flex-flow: column;
     min-height: 100%;
+}
+
+input[type=text]
+{
+    background-color: var(--color-light);
+    border: none;
+    border-radius: 10px;
+    color: var(--color-dark);
+    padding: 0 10px;
+    width: 100%;
+}
+
+input[type=text]:focus
+{
+    outline: none;
 }
 
 ::selection
@@ -43,7 +59,7 @@ body
 /* MAIN NAVIGATION
 /*****************************************************************************/
 
-.nav-main
+.nav
 {
     background-color: var(--color-blue);
     border-bottom: 5px solid var(--color-blue-dark);
@@ -54,20 +70,33 @@ body
     top: 0;
 }
 
-.nav-main-item:first-child
+.nav-button:first-child
 {
     margin-right: auto;
 }
 
-.nav-main-item
+.nav-button
 {
     cursor: pointer;
     padding: 10px;
 }
 
-.nav-main-item:hover
+.nav-button:hover
 {
     background-color: var(--color-blue-dark);
+}
+
+.nav-search
+{
+    padding: 10px;
+    width: 200px;
+}
+
+.nav-search-input
+{
+    font-size: inherit;
+    height: 100%;
+    padding: 10px;
 }
 
 /*****************************************************************************/
@@ -86,7 +115,7 @@ footer
     place-items: center;
 }
 
-.copyright
+.footer-copyright
 {
     grid-column: 1 / 7;
 }
