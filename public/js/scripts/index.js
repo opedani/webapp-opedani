@@ -37,16 +37,10 @@ function indexSearchButton_OnClick()
 
 function indexSearchInput_OnInput(event)
 {
-    if (event.target.value.length == 0)
-    {
-        indexWrapper.addClass('util-center')
-    }
-    else
-    {
-        indexWrapper.removeClass('util-center')
-    }
-    suggestions = filterAnimeBriefs(event.target.value, 10)
-    updateAutocompleteBox(indexAutocompleteWrapper, 'index-autocomplete', suggestions)
+    const query = event.target.value.trim()
+    indexWrapper.toggleClass('util-center', query.length == 0)
+    suggestions = filterAnimeBriefs(query, 10)
+    updateAutocompleteBox(indexAutocompleteWrapper, 'index-autocomplete', suggestions, query.length > 0)
 }
 
 function setElements()
