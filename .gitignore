@@ -1,4 +1,3 @@
 .vscode
-.credentials.auto.tfvars
 node_modules
 package-lock.json
