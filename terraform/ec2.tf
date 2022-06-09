@@ -35,23 +35,6 @@ resource "aws_route53_zone" "opedani_hosted_zone" {
 }
 
 
-# NS and SOA DNS records for opedani.net
-resource "aws_route53_record" "web_server_default_dns_records" {
-  allow_overwrite = true
-  name            = "opedani.net"
-  ttl             = 3600
-  type            = "NS"
-  zone_id         = aws_route53_zone.opedani_hosted_zone.zone_id
-
-  records = [
-    "ns-760.awsdns-31.net",
-    "ns-1842.awsdns-38.co.uk",
-    "ns-414.awsdns-51.com",
-    "ns-1221.awsdns-24.org",
-  ]
-}
-
-
 # A DNS record for www.opedani.net
 resource "aws_route53_record" "web_server_dns_record" {
   zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
