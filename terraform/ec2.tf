@@ -31,15 +31,42 @@ resource "aws_eip" "web_server_eip" {
 
 # Hosted Zone for DNS Records
 resource "aws_route53_zone" "opedani_hosted_zone" {
-  name = "opedani.net"
+  name = var.root_domain
 }
 
 
-# A DNS record for www.opedani.net
-resource "aws_route53_record" "web_server_dns_record" {
+# NS and SOA DNS records
+resource "aws_route53_record" "opedani_ns_soa" {
+  allow_overwrite = true
+  name            = var.root_domain
+  ttl             = 3600
+  type            = "NS"
+  zone_id         = aws_route53_zone.opedani_hosted_zone.zone_id
+
+  records = [
+    "ns-760.awsdns-31.net",
+    "ns-1842.awsdns-38.co.uk",
+    "ns-414.awsdns-51.com",
+    "ns-1221.awsdns-24.org",
+  ]
+}
+
+
+# A DNS record
+resource "aws_route53_record" "opedani_root" {
   zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
-  name    = "www.opedani.net"
+  name    = var.root_domain
   type    = "A"
   ttl     = "300"
   records = [aws_instance.web_server_ec2.public_ip]
+}
+
+
+# CNAME DNS record
+resource "aws_route53_record" "opedani_www" {
+  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
+  name    = "www.${var.root_domain}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [var.root_domain]
 }
