@@ -4,12 +4,15 @@
 
 :root
 {
-    --color-light: #e0e4e8;
-    --color-dark: #202428;
-    --color-blue: #3675af;
-    --color-blue-dark: #285783;
-    --color-green: #2f873d;
-    --color-green-dark: #23652d;
+    --color-white: #D0D0D0;
+    --color-white-dark: #9c9c9c;
+    --color-black: #101010;
+    --color-primary: #347faa;
+    --color-primary-dark: #20658d;
+    --color-accent: #d67e26;
+    --color-accent-dark: #a05e1c;
+    --color-gray: #303030;
+    --color-gray-dark: #242424;
 }
 
 *
@@ -23,8 +26,7 @@
 
 html
 {
-    background-color: var(--color-light);
-    color: var(--color-dark);
+    background-color: var(--color-black);
     height: 100%;
 }
 
@@ -37,7 +39,8 @@ body
 
 input[type=text]
 {
-    background-color: var(--color-light);
+    background-color: var(--color-white);
+    color: var(--color-black);
     border: none;
     border-radius: 10px;
     padding: 0 10px;
@@ -51,17 +54,17 @@ input[type=text]:focus
 
 a
 {
-    color: var(--color-green);
+    color: var(--color-accent);
 }
 
 a:hover
 {
-    color: var(--color-green-dark);
+    color: var(--color-accent-dark);
 }
 
 ::selection
 {
-    background: var(--color-green);
+    background: var(--color-accent-dark);
 }
 
 /*****************************************************************************/
@@ -70,11 +73,12 @@ a:hover
 
 .layout-nav
 {
-    background-color: var(--color-blue);
-    border-bottom: 5px solid var(--color-blue-dark);
-    color: var(--color-light);
+    background-color: var(--color-primary);
+    border-bottom: 5px solid var(--color-primary-dark);
+    color: var(--color-white);
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 20px;
     position: sticky;
     top: 0;
 }
@@ -92,7 +96,8 @@ a:hover
 
 .layout-nav-button:hover
 {
-    background-color: var(--color-blue-dark);
+    background-color: var(--color-primary-dark);
+    color: var(--color-white-dark);
 }
 
 /*****************************************************************************/
@@ -101,9 +106,9 @@ a:hover
 
 .layout-search-wrapper
 {
-    background-color: var(--color-green);
-    border-bottom: 5px solid var(--color-green-dark);
-    color: var(--color-light);
+    background-color: var(--color-primary);
+    border-bottom: 5px solid var(--color-primary-dark);
+    color: var(--color-white);
     display: flex;
     gap: 10px;
 }
@@ -116,7 +121,8 @@ a:hover
 
 .layout-search-button:hover
 {
-    background-color: var(--color-green-dark);
+    background-color: var(--color-primary-dark);
+    color: var(--color-white-dark);
 }
 
 .layout-search-input
@@ -130,12 +136,13 @@ a:hover
 
 footer
 {
-    background-color: var(--color-dark);
-    color: var(--color-light);
+    background-color: var(--color-gray);
+    border-top: 5px solid var(--color-gray-dark);
+    color: var(--color-white);
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(6, 1fr);
-    margin-top: auto;
+    margin-top: 20px;
     padding: 20px;
     place-items: center;
 }
@@ -152,14 +159,4 @@ footer
 .util-hidden
 {
     display: none;
-}
-
-.util-link
-{
-    color: inherit;
-}
-
-.util-link:hover
-{
-    color: inherit;
 }
