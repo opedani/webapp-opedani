@@ -3,6 +3,7 @@
 
 # Terraform configuration
 terraform {
+  # Providers
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -10,7 +11,8 @@ terraform {
     }
   }
 
-  backend "terraform_cloud" {
+  # Backend (Terraform Cloud)
+  backend "remote" {
     organization = "opedani"
     workspaces {
       name = "webapp-opedani"
