@@ -68,5 +68,5 @@ resource "aws_route53_record" "opedani_www" {
   name    = "www.${var.root_domain}"
   type    = "CNAME"
   ttl     = "300"
-  records = [var.root_domain]
+  records = ["www.${var.root_domain}"]
 }
