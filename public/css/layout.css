@@ -78,7 +78,6 @@ a:hover
     color: var(--color-white);
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
     position: sticky;
     top: 0;
 }
@@ -142,7 +141,6 @@ footer
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(6, 1fr);
-    margin-top: 20px;
     padding: 20px;
     place-items: center;
 }

@@ -8,6 +8,9 @@ import { initPersistentData } from '/js/modules/persist.js'
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
+let indexWrapper
+let indexTitle
+let indexSubtitle
 let indexSearchButton
 let indexSearchInput
 let indexAutocompleteWrapper
@@ -34,12 +37,23 @@ function indexSearchButton_OnClick()
 
 function indexSearchInput_OnInput(event)
 {
+    if (event.target.value.length == 0)
+    {
+        indexWrapper.addClass('util-center')
+    }
+    else
+    {
+        indexWrapper.removeClass('util-center')
+    }
     suggestions = filterAnimeBriefs(event.target.value, 10)
     updateAutocompleteBox(indexAutocompleteWrapper, 'index-autocomplete', suggestions)
 }
 
 function setElements()
 {
+    indexWrapper = $('.index-wrapper')
+    indexTitle = $('.index-title')
+    indexSubtitle = $('.index-subtitle')
     indexSearchButton = $('.index-search-button')
     indexSearchInput = $('.index-search-input')
     indexAutocompleteWrapper = $('.index-autocomplete-wrapper')

@@ -5,27 +5,12 @@
 .index-wrapper
 {
     align-items: center;
-    justify-content: center;
     display: flex;
     flex: 1 0 auto;
     flex-flow: column;
+    gap: 10px;
+    margin: 10px 0;
     width: 100%;
-}
-
-/*****************************************************************************/
-/* OPEDANI
-/*****************************************************************************/
-
-.index-title
-{
-    color: var(--color-white);
-    font-size: 64px;
-}
-
-.index-subtitle
-{
-    color: var(--color-white-dark);
-    font-size: 24px;
 }
 
 /*****************************************************************************/
@@ -39,7 +24,6 @@
     border-radius: 10px;
     display: flex;
     gap: 10px;
-    margin: 20px 0;
     max-width: 600px;
     min-width: 300px;
     padding: 10px;
@@ -106,4 +90,13 @@
 {
     padding: 10px;
     text-align: center;
+}
+
+/*****************************************************************************/
+/* UTILITIES
+/*****************************************************************************/
+
+.util-center
+{
+    justify-content: center;
 }
