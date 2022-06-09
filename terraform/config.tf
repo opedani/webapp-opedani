@@ -9,6 +9,13 @@ terraform {
       version = "4.17.0"
     }
   }
+
+  backend "terraform_cloud" {
+    organization = "opedani"
+    workspaces {
+      name = "webapp-opedani"
+    }
+  }
 }
 
 
