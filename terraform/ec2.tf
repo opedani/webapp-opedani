@@ -65,8 +65,8 @@ resource "aws_route53_record" "opedani_root" {
 # CNAME DNS record
 resource "aws_route53_record" "opedani_www" {
   zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
-  name    = "www.${var.root_domain}"
+  name    = "www"
   type    = "CNAME"
   ttl     = "300"
-  records = ["www.${var.root_domain}"]
+  records = [var.root_domain]
 }
