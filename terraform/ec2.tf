@@ -3,12 +3,12 @@
 
 # Web server's AMI (image)
 data "aws_ami" "web_server_ami" {
-  most_recent   = true
-  owners        = ["amazon"]
+  most_recent = true
+  owners      = ["amazon"]
 
   filter {
-    name = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2",]
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2", ]
   }
 }
 

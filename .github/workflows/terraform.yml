@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # Always use Bash shell and start in ./terraform subdirectory
     defaults:
       run:
         shell: bash
