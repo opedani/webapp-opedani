@@ -1,0 +1,1 @@
+# Non-sensitive variable definitions
