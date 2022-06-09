@@ -2,7 +2,7 @@
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let animeNames
+let animeBriefs
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
@@ -13,7 +13,7 @@ export function updateAutocompleteBox(element, prefix, suggestions)
     element.empty()
     for (const suggestion of suggestions)
     {
-        element.append(`<div class="${prefix}-item">${suggestion}</div>`)
+        element.append(`<div class="${prefix}-item" data-id=${suggestion.id}>${suggestion.name}</div>`)
     }
     if (suggestions.length == 0)
     {
@@ -21,27 +21,27 @@ export function updateAutocompleteBox(element, prefix, suggestions)
     }
 }
 
-export function filterAnimeNames(query)
+export function filterAnimeBriefs(query, max)
 {
     const suggestions = []
-    if (!animeNames)
+    if (!animeBriefs)
     {
-        const animeNamesJSON = localStorage.getItem('animeNames')
-        if (!animeNamesJSON)
+        const animeBriefsJSON = localStorage.getItem('animeBriefs')
+        if (!animeBriefsJSON)
         {
             return suggestions
         }
-        animeNames = JSON.parse(animeNamesJSON)
+        animeBriefs = JSON.parse(animeBriefsJSON)
     }
     const queryNew = query.toLowerCase().trim()
     if (queryNew.length > 0)
     {
-        for (const name of animeNames)
+        for (const brief of animeBriefs)
         {
-            if (name.substring(0, queryNew.length).toLowerCase() == queryNew)
+            if (brief.name.toLowerCase().includes(queryNew))
             {
-                suggestions.push(name)
-                if (suggestions.length == 10)
+                suggestions.push(brief)
+                if (suggestions.length == max)
                 {
                     break
                 }

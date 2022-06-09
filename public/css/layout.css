@@ -15,6 +15,8 @@
 *
 {
     box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
     margin: 0;
     padding: 0;
 }
@@ -23,8 +25,6 @@ html
 {
     background-color: var(--color-light);
     color: var(--color-dark);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 16px;
     height: 100%;
 }
 
@@ -40,7 +40,6 @@ input[type=text]
     background-color: var(--color-light);
     border: none;
     border-radius: 10px;
-    color: var(--color-dark);
     padding: 0 10px;
     width: 100%;
 }
@@ -50,16 +49,26 @@ input[type=text]:focus
     outline: none;
 }
 
+a
+{
+    color: var(--color-green);
+}
+
+a:hover
+{
+    color: var(--color-green-dark);
+}
+
 ::selection
 {
     background: var(--color-green);
 }
 
 /*****************************************************************************/
-/* MAIN NAVIGATION
+/* NAVIGATION
 /*****************************************************************************/
 
-.nav
+.layout-nav
 {
     background-color: var(--color-blue);
     border-bottom: 5px solid var(--color-blue-dark);
@@ -70,33 +79,49 @@ input[type=text]:focus
     top: 0;
 }
 
-.nav-button:first-child
-{
-    margin-right: auto;
-}
-
-.nav-button
+.layout-nav-button
 {
     cursor: pointer;
     padding: 10px;
 }
 
-.nav-button:hover
+.layout-nav-button:first-child
+{
+    margin-right: auto;
+}
+
+.layout-nav-button:hover
 {
     background-color: var(--color-blue-dark);
 }
 
-.nav-search
+/*****************************************************************************/
+/* SEARCH
+/*****************************************************************************/
+
+.layout-search-wrapper
 {
-    padding: 10px;
-    width: 200px;
+    background-color: var(--color-green);
+    border-bottom: 5px solid var(--color-green-dark);
+    color: var(--color-light);
+    display: flex;
+    gap: 10px;
 }
 
-.nav-search-input
+.layout-search-button
 {
-    font-size: inherit;
-    height: 100%;
+    cursor: pointer;
     padding: 10px;
+}
+
+.layout-search-button:hover
+{
+    background-color: var(--color-green-dark);
+}
+
+.layout-search-input
+{
+    margin: 10px 10px 10px 0;
 }
 
 /*****************************************************************************/
@@ -118,4 +143,23 @@ footer
 .footer-copyright
 {
     grid-column: 1 / 7;
+}
+
+/*****************************************************************************/
+/* UTILITIES
+/*****************************************************************************/
+
+.util-hidden
+{
+    display: none;
+}
+
+.util-link
+{
+    color: inherit;
+}
+
+.util-link:hover
+{
+    color: inherit;
 }
