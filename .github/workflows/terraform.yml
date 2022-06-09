@@ -1,9 +1,8 @@
 name: 'Terraform'
 
-# Occurs on pushes and pull requests to any branch
+# Occurs on pushes to any branch
 on:
   push:
-  pull_request:
 
 permissions:
   contents: read
@@ -45,5 +44,5 @@ jobs:
 
     # Run "terraform apply" for pushes to master branch
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/master'
       run: terraform apply
