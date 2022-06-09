@@ -9,12 +9,18 @@ import { initPersistentData } from '/js/modules/persist.js'
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
+let layoutNavHome
 let layoutNavSearch
 let layoutSearchWrapper
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
+
+function layoutNavHome_OnClick()
+{
+    location.href = location.origin
+}
 
 function layoutNavSearch_OnClick()
 {
@@ -23,12 +29,14 @@ function layoutNavSearch_OnClick()
 
 function setElements()
 {
+    layoutNavHome = $('#layout-nav-home')
     layoutNavSearch = $('#layout-nav-search')
     layoutSearchWrapper = $('.layout-search-wrapper')
 }
 
 function setEventListeners()
 {
+    layoutNavHome.on('click', layoutNavHome_OnClick)
     layoutNavSearch.on('click', layoutNavSearch_OnClick)
 }
 
