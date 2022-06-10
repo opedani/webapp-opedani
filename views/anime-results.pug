@@ -5,8 +5,13 @@ block head-content
     script(src='/js/scripts/anime-results.js' type='module')
 
 block main-content
+    h1 Matched #{count} anime...
     div.anime-results
-        button.anime-results-item
+        div.anime-results-item
+            button.anime-results-go
+                i.fa-solid.fa-eye.fa-2x
             img.anime-results-thumbnail(src='/images/thumbnail.jpg' alt='Steins;Gate')
             div.anime-results-info
-                h2.anime-results-name Steins;Gate
+                h2 Steins;Gate
+    button.anime-results-load#anime-results-load
+        i.fa-solid.fa-arrow-down.fa-2x

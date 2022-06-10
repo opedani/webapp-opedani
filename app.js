@@ -52,6 +52,29 @@ function updateAnimeBriefs()
             })
         })
     })
+    const options =
+    {
+        hostname: 'api.myanimelist.net',
+        path: '/v2/anime',
+        headers:
+        {
+            'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
+        }
+    }
+    https.get(options, (res) =>
+    {
+        console.log(res.statusCode);
+        console.log(res.headers)
+        let data = ''
+        res.on('data', (stream) =>
+        {
+            data += stream
+        })
+        res.on('end', () =>
+        {
+            console.log(data)
+        })
+    })
 }
 
 ////////////////////////////////////////////////////////////////////////////////

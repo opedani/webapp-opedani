@@ -75,13 +75,22 @@ main
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
-    margin: 10px 0;
+}
+
+h1
+{
+    color: var(--color-primary);
+    font-size: 32px;
+    padding: 20px;
+    text-align: center;
 }
 
 h2
 {
     color: var(--color-primary);
     font-size: 24px;
+    padding: 10px;
+    text-align: center;
 }
 
 footer
@@ -141,9 +150,4 @@ footer
 .hidden
 {
     display: none !important;
-}
-
-.accent
-{
-    color: var(--color-accent) !important;
 }
