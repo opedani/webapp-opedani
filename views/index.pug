@@ -4,10 +4,9 @@ block head-content
     link(rel='stylesheet' href='/css/index.css')
     script(src='/js/scripts/index.js' type='module')
 
-block body-content
-    div.index-wrapper.util-center
-        div.index-search-wrapper
-            i.index-search-button.fa-solid.fa-magnifying-glass.fa-3x
-            div.index-search-input-wrapper
-                input.index-search-input(type='text' placeholder='Search anime title...')
-        div.index-autocomplete-wrapper.util-hidden
+block main-content
+    div.searchbar-primary.lean#searchbar-primary
+        button#searchbar-primary-search
+            i.fa-solid.fa-magnifying-glass.fa-3x
+        input(type='text' placeholder='Search anime...').searchbar-primary-input#searchbar-primary-input
+    div.autocomplete.lean.hidden#autocomplete-primary

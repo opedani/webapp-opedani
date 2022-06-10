@@ -1,0 +1,38 @@
+.anime-results
+{
+    display: grid;
+}
+
+.anime-results-item
+{
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.anime-results-item:last-child
+{
+    border-bottom: 1px solid var(--color-gray-dark);
+}
+
+.anime-results-thumbnail
+{
+    max-width: 225px;
+    width: 35%;
+}
+
+.anime-results-info
+{
+    border-left: 1px solid var(--color-gray-dark);
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.anime-results-name
+{
+    border-bottom: 1px solid var(--color-gray-dark);
+    padding-bottom: 10px;
+}

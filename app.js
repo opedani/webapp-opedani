@@ -6,6 +6,7 @@ const express = require('express')
 const path = require('path')
 const https = require('https')
 const xml2js = require('xml2js')
+const url = require('url')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -88,7 +89,12 @@ function getAnimePage(req, res)
 function getAnimeResultsPage(req, res)
 {
     console.log('app.js -> getAnimeResultsPage()')
-    res.render('anime-results')
+    const query = url.parse(req.url, true).query
+    res.render('anime-results',
+    {
+        query: query.query,
+        count: query.count
+    })
 }
 
 function getAnimeBriefs(req, res)

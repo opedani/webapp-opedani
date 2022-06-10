@@ -2,42 +2,31 @@
 // DEPENDENCIES
 ///////////////////////////////////////////////////////////////////////////////
 
-import { filterAnimeBriefs, updateAutocompleteBox } from '/js/modules/autocomplete.js'
 import { initPersistentData } from '/js/modules/persist.js'
 
 ///////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let layoutNavHome
-let layoutNavSearch
-let layoutSearchWrapper
+let navPrimaryHome
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function layoutNavHome_OnClick()
+function navPrimaryHome_OnClick()
 {
     location.href = location.origin
 }
 
-function layoutNavSearch_OnClick()
-{
-    layoutSearchWrapper.toggleClass('util-hidden')
-}
-
 function setElements()
 {
-    layoutNavHome = $('#layout-nav-home')
-    layoutNavSearch = $('#layout-nav-search')
-    layoutSearchWrapper = $('.layout-search-wrapper')
+    navPrimaryHome = $('#nav-primary-home')
 }
 
 function setEventListeners()
 {
-    layoutNavHome.on('click', layoutNavHome_OnClick)
-    layoutNavSearch.on('click', layoutNavSearch_OnClick)
+    navPrimaryHome.on('click', navPrimaryHome_OnClick)
 }
 
 ///////////////////////////////////////////////////////////////////////////////

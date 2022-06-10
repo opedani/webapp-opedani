@@ -1,0 +1,149 @@
+:root
+{
+    --color-white: #D0D0D0;
+    --color-white-dark: #9c9c9c;
+    --color-black: #101010;
+    --color-primary: #347faa;
+    --color-primary-dark: #20658d;
+    --color-accent: #d67e26;
+    --color-accent-dark: #a05e1c;
+    --color-gray: #303030;
+    --color-gray-dark: #242424;
+}
+
+::selection
+{
+    background: var(--color-accent-dark);
+}
+
+*
+{
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
+    background-color: var(--color-black);
+    height: 100%;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    min-height: 100%;
+}
+
+input[type=text]
+{
+    background-color: transparent;
+    border: 1px solid var(--color-gray-dark);
+    color: var(--color-white);
+    padding: 0 10px;
+}
+
+input[type=text]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+a
+{
+    color: var(--color-accent);
+}
+
+a:hover
+{
+    color: var(--color-accent-dark);
+}
+
+button
+{
+    background-color: transparent;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+}
+
+main
+{
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+h2
+{
+    color: var(--color-primary);
+    font-size: 24px;
+}
+
+footer
+{
+    background-color: var(--color-gray);
+    color: var(--color-white);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(6, 1fr);
+    padding: 20px;
+    place-items: center;
+}
+
+.nav-primary
+{
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+}
+
+.nav-primary-button
+{
+    padding: 10px;
+}
+
+.nav-primary-button:first-child
+{
+    margin-right: auto;
+}
+
+.footer-copyright
+{
+    grid-column: 1 / 7;
+}
+
+.autocomplete
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.autocomplete-item
+{
+    border: 1px solid var(--color-gray-dark);
+    border-bottom: none;
+    padding: 10px;
+}
+
+.autocomplete-item:last-child
+{
+    border: 1px solid var(--color-gray-dark);
+}
+
+.hidden
+{
+    display: none !important;
+}
+
+.accent
+{
+    color: var(--color-accent) !important;
+}
