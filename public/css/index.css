@@ -1,102 +1,23 @@
-/*****************************************************************************/
-/* WRAPPER
-/*****************************************************************************/
-
-.index-wrapper
+main
 {
     align-items: center;
-    display: flex;
-    flex: 1 0 auto;
-    flex-flow: column;
     gap: 10px;
-    margin: 10px 0;
-    width: 100%;
 }
 
-/*****************************************************************************/
-/* SEARCH BAR
-/*****************************************************************************/
-
-.index-search-wrapper
+.searchbar-primary
 {
-    background-color: var(--color-primary);
-    border-bottom: 5px solid var(--color-primary-dark);
-    border-radius: 10px;
     display: flex;
     gap: 10px;
-    max-width: 600px;
-    min-width: 300px;
-    padding: 10px;
-    width: 90%;
 }
 
-.index-search-button
-{
-    border-radius: 10px;
-    color: var(--color-white);
-    cursor: pointer;
-    padding: 10px;
-}
-
-.index-search-button:hover
-{
-    background-color: var(--color-primary-dark);
-    color: var(--color-white-dark);
-}
-
-.index-search-input-wrapper
-{
-    width: 100%;
-}
-
-.index-search-input
+.searchbar-primary-input
 {
     font-size: 24px;
-    height: 100%;
+    width: 100%;
 }
 
-/*****************************************************************************/
-/* AUTOCOMPLETE BOX
-/*****************************************************************************/
-
-.index-autocomplete-wrapper
+.lean
 {
-    background-color: var(--color-primary);
-    border-bottom: 5px solid var(--color-primary-dark);
-    border-radius: 10px;
-    color: var(--color-white);
-    display: flex;
-    flex-flow: column;
-    margin-bottom: 20px;
-    max-width: 600px;
-    min-width: 300px;
-    padding: 10px 0;
+    max-width: 700px;
     width: 90%;
-}
-
-.index-autocomplete-item
-{
-    cursor: pointer;
-    padding: 10px;
-}
-
-.index-autocomplete-item:hover
-{
-    background-color: var(--color-primary-dark);
-    color: var(--color-white-dark);
-}
-
-.index-autocomplete-none
-{
-    padding: 10px;
-    text-align: center;
-}
-
-/*****************************************************************************/
-/* UTILITIES
-/*****************************************************************************/
-
-.util-center
-{
-    justify-content: center;
 }
