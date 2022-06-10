@@ -29,27 +29,27 @@ resource "aws_eip" "web_server_eip" {
 }
 
 
-## Hosted Zone for DNS Records
-#resource "aws_route53_zone" "opedani_hosted_zone" {
-#  name = var.root_domain
-#}
-#
-#
-## DNS A record
-#resource "aws_route53_record" "opedani_root" {
-#  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
-#  name    = var.root_domain
-#  type    = "A"
-#  ttl     = "300"
-#  records = [aws_instance.web_server_ec2.public_ip]
-#}
-#
-#
-## DNS CNAME record
-#resource "aws_route53_record" "opedani_www" {
-#  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
-#  name    = "www"
-#  type    = "CNAME"
-#  ttl     = "300"
-#  records = [var.root_domain]
-#}
+# Hosted Zone for DNS Records
+resource "aws_route53_zone" "opedani_hosted_zone" {
+  name = var.root_domain
+}
+
+
+# DNS root domain record
+resource "aws_route53_record" "opedani_root" {
+  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
+  name    = var.root_domain
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.web_server_ec2.public_ip]
+}
+
+
+# DNS www record
+resource "aws_route53_record" "opedani_www" {
+  zone_id = aws_route53_zone.opedani_hosted_zone.zone_id
+  name    = "www"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.web_server_ec2.public_ip]
+}
