@@ -4,5 +4,9 @@ block head-content
     link(rel='stylesheet' href='/css/anime-results.css')
     script(src='/js/scripts/anime-results.js' type='module')
 
-block body-content
-    div.anime-results-wrapper
+block main-content
+    div.anime-results
+        button.anime-results-item
+            img.anime-results-thumbnail(src='/images/thumbnail.jpg' alt='Steins;Gate')
+            div.anime-results-info
+                h2.anime-results-name Steins;Gate

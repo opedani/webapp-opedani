@@ -6,7 +6,7 @@ html(lang='en')
         meta(name='description' content='OpEdAni is a place to rank and discuss anime opening and ending songs and animations.')
         meta(name='viewport' content='width=device-width, initial-scale=1')
         title OpEdAni: Anime Openings &amp Endings
-        link(rel='stylesheet' href='/css/layout.css')
+        link(rel='stylesheet' href='/css/universal.css')
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
         script(src='/js/modules/persist.js' type='module')
@@ -14,16 +14,12 @@ html(lang='en')
         script(src='/js/scripts/layout.js' type='module')
         block head-content
     body
-        nav.layout-nav
-            div.layout-nav-button#layout-nav-home
+        nav.nav-primary
+            button.nav-primary-button#nav-primary-home
                 i.fa-solid.fa-house.fa-2x
-            div.layout-nav-button#layout-nav-search
-                i.fa-solid.fa-magnifying-glass.fa-2x
-            div.layout-nav-button
+            button.nav-primary-button#nav-primary-menu
                 i.fa-solid.fa-bars.fa-2x
-        div.layout-search-wrapper.util-hidden
-            i.layout-search-button.fa-solid.fa-magnifying-glass.fa-2x
-            input.layout-search-input(type='text' placeholder='Search anime title...')
-        block body-content
+        main
+            block main-content
         footer
             div.footer-copyright Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
