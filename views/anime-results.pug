@@ -6,12 +6,6 @@ block head-content
 
 block main-content
     h1 Matched #{count} anime...
-    div.anime-results
-        div.anime-results-item
-            button.anime-results-go
-                i.fa-solid.fa-eye.fa-2x
-            img.anime-results-thumbnail(src='/images/thumbnail.jpg' alt='Steins;Gate')
-            div.anime-results-info
-                h2 Steins;Gate
+    div.anime-results#anime-results
     button.anime-results-load#anime-results-load
         i.fa-solid.fa-arrow-down.fa-2x

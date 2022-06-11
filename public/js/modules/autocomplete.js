@@ -19,7 +19,7 @@ export function updateAutocompleteBox(element, suggestions, capacity)
         {
             break;
         }
-        element.append(`<button class="autocomplete-item" data-id=${suggestion.id}>${suggestion.name}</div>`)
+        element.append(`<button class="autocomplete-item" data-id=${suggestion.id}>${suggestion.title}</div>`)
     }
 }
 
@@ -40,7 +40,7 @@ export function filterAnimeBriefs(query)
         }
         for (const brief of animeBriefs)
         {
-            if (brief.name.toLowerCase().includes(queryNew))
+            if (brief.title.toLowerCase().includes(queryNew))
             {
                 suggestions.push(brief)
             }

@@ -5,8 +5,8 @@
 const express = require('express')
 const path = require('path')
 const https = require('https')
-const xml2js = require('xml2js')
 const url = require('url')
+const { off } = require('process')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -14,7 +14,6 @@ const url = require('url')
 
 const app = express()
 const port = 3000
-const xmlParser = new xml2js.Parser({ attrkey: 'ATTR' })
 
 let animeBriefs = []
 
@@ -22,57 +21,54 @@ let animeBriefs = []
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function updateAnimeBriefs()
+function fetchAnimeBriefs(start, offset)
 {
-    console.log('app.js -> updateAnimeBriefs()')
-    https.get('https://www.animenewsnetwork.com/encyclopedia/reports.xml?id=155&type=anime&nlist=all', (res) =>
+    if (start)
     {
-        let data = ''
-        res.on('data', (stream) =>
-        {
-            data += stream
-        })
-        res.on('end', () =>
-        {
-            xmlParser.parseString(data, (error, result) =>
-            {
-                if (error)
-                {
-                    console.log('FAILURE: app.js -> updateAnimeBriefs()', error)
-                }
-                else
-                {
-                    animeBriefs = []
-                    const animes = result.report.item
-                    for (const anime of animes)
-                    {
-                        animeBriefs.push({ id: anime.id[0], name: anime.name[0] })
-                    }
-                }
-            })
-        })
-    })
+        console.log('Fetching anime briefs from api.myanimelist.net...')
+        animeBriefs = []
+    }
+    const path = '/v2/anime/ranking?ranking_type=all&limit=500&offset='
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: '/v2/anime',
+        path: path + offset,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
         }
     }
-    https.get(options, (res) =>
+    https.get(options, (response) =>
     {
-        console.log(res.statusCode);
-        console.log(res.headers)
-        let data = ''
-        res.on('data', (stream) =>
+        let result = ''
+        response.on('data', (stream) =>
         {
-            data += stream
+            result += stream
         })
-        res.on('end', () =>
+        response.on('end', () =>
         {
-            console.log(data)
+            const rankings = JSON.parse(result)
+            for (const data of rankings.data)
+            {
+                if (data.node.id && data.node.title && data.node.main_picture)
+                {
+                    animeBriefs.push(
+                    {
+                        id: data.node.id,
+                        title: data.node.title,
+                        thumbnail: data.node.main_picture.medium
+                    })
+                }
+            }
+            options.path = path + (offset + 500)
+            if (rankings.data.length > 0)
+            {
+                fetchAnimeBriefs(false, offset + 500)
+            }
+            else
+            {
+                console.log('Fetched ' + animeBriefs.length + ' anime briefs from api.myanimelist.net.')
+            }
         })
     })
 }
@@ -90,40 +86,35 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
 
-updateAnimeBriefs()
-setInterval(updateAnimeBriefs, 86400000)
+fetchAnimeBriefs(true, 0)
+setInterval(fetchAnimeBriefs, 86400000)
 
 ////////////////////////////////////////////////////////////////////////////////
 // RESPONSES
 ////////////////////////////////////////////////////////////////////////////////
 
-function getIndexPage(req, res)
+function getIndexPage(request, response)
 {
-    console.log('app.js -> getIndexPage()')
-    res.render('index')
+    response.render('index')
 }
 
-function getAnimePage(req, res)
+function getAnimePage(request, response)
 {
-    console.log('app.js -> getAnimePage()')
-    res.render('anime')
+    response.render('anime')
 }
 
-function getAnimeResultsPage(req, res)
+function getAnimeResultsPage(request, response)
 {
-    console.log('app.js -> getAnimeResultsPage()')
-    const query = url.parse(req.url, true).query
-    res.render('anime-results',
+    const query = url.parse(request.url, true).query
+    response.render('anime-results',
     {
-        query: query.query,
         count: query.count
     })
 }
 
-function getAnimeBriefs(req, res)
+function getAnimeBriefs(request, response)
 {
-    console.log('app.js -> getAnimeBriefs()')
-    res.json(animeBriefs)
+    response.json(animeBriefs)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
