@@ -24,8 +24,9 @@ function searchbarPrimarySearch_OnClick()
 {
     if (suggestions.length > 1)
     {
+        sessionStorage.setItem('suggestions', JSON.stringify(suggestions))
         const parameters = new URLSearchParams()
-        parameters.append('query', searchbarPrimaryInput.val().trim())
+        parameters.append('query', searchbarPrimaryInput.val())
         parameters.append('count', suggestions.length)
         location.href = `${location.origin}/anime-results?${parameters.toString()}`
     }

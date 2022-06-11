@@ -5,8 +5,9 @@ block head-content
     script(src='/js/scripts/anime-results.js' type='module')
 
 block main-content
-    div.anime-results
-        button.anime-results-item
-            img.anime-results-thumbnail(src='/images/thumbnail.jpg' alt='Steins;Gate')
-            div.anime-results-info
-                h2.anime-results-name Steins;Gate
+    div.anime-results-feedback
+        div Query: #{query}
+        div Results: #{count}
+    div.anime-results#anime-results
+    button.anime-results-load.util-button-secondary#anime-results-load
+        i.fa-solid.fa-arrow-down.fa-2x

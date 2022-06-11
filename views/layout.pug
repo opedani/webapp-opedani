@@ -7,6 +7,7 @@ html(lang='en')
         meta(name='viewport' content='width=device-width, initial-scale=1')
         title OpEdAni: Anime Openings &amp Endings
         link(rel='stylesheet' href='/css/universal.css')
+        link(rel='stylesheet' href='/css/layout.css')
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
         script(src='/js/modules/persist.js' type='module')
@@ -15,9 +16,9 @@ html(lang='en')
         block head-content
     body
         nav.nav-primary
-            button.nav-primary-button#nav-primary-home
+            button.nav-primary-button.util-button-primary#nav-primary-home
                 i.fa-solid.fa-house.fa-2x
-            button.nav-primary-button#nav-primary-menu
+            button.nav-primary-button.util-button-primary#nav-primary-menu
                 i.fa-solid.fa-bars.fa-2x
         main
             block main-content

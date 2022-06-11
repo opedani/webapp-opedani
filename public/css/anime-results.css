@@ -1,38 +1,65 @@
+.anime-results-feedback
+{
+    color: var(--color-gray);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
 .anime-results
 {
-    display: grid;
+    display: flex;
+    flex-direction: column;
 }
 
 .anime-results-item
 {
-    border-top: 1px solid var(--color-gray-dark);
     display: flex;
-    gap: 10px;
+}
+
+.anime-results-go
+{
+    background-color: var(--color-primary);
+    border-top: 1px solid var(--color-primary-dark);
     padding: 10px;
 }
 
-.anime-results-item:last-child
+.anime-results-item:last-child > .anime-results-go
 {
-    border-bottom: 1px solid var(--color-gray-dark);
+    border-bottom: 1px solid var(--color-primary-dark);
 }
 
 .anime-results-thumbnail
 {
-    max-width: 225px;
-    width: 35%;
+    object-fit: cover;
+    width: 220px;
 }
 
 .anime-results-info
 {
-    border-left: 1px solid var(--color-gray-dark);
+    border-top: 1px solid var(--color-gray-dark);
     display: flex;
-    flex: 1 0 auto;
+    flex-grow: 1;
     flex-direction: column;
-    padding-left: 10px;
+    gap: 10px;
+    overflow: hidden;
+    padding: 10px;
 }
 
-.anime-results-name
+.anime-results-item:last-child > .anime-results-info
 {
     border-bottom: 1px solid var(--color-gray-dark);
-    padding-bottom: 10px;
+}
+
+.anime-results-load
+{
+    padding: 20px;
+}
+
+@media only screen and (max-width: 800px)
+{
+    .anime-results-thumbnail
+    {
+        width: 110px;
+    }
 }
