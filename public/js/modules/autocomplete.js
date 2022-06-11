@@ -11,7 +11,7 @@ let animeBriefs
 export function updateAutocompleteBox(element, suggestions, capacity)
 {
     element.empty()
-    element.toggleClass('hidden', suggestions.length == 0)
+    element.toggleClass('util-hidden', suggestions.length == 0)
     for (const suggestion of suggestions)
     {
         --capacity
@@ -19,7 +19,7 @@ export function updateAutocompleteBox(element, suggestions, capacity)
         {
             break;
         }
-        element.append(`<button class="autocomplete-item" data-id=${suggestion.id}>${suggestion.title}</div>`)
+        element.append(`<button class="autocomplete-item util-button-secondary" data-id=${suggestion.id}>${suggestion.title}</div>`)
     }
 }
 

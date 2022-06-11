@@ -1,0 +1,36 @@
+.nav-primary
+{
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-dark);
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+}
+
+.nav-primary-button
+{
+    padding: 10px;
+}
+
+.nav-primary-button:first-child
+{
+    margin-right: auto;
+}
+
+footer
+{
+    background-color: var(--color-gray);
+    border-top: 1px solid var(--color-gray-dark);
+    color: var(--color-white);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(6, 1fr);
+    padding: 20px;
+    place-items: center;
+}
+
+.footer-copyright
+{
+    grid-column: 1 / 7;
+}

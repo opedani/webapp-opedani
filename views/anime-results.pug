@@ -5,7 +5,9 @@ block head-content
     script(src='/js/scripts/anime-results.js' type='module')
 
 block main-content
-    h1 Matched #{count} anime...
+    div.anime-results-feedback
+        div Query: #{query}
+        div Results: #{count}
     div.anime-results#anime-results
-    button.anime-results-load#anime-results-load
+    button.anime-results-load.util-button-secondary#anime-results-load
         i.fa-solid.fa-arrow-down.fa-2x

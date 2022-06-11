@@ -18,6 +18,14 @@ let displayCount = 0
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
+function toggleLoad()
+{
+    if (displayCount == suggestions.length)
+    {
+        animeResultsLoad.addClass('util-hidden')
+    }
+}
+
 function appendItems()
 {
     const previousDisplayCount = displayCount
@@ -25,22 +33,26 @@ function appendItems()
     {
         animeResults.append(`
             <article class="anime-results-item">
-                <button class="anime-results-go">
-                    <i class="fa-solid fa-eye fa-2x">
-                    </i>
+                <button class="anime-results-go util-button-primary">
+                    <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
                 <img class="anime-results-thumbnail" src="${suggestions[i].thumbnail}" alt="<${suggestions[i].title} thumbnail>">
                 <div class="anime-results-info">
-                    <h2 class="anime-results-heading">${suggestions[i].title}</h2>
+                    <div><cite>${suggestions[i].title}</cite></div>
+                    <div>
+                        <i class="fa-solid fa-star"></i>
+                        Score: ${suggestions[i].mean}
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-ranking-star"></i>
+                        Rank: #${suggestions[i].rank}
+                    </div>
                 </div>
             </article>
         `)
         ++displayCount;
     }
-    if (displayCount == suggestions.length)
-    {
-        animeResultsLoad.addClass('hidden')
-    }
+    toggleLoad()
 }
 
 function animeResultsLoad_OnClick()
@@ -64,8 +76,8 @@ function setContent()
     if (sessionStorage.getItem('suggestions'))
     {
         suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
-        appendItems()
     }
+    appendItems()
 }
 
 ///////////////////////////////////////////////////////////////////////////////

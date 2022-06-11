@@ -25,10 +25,10 @@ function fetchAnimeBriefs(start, offset)
 {
     if (start)
     {
-        console.log('Fetching anime briefs from api.myanimelist.net...')
+        console.log('Fetching anime briefs...')
         animeBriefs = []
     }
-    const path = '/v2/anime/ranking?ranking_type=all&limit=500&offset='
+    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank&limit=500&offset='
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -50,13 +50,15 @@ function fetchAnimeBriefs(start, offset)
             const rankings = JSON.parse(result)
             for (const data of rankings.data)
             {
-                if (data.node.id && data.node.title && data.node.main_picture)
+                if (data.node.id && data.node.title && data.node.main_picture && data.node.mean && data.node.rank)
                 {
                     animeBriefs.push(
                     {
                         id: data.node.id,
                         title: data.node.title,
-                        thumbnail: data.node.main_picture.medium
+                        thumbnail: data.node.main_picture.medium,
+                        mean: data.node.mean,
+                        rank: data.node.rank
                     })
                 }
             }
@@ -84,6 +86,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
+console.log('Launching OpEdAni...')
 app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
 
 fetchAnimeBriefs(true, 0)
@@ -105,10 +108,13 @@ function getAnimePage(request, response)
 
 function getAnimeResultsPage(request, response)
 {
-    const query = url.parse(request.url, true).query
+    const parameters = url.parse(request.url, true).query
+    const query = parameters.query
+    const count = parameters.count
     response.render('anime-results',
     {
-        count: query.count
+        query: query,
+        count: count
     })
 }
 
