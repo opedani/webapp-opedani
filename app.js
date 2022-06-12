@@ -28,7 +28,7 @@ function fetchAnimeBriefs(start, offset)
         console.log('Fetching anime briefs...')
         animeBriefs = []
     }
-    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank&limit=500&offset='
+    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank,alternative_titles&limit=500&offset='
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -57,6 +57,8 @@ function fetchAnimeBriefs(start, offset)
                         id: data.node.id,
                         title: data.node.title,
                         thumbnail: data.node.main_picture.medium,
+                        alternative_title: data.node.alternative_titles.en,
+                        synonyms: data.node.alternative_titles.synonyms,
                         mean: data.node.mean,
                         rank: data.node.rank
                     })
