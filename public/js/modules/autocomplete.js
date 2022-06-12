@@ -40,7 +40,7 @@ export function filterAnimeBriefs(query)
         }
         for (const brief of animeBriefs)
         {
-            if (brief.title.toLowerCase().includes(queryNew) || brief.alternative_title.toLowerCase().includes(queryNew))
+            if (brief.title.toLowerCase().includes(queryNew))
             {
                 suggestions.push(brief)
             }

@@ -52,13 +52,13 @@ function fetchAnimeBriefs(start, offset)
             {
                 if (data.node.id && data.node.title && data.node.main_picture && data.node.mean && data.node.rank)
                 {
+                    data.node.alternative_titles.synonyms.push(data.node.alternative_titles.en)
                     animeBriefs.push(
                     {
                         id: data.node.id,
                         title: data.node.title,
-                        thumbnail: data.node.main_picture.medium,
-                        alternative_title: data.node.alternative_titles.en,
                         synonyms: data.node.alternative_titles.synonyms,
+                        thumbnail: data.node.main_picture.medium,
                         mean: data.node.mean,
                         rank: data.node.rank
                     })
