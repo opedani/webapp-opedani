@@ -6,7 +6,6 @@ const express = require('express')
 const path = require('path')
 const https = require('https')
 const url = require('url')
-const { off } = require('process')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -77,6 +76,56 @@ function fetchAnimeBriefs(start, offset)
     })
 }
 
+function filterAnimeBriefs(query, type)
+{
+    const suggestions = []
+    const queryNew = query.toLowerCase()
+    if (queryNew.length > 0)
+    {
+        for (const brief of animeBriefs)
+        {
+            if (brief.title.toLowerCase().includes(queryNew))
+            {
+                if (type == 1)
+                {
+                    suggestions.push(
+                    {
+                        id: brief.id,
+                        title: brief.title
+                    })
+                }
+                else if (type == 2)
+                {
+                    suggestions.push(brief)
+                }
+            }
+            else
+            {
+                for (const synonym of brief.synonyms)
+                {
+                    if (synonym.toLowerCase().includes(queryNew))
+                    {
+                        if (type == 1)
+                        {
+                            suggestions.push(
+                            {
+                                id: brief.id,
+                                title: synonym
+                            })
+                        }
+                        else if (type == 2)
+                        {
+                            suggestions.push(brief)
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return suggestions
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // SETUP
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,24 +161,29 @@ function getAnimeResultsPage(request, response)
 {
     const parameters = url.parse(request.url, true).query
     const query = parameters.query
-    const count = parameters.count
     response.render('anime-results',
     {
-        query: query,
-        count: count
+        query: query
     })
 }
 
 function getAnimeBriefs(request, response)
 {
-    response.json(animeBriefs)
+    const parameters = url.parse(request.url, true).query
+    const filteredAnimeBriefs = filterAnimeBriefs(parameters.query, parameters.type)
+    response.json(JSON.stringify(filteredAnimeBriefs))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// ROUTES
+// PAGE ROUTES
 ////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/anime-results', getAnimeResultsPage)
+
+////////////////////////////////////////////////////////////////////////////////
+// API ROUTES
+////////////////////////////////////////////////////////////////////////////////
+
 app.get('/api/get-anime-briefs', getAnimeBriefs)
