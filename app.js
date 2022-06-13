@@ -6,7 +6,6 @@ const express = require('express')
 const path = require('path')
 const https = require('https')
 const url = require('url')
-const { off } = require('process')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -28,7 +27,7 @@ function fetchAnimeBriefs(start, offset)
         console.log('Fetching anime briefs...')
         animeBriefs = []
     }
-    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank&limit=500&offset='
+    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank,alternative_titles&limit=500&offset='
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -52,10 +51,12 @@ function fetchAnimeBriefs(start, offset)
             {
                 if (data.node.id && data.node.title && data.node.main_picture && data.node.mean && data.node.rank)
                 {
+                    data.node.alternative_titles.synonyms.push(data.node.alternative_titles.en)
                     animeBriefs.push(
                     {
                         id: data.node.id,
                         title: data.node.title,
+                        synonyms: data.node.alternative_titles.synonyms,
                         thumbnail: data.node.main_picture.medium,
                         mean: data.node.mean,
                         rank: data.node.rank
@@ -73,6 +74,56 @@ function fetchAnimeBriefs(start, offset)
             }
         })
     })
+}
+
+function filterAnimeBriefs(query, type)
+{
+    const suggestions = []
+    const queryNew = query.toLowerCase()
+    if (queryNew.length > 0)
+    {
+        for (const brief of animeBriefs)
+        {
+            if (brief.title.toLowerCase().includes(queryNew))
+            {
+                if (type == 1)
+                {
+                    suggestions.push(
+                    {
+                        id: brief.id,
+                        title: brief.title
+                    })
+                }
+                else if (type == 2)
+                {
+                    suggestions.push(brief)
+                }
+            }
+            else
+            {
+                for (const synonym of brief.synonyms)
+                {
+                    if (synonym.toLowerCase().includes(queryNew))
+                    {
+                        if (type == 1)
+                        {
+                            suggestions.push(
+                            {
+                                id: brief.id,
+                                title: synonym
+                            })
+                        }
+                        else if (type == 2)
+                        {
+                            suggestions.push(brief)
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return suggestions
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,24 +161,29 @@ function getAnimeResultsPage(request, response)
 {
     const parameters = url.parse(request.url, true).query
     const query = parameters.query
-    const count = parameters.count
     response.render('anime-results',
     {
-        query: query,
-        count: count
+        query: query
     })
 }
 
 function getAnimeBriefs(request, response)
 {
-    response.json(animeBriefs)
+    const parameters = url.parse(request.url, true).query
+    const filteredAnimeBriefs = filterAnimeBriefs(parameters.query, parameters.type)
+    response.json(JSON.stringify(filteredAnimeBriefs))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// ROUTES
+// PAGE ROUTES
 ////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/anime-results', getAnimeResultsPage)
+
+////////////////////////////////////////////////////////////////////////////////
+// API ROUTES
+////////////////////////////////////////////////////////////////////////////////
+
 app.get('/api/get-anime-briefs', getAnimeBriefs)

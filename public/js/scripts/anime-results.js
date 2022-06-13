@@ -1,13 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-// DEPENDENCIES
-///////////////////////////////////////////////////////////////////////////////
-
-import { initPersistentData } from '/js/modules/persist.js'
-
-///////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
+let animeResultsCount
 let animeResults
 let animeResultsLoad
 
@@ -26,10 +21,10 @@ function toggleLoad()
     }
 }
 
-function appendItems()
+function appendItems(count)
 {
     const previousDisplayCount = displayCount
-    for (let i = previousDisplayCount; i < previousDisplayCount + 10 && i < suggestions.length; ++i)
+    for (let i = previousDisplayCount; i < previousDisplayCount + count && i < suggestions.length; ++i)
     {
         animeResults.append(`
             <article class="anime-results-item">
@@ -55,29 +50,37 @@ function appendItems()
     toggleLoad()
 }
 
-function animeResultsLoad_OnClick()
-{
-    appendItems()
-}
-
 function setElements()
 {
+    animeResultsCount = $('#anime-results-count')
     animeResults = $('#anime-results')
     animeResultsLoad = $('#anime-results-load')
 }
 
 function setEventListeners()
 {
-    animeResultsLoad.on('click', animeResultsLoad_OnClick)
+    animeResultsLoad.on('click', () => appendItems(10))
 }
 
-function setContent()
+function getAnimeBriefsResponse(response)
 {
-    if (sessionStorage.getItem('suggestions'))
+    suggestions = JSON.parse(response)
+    animeResultsCount.text(suggestions.length)
+    appendItems(10)
+}
+
+function getAnimeBriefs()
+{
+    $.ajax(
     {
-        suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
-    }
-    appendItems()
+        url: `${location.origin}/api/get-anime-briefs`,
+        data:
+        {
+            query: new URLSearchParams(location.search).get('query'),
+            type: 2
+        },
+        success: getAnimeBriefsResponse
+    })
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,8 +91,7 @@ function ready()
 {
     setElements()
     setEventListeners()
-    setContent()
-    initPersistentData()
+    getAnimeBriefs()
 }
 
 $(document).ready(ready)
