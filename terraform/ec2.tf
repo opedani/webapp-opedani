@@ -58,6 +58,6 @@ resource "aws_route53_record" "opedani_www" {
 
 # RSA key pair for SSH
 resource "aws_key_pair" "kagekowalski_ssh_key" {
-  key_name = "kagekowalski.pub"
+  key_name   = "kagekowalski.pub"
   public_key = file("kagekowalski.pub")
 }
