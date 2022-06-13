@@ -32,7 +32,7 @@
 .anime-results-thumbnail
 {
     object-fit: cover;
-    width: 220px;
+    width: 110px;
 }
 
 .anime-results-info
@@ -54,12 +54,4 @@
 .anime-results-load
 {
     padding: 20px;
-}
-
-@media only screen and (max-width: 800px)
-{
-    .anime-results-thumbnail
-    {
-        width: 110px;
-    }
 }

@@ -1,11 +1,4 @@
 ///////////////////////////////////////////////////////////////////////////////
-// DEPENDENCIES
-///////////////////////////////////////////////////////////////////////////////
-
-import { filterAnimeBriefs, updateAutocompleteBox } from '/js/modules/autocomplete.js'
-import { initPersistentData } from '/js/modules/persist.js'
-
-///////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -16,18 +9,46 @@ let autocompletePrimary
 
 let suggestions = []
 
-///////////////////////////////////////////////////////////////////////////////
-// FUNCTIONS
-///////////////////////////////////////////////////////////////////////////////
+let autocompleteTimeout
+
+function getAnimeBriefsResponse(response)
+{
+    suggestions = JSON.parse(response)
+    autocompletePrimary.empty()
+    autocompletePrimary.toggleClass('util-hidden', suggestions.length == 0)
+    let count = 0
+    for (const suggestion of suggestions)
+    {
+        autocompletePrimary.append(`<button class="autocomplete-item util-button-secondary" data-id=${suggestion.id}>${suggestion.title}</div>`)
+        ++count
+        if (count == 10)
+        {
+            break;
+        }
+    }
+}
+
+function getAnimeBriefs(query)
+{
+    $.ajax(
+    {
+        url: `${location.origin}/api/get-anime-briefs`,
+        data:
+        {
+            query: query,
+            type: 1
+        },
+        success: getAnimeBriefsResponse
+    })
+    autocompleteTimeout = undefined
+}
 
 function searchbarPrimarySearch_OnClick()
 {
     if (suggestions.length > 1)
     {
-        sessionStorage.setItem('suggestions', JSON.stringify(suggestions))
         const parameters = new URLSearchParams()
         parameters.append('query', searchbarPrimaryInput.val())
-        parameters.append('count', suggestions.length)
         location.href = `${location.origin}/anime-results?${parameters.toString()}`
     }
     else if (suggestions.length == 1)
@@ -39,8 +60,12 @@ function searchbarPrimarySearch_OnClick()
 function searchbarPrimaryInput_OnInput(event)
 {
     const query = event.target.value.trim()
-    suggestions = filterAnimeBriefs(query)
-    updateAutocompleteBox(autocompletePrimary, suggestions, 10)
+    if (autocompleteTimeout)
+    {
+        clearTimeout(autocompleteTimeout)
+        autocompleteTimeout = undefined
+    }
+    autocompleteTimeout = setTimeout(() => getAnimeBriefs(query), 500)
 }
 
 function setElements()
@@ -65,7 +90,6 @@ function ready()
 {
     setElements()
     setEventListeners()
-    initPersistentData()
 }
 
 $(document).ready(ready)
