@@ -42,7 +42,7 @@ resource "aws_route53_record" "opedani_root" {
   name    = var.root_domain
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.web_server_ec2.public_ip]
+  records = [aws_eip.web_server_eip.public_ip]
 }
 
 
@@ -52,7 +52,7 @@ resource "aws_route53_record" "opedani_www" {
   name    = "www"
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.web_server_ec2.public_ip]
+  records = [aws_eip.web_server_eip.public_ip]
 }
 
 
