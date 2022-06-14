@@ -19,6 +19,7 @@ resource "aws_instance" "web_server_ec2" {
   instance_type   = "t2.micro"
   user_data       = file("init.sh")
   security_groups = [aws_security_group.web_server_sg.name]
+  key_name        = "kagekowalski.pub"
 }
 
 
@@ -41,7 +42,7 @@ resource "aws_route53_record" "opedani_root" {
   name    = var.root_domain
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.web_server_ec2.public_ip]
+  records = [aws_eip.web_server_eip.public_ip]
 }
 
 
@@ -51,5 +52,12 @@ resource "aws_route53_record" "opedani_www" {
   name    = "www"
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.web_server_ec2.public_ip]
+  records = [aws_eip.web_server_eip.public_ip]
+}
+
+
+# RSA key pair for SSH
+resource "aws_key_pair" "kagekowalski_ssh_key" {
+  key_name   = "kagekowalski.pub"
+  public_key = file("kagekowalski.pub")
 }
