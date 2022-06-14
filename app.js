@@ -14,18 +14,18 @@ const url = require('url')
 const app = express()
 const port = 3000
 
-let animeBriefs = []
+let malAnime = []
 
 ////////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function fetchAnimeBriefs(start, offset)
+function fetchMALAnime(start, offset)
 {
     if (start)
     {
-        console.log('Fetching anime briefs...')
-        animeBriefs = []
+        console.log('Fetching MAL anime...')
+        malAnime = []
     }
     const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank,alternative_titles&limit=500&offset='
     const options =
@@ -52,7 +52,7 @@ function fetchAnimeBriefs(start, offset)
                 if (data.node.id && data.node.title && data.node.main_picture && data.node.mean && data.node.rank)
                 {
                     data.node.alternative_titles.synonyms.push(data.node.alternative_titles.en)
-                    animeBriefs.push(
+                    malAnime.push(
                     {
                         id: data.node.id,
                         title: data.node.title,
@@ -66,56 +66,66 @@ function fetchAnimeBriefs(start, offset)
             options.path = path + (offset + 500)
             if (rankings.data.length > 0)
             {
-                fetchAnimeBriefs(false, offset + 500)
+                fetchMALAnime(false, offset + 500)
             }
             else
             {
-                console.log('Fetched ' + animeBriefs.length + ' anime briefs from api.myanimelist.net.')
+                console.log('Fetched ' + malAnime.length + ' anime from api.myanimelist.net.')
             }
         })
     })
 }
 
-function filterAnimeBriefs(query, type)
+function filterMALAnime(query, type)
 {
-    const suggestions = []
+    const filteredMALAnime = []
     const queryNew = query.toLowerCase()
     if (queryNew.length > 0)
     {
-        for (const brief of animeBriefs)
+        for (const anime of malAnime)
         {
-            if (brief.title.toLowerCase().includes(queryNew))
+            if (anime.title.toLowerCase().includes(queryNew))
             {
                 if (type == 1)
                 {
-                    suggestions.push(
+                    filteredMALAnime.push(
                     {
-                        id: brief.id,
-                        title: brief.title
+                        id: anime.id,
+                        title: anime.title
                     })
                 }
                 else if (type == 2)
                 {
-                    suggestions.push(brief)
+                    filteredMALAnime.push(
+                    {
+                        id: anime.id,
+                        title: anime.title,
+                        thumbnail: data.node.main_picture.medium
+                    })
                 }
             }
             else
             {
-                for (const synonym of brief.synonyms)
+                for (const synonym of anime.synonyms)
                 {
                     if (synonym.toLowerCase().includes(queryNew))
                     {
                         if (type == 1)
                         {
-                            suggestions.push(
+                            filteredMALAnime.push(
                             {
-                                id: brief.id,
+                                id: anime.id,
                                 title: synonym
                             })
                         }
                         else if (type == 2)
                         {
-                            suggestions.push(brief)
+                            filteredMALAnime.push(
+                            {
+                                id: anime.id,
+                                title: anime.title,
+                                thumbnail: data.node.main_picture.medium
+                            })
                         }
                         break;
                     }
@@ -123,7 +133,7 @@ function filterAnimeBriefs(query, type)
             }
         }
     }
-    return suggestions
+    return filteredMALAnime
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,8 +150,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 console.log('Launching OpEdAni...')
 app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
 
-fetchAnimeBriefs(true, 0)
-setInterval(fetchAnimeBriefs, 86400000)
+fetchMALAnime(true, 0)
+setInterval(fetchMALAnime, 86400000)
 
 ////////////////////////////////////////////////////////////////////////////////
 // RESPONSES
@@ -167,11 +177,11 @@ function getAnimeResultsPage(request, response)
     })
 }
 
-function getAnimeBriefs(request, response)
+function getMALAnime(request, response)
 {
     const parameters = url.parse(request.url, true).query
-    const filteredAnimeBriefs = filterAnimeBriefs(parameters.query, parameters.type)
-    response.json(JSON.stringify(filteredAnimeBriefs))
+    const filteredMALAnime = filterMALAnime(parameters.query, parameters.type)
+    response.json(JSON.stringify(filteredMALAnime))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -186,4 +196,4 @@ app.get('/anime-results', getAnimeResultsPage)
 // API ROUTES
 ////////////////////////////////////////////////////////////////////////////////
 
-app.get('/api/get-anime-briefs', getAnimeBriefs)
+app.get('/api/get-mal-anime', getMALAnime)

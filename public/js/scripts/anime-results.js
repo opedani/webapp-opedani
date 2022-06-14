@@ -36,11 +36,11 @@ function appendItems(count)
                     <div><cite>${suggestions[i].title}</cite></div>
                     <div>
                         <i class="fa-solid fa-star"></i>
-                        Score: ${suggestions[i].mean}
+                        Score:
                     </div>
                     <div>
                         <i class="fa-solid fa-ranking-star"></i>
-                        Rank: #${suggestions[i].rank}
+                        Rank:
                     </div>
                 </div>
             </article>
@@ -62,24 +62,24 @@ function setEventListeners()
     animeResultsLoad.on('click', () => appendItems(10))
 }
 
-function getAnimeBriefsResponse(response)
+function getMALAnimeResponse(response)
 {
     suggestions = JSON.parse(response)
     animeResultsCount.text(suggestions.length)
     appendItems(10)
 }
 
-function getAnimeBriefs()
+function getMALAnime()
 {
     $.ajax(
     {
-        url: `${location.origin}/api/get-anime-briefs`,
+        url: `${location.origin}/api/get-mal-anime`,
         data:
         {
             query: new URLSearchParams(location.search).get('query'),
             type: 2
         },
-        success: getAnimeBriefsResponse
+        success: getMALAnimeResponse
     })
 }
 
@@ -91,7 +91,7 @@ function ready()
 {
     setElements()
     setEventListeners()
-    getAnimeBriefs()
+    getMALAnime()
 }
 
 $(document).ready(ready)
