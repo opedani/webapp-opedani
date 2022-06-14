@@ -11,7 +11,7 @@ let suggestions = []
 
 let autocompleteTimeout
 
-function getAnimeBriefsResponse(response)
+function getMALAnimeResponse(response)
 {
     suggestions = JSON.parse(response)
     autocompletePrimary.empty()
@@ -28,17 +28,17 @@ function getAnimeBriefsResponse(response)
     }
 }
 
-function getAnimeBriefs(query)
+function getMALAnime(query)
 {
     $.ajax(
     {
-        url: `${location.origin}/api/get-anime-briefs`,
+        url: `${location.origin}/api/get-mal-anime`,
         data:
         {
             query: query,
             type: 1
         },
-        success: getAnimeBriefsResponse
+        success: getMALAnimeResponse
     })
     autocompleteTimeout = undefined
 }
@@ -65,7 +65,7 @@ function searchbarPrimaryInput_OnInput(event)
         clearTimeout(autocompleteTimeout)
         autocompleteTimeout = undefined
     }
-    autocompleteTimeout = setTimeout(() => getAnimeBriefs(query), 500)
+    autocompleteTimeout = setTimeout(() => getMALAnime(query), 500)
 }
 
 function setElements()
