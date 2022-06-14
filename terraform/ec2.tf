@@ -13,20 +13,20 @@ data "aws_ami" "web_server_ami" {
 }
 
 
-# Web server (ec2 instance)
-resource "aws_instance" "web_server_ec2" {
-  ami             = data.aws_ami.web_server_ami.id
-  instance_type   = "t2.micro"
-  user_data       = file("init.sh")
-  security_groups = [aws_security_group.web_server_sg.name]
-  key_name        = "kagekowalski.pub"
-}
+## Web server (ec2 instance)
+#resource "aws_instance" "web_server_ec2" {
+#  ami             = data.aws_ami.web_server_ami.id
+#  instance_type   = "t2.micro"
+#  user_data       = file("init.sh")
+#  security_groups = [aws_security_group.web_server_sg.name]
+#  key_name        = "kagekowalski.pub"
+#}
 
 
 # Public IP for ec2 instance (Elastic IP)
 resource "aws_eip" "web_server_eip" {
-  instance = aws_instance.web_server_ec2.id
-  vpc      = true
+  #  instance = aws_instance.web_server_ec2.id
+  vpc = true
 }
 
 
