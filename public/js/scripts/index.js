@@ -7,7 +7,7 @@ let searchbarPrimarySearch
 let searchbarPrimaryInput
 let autocompletePrimary
 
-let suggestions = []
+let MALGenerics = []
 
 let autocompleteTimeout
 
@@ -15,24 +15,23 @@ let autocompleteTimeout
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function getAnimeMALs(query)
+function getMALGenerics(query)
 {
     autocompleteTimeout = undefined
     $.ajax(
     {
-        url: `${location.origin}/api/get-anime-mals`,
+        url: `${location.origin}/api/get-mal-generics`,
         data:
         {
-            query: query,
-            type: 1
+            query: query
         },
         success: response =>
         {
-            suggestions = JSON.parse(response)
+            MALGenerics = JSON.parse(response)
             autocompletePrimary.empty()
-            autocompletePrimary.toggleClass('util-hidden', suggestions.length == 0)
+            autocompletePrimary.toggleClass('util-hidden', MALGenerics.length == 0)
             let count = 0
-            for (const suggestion of suggestions)
+            for (const suggestion of MALGenerics)
             {
                 autocompletePrimary.append(`<button class="autocomplete-item util-button-secondary" data-id=${suggestion.id}>${suggestion.title}</div>`)
                 ++count
@@ -47,15 +46,15 @@ function getAnimeMALs(query)
 
 function searchbarPrimarySearch_OnClick()
 {
-    if (suggestions.length > 1)
+    if (MALGenerics.length > 1)
     {
         const parameters = new URLSearchParams()
         parameters.append('query', searchbarPrimaryInput.val())
         location.href = `${location.origin}/anime-results?${parameters.toString()}`
     }
-    else if (suggestions.length == 1)
+    else if (MALGenerics.length == 1)
     {
-        location.href = `${location.origin}/anime?id=${suggestions[0].id}`
+        location.href = `${location.origin}/anime?id=${MALGenerics[0].id}`
     }
 }
 
@@ -67,7 +66,7 @@ function searchbarPrimaryInput_OnInput(event)
         clearTimeout(autocompleteTimeout)
         autocompleteTimeout = undefined
     }
-    autocompleteTimeout = setTimeout(() => getAnimeMALs(query), 500)
+    autocompleteTimeout = setTimeout(() => getMALGenerics(query), 500)
 }
 
 function setElements()
