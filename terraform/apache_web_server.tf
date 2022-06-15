@@ -40,10 +40,10 @@ resource "aws_route53_record" "opedani_www" {
 
 # Security Group and Rules for Apache Web Server
 resource "aws_security_group" "apache_sg" {
-  name        = "web_server_sg"
-  description = "Security Group for web server"
+  name        = "apache_sg"
+  description = "Security Group for Apache Web Server"
 }
-resource "aws_security_group_rule" "http_in" {
+resource "aws_security_group_rule" "apache_sg_http_in" {
   description       = "Allows http traffic in"
   type              = "ingress"
   from_port         = 80
@@ -52,7 +52,7 @@ resource "aws_security_group_rule" "http_in" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
-resource "aws_security_group_rule" "http_out" {
+resource "aws_security_group_rule" "apache_sg_http_out" {
   description       = "Allows http traffic out"
   type              = "egress"
   from_port         = 80
@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "http_out" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
-resource "aws_security_group_rule" "https_in" {
+resource "aws_security_group_rule" "apache_sg_https_in" {
   description       = "Allows https traffic in"
   type              = "ingress"
   from_port         = 443
@@ -70,7 +70,7 @@ resource "aws_security_group_rule" "https_in" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
-resource "aws_security_group_rule" "https_out" {
+resource "aws_security_group_rule" "apache_sg_https_out" {
   description       = "Allows https traffic out"
   type              = "egress"
   from_port         = 443
@@ -79,7 +79,7 @@ resource "aws_security_group_rule" "https_out" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
-resource "aws_security_group_rule" "ssh_in" {
+resource "aws_security_group_rule" "apache_sg_ssh_in" {
   description       = "Allows ssh traffic in"
   type              = "ingress"
   from_port         = 22
@@ -88,7 +88,7 @@ resource "aws_security_group_rule" "ssh_in" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
-resource "aws_security_group_rule" "ssh_out" {
+resource "aws_security_group_rule" "apache_sg_ssh_out" {
   description       = "Allows ssh traffic out"
   type              = "egress"
   from_port         = 22
