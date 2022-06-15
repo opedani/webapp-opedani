@@ -113,14 +113,13 @@ img
 
 .autocomplete-item
 {
-    border: 1px solid var(--color-gray-dark);
-    border-bottom: none;
+    border-top: 1px solid var(--color-gray-dark);
     padding: 10px;
 }
 
 .autocomplete-item:last-child
 {
-    border: 1px solid var(--color-gray-dark);
+    border-bottom: 1px solid var(--color-gray-dark);
 }
 
 .util-hidden

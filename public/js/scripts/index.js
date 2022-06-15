@@ -69,6 +69,12 @@ function searchbarPrimaryInput_OnInput(event)
     autocompleteTimeout = setTimeout(() => getMALGenerics(query), 500)
 }
 
+function autocompletePrimary_OnClick(event)
+{
+    const id = $(event.target).data('id')
+    location.href = `${location.origin}/anime?id=${id}`
+}
+
 function setElements()
 {
     searchbarPrimary = $('#searchbar-primary')
@@ -81,6 +87,12 @@ function setEventListeners()
 {
     searchbarPrimarySearch.on('click', searchbarPrimarySearch_OnClick)
     searchbarPrimaryInput.on('input', searchbarPrimaryInput_OnInput)
+    autocompletePrimary.on('click', '.autocomplete-item', autocompletePrimary_OnClick)
+}
+
+function setContent()
+{
+    searchbarPrimaryInput.val('')
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -91,6 +103,7 @@ function ready()
 {
     setElements()
     setEventListeners()
+    setContent()
 }
 
 $(document).ready(ready)

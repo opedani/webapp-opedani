@@ -33,6 +33,7 @@ function filterMALGenerics(query, MALGenerics)
                     if (synonym.toLowerCase().includes(queryNew))
                     {
                         result.push(anime)
+                        break;
                     }
                 }
             }
