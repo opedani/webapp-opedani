@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script for initializing node_ec2_? servers
+# Script for initializing node servers
 
 
 # Update packages

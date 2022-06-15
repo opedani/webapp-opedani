@@ -3,11 +3,12 @@
 
 # Node app server
 resource "aws_instance" "node1_ec2" {
-  ami             = data.aws_ami.amazon_linux_2_ami.id
-  instance_type   = "t2.micro"
-  user_data       = file("data/node_init.sh")
-  security_groups = [aws_security_group.node1_sg.name]
-  key_name        = "kagekowalski.pub"
+  ami                         = data.aws_ami.amazon_linux_2_ami.id
+  instance_type               = "t2.micro"
+  user_data                   = file("data/node_init.sh")
+  user_data_replace_on_change = true
+  security_groups             = [aws_security_group.node1_sg.name]
+  key_name                    = "kagekowalski.pub"
 }
 
 
@@ -32,6 +33,42 @@ resource "aws_route53_record" "opedani_node1" {
 resource "aws_security_group" "node1_sg" {
   name        = "node1_sg"
   description = "Security Group for node1 server"
+}
+resource "aws_security_group_rule" "node1_sg_http_in" {
+  description       = "Allows http traffic in"
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.node1_sg.id
+}
+resource "aws_security_group_rule" "node1_sg_http_out" {
+  description       = "Allows http traffic out"
+  type              = "egress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.node1_sg.id
+}
+resource "aws_security_group_rule" "node1_sg_https_in" {
+  description       = "Allows https traffic in"
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.node1_sg.id
+}
+resource "aws_security_group_rule" "node1_sg_https_out" {
+  description       = "Allows https traffic out"
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.node1_sg.id
 }
 resource "aws_security_group_rule" "node1_sg_ssh_in" {
   description       = "Allows ssh traffic in"
