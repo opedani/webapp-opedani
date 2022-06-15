@@ -2,7 +2,7 @@
 
 
 # Node app server
-resource "aws_instance" "ec2_node_1" {
+resource "aws_instance" "node_ec2_1" {
   ami             = data.aws_ami.amazon_linux_2_ami.id
   instance_type   = "t2.micro"
   user_data       = file("data/node_init.sh")
