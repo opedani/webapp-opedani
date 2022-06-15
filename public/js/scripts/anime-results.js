@@ -62,14 +62,7 @@ function setEventListeners()
     animeResultsLoad.on('click', () => appendItems(10))
 }
 
-function getMALAnimeResponse(response)
-{
-    suggestions = JSON.parse(response)
-    animeResultsCount.text(suggestions.length)
-    appendItems(10)
-}
-
-function getMALAnime()
+function getAnimeMALs()
 {
     $.ajax(
     {
@@ -79,7 +72,12 @@ function getMALAnime()
             query: new URLSearchParams(location.search).get('query'),
             type: 2
         },
-        success: getMALAnimeResponse
+        success: response =>
+        {
+            suggestions = JSON.parse(response)
+            animeResultsCount.text(suggestions.length)
+            appendItems(10)
+        }
     })
 }
 
@@ -91,7 +89,7 @@ function ready()
 {
     setElements()
     setEventListeners()
-    getMALAnime()
+    getAnimeMALs()
 }
 
 $(document).ready(ready)

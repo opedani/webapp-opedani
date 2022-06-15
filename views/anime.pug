@@ -5,4 +5,5 @@ block head-content
     script(src='/js/scripts/anime.js' type='module')
 
 block main-content
-    
+    h1 #{title}
+    img.anime-thumbnail(src='#{thumbnail}' alt='<#{title} thumbnail>')

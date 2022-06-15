@@ -14,24 +14,23 @@ const url = require('url')
 const app = express()
 const port = 3000
 
-let malAnime = []
+let animeMALs = []
 
 ////////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function fetchMALAnime(start, offset)
+function fetchAnimeMALs(index)
 {
-    if (start)
+    if (!index)
     {
-        console.log('Fetching MAL anime...')
-        malAnime = []
+        console.log('Fetching anime MALs...')
+        index = 0
     }
-    const path = '/v2/anime/ranking?ranking_type=all&fields=mean,rank,alternative_titles&limit=500&offset='
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: path + offset,
+        path: '/v2/anime/' + animeMALs[index].id + '?fields=id,title,alternative_titles,main_picture,synopsis,mean,rank,nsfw,media_type,opening_themes,ending_themes',
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -39,56 +38,124 @@ function fetchMALAnime(start, offset)
     }
     https.get(options, (response) =>
     {
-        let result = ''
+        let streamString = ''
         response.on('data', (stream) =>
         {
-            result += stream
+            streamString += stream
         })
         response.on('end', () =>
         {
-            const rankings = JSON.parse(result)
-            for (const data of rankings.data)
+            let streamObject
+            try
             {
-                if (data.node.id && data.node.title && data.node.main_picture && data.node.mean && data.node.rank)
+                streamObject = JSON.parse(streamString)
+            }
+            catch (error)
+            {
+                console.log('Error fetching anime MAL at index ' + index + ':', streamString)
+                animeMALs[index].valid = false
+                fetchAnimeMALs(index + 1)
+                return
+            }
+            if (streamObject.alternative_titles.en.length > 0)
+            {
+                streamObject.alternative_titles.synonyms.push(streamObject.alternative_titles.en)
+            }
+            animeMALs[index].valid = true
+            animeMALs[index].id = streamObject.id
+            animeMALs[index].title = streamObject.title
+            animeMALs[index].thumbnail = streamObject.main_picture.medium
+            animeMALs[index].synonyms = streamObject.alternative_titles.synonyms
+            animeMALs[index].synopsis = streamObject.synopsis
+            animeMALs[index].mean = streamObject.mean
+            animeMALs[index].rank = streamObject.rank
+            animeMALs[index].nsfw = streamObject.nsfw
+            animeMALs[index].type = streamObject.media_type
+            animeMALs[index].ops = []
+            animeMALs[index].eds = []
+            if (streamObject.opening_themes)
+            {
+                for (const op of streamObject.opening_themes)
                 {
-                    data.node.alternative_titles.synonyms.push(data.node.alternative_titles.en)
-                    malAnime.push(
-                    {
-                        id: data.node.id,
-                        title: data.node.title,
-                        synonyms: data.node.alternative_titles.synonyms,
-                        thumbnail: data.node.main_picture.medium,
-                        mean: data.node.mean,
-                        rank: data.node.rank
-                    })
+                    animeMALs[index].ops.push(op.text)
                 }
             }
-            options.path = path + (offset + 500)
-            if (rankings.data.length > 0)
+            if (streamObject.ending_themes)
             {
-                fetchMALAnime(false, offset + 500)
+                for (const ed of streamObject.ending_themes)
+                {
+                    animeMALs[index].eds.push(ed.text)
+                }
+            }
+            if (index < animeMALs.length - 1)
+            {
+                console.log(index)
+                fetchAnimeMALs(index + 1)
             }
             else
             {
-                console.log('Fetched ' + malAnime.length + ' anime from api.myanimelist.net.')
+                console.log('Fetched ' + animeMALs.length + ' anime from api.myanimelist.net.')
             }
         })
     })
 }
 
-function filterMALAnime(query, type)
+function fetchAnimeIDs(offset)
 {
-    const filteredMALAnime = []
+    if (!offset)
+    {
+        console.log('Fetching anime IDs...')
+        animeMALs = []
+        offset = 0
+    }
+    const options =
+    {
+        hostname: 'api.myanimelist.net',
+        path: '/v2/anime/ranking?ranking_type=all&limit=500&offset=' + offset,
+        headers:
+        {
+            'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
+        }
+    }
+    https.get(options, (response) =>
+    {
+        let streamString = ''
+        response.on('data', (stream) =>
+        {
+            streamString += stream
+        })
+        response.on('end', () =>
+        {
+            const streamObject = JSON.parse(streamString)
+            for (const data of streamObject.data)
+            {
+                animeMALs.push({ id: data.node.id })
+            }
+            if (streamObject.data.length > 0)
+            {
+                fetchAnimeIDs(offset + 500)
+            }
+            else
+            {
+                fetchAnimeMALs()
+            }
+        })
+    })
+}
+
+function filterAnimeMALs(query, type)
+{
+    const filtered = []
     const queryNew = query.toLowerCase()
     if (queryNew.length > 0)
     {
-        for (const anime of malAnime)
+        for (const anime of animeMALs)
         {
             if (anime.title.toLowerCase().includes(queryNew))
             {
                 if (type == 1)
                 {
-                    filteredMALAnime.push(
+                    filtered.push(
                     {
                         id: anime.id,
                         title: anime.title
@@ -96,11 +163,11 @@ function filterMALAnime(query, type)
                 }
                 else if (type == 2)
                 {
-                    filteredMALAnime.push(
+                    filtered.push(
                     {
                         id: anime.id,
                         title: anime.title,
-                        thumbnail: data.node.main_picture.medium
+                        thumbnail: anime.thumbnail
                     })
                 }
             }
@@ -112,7 +179,7 @@ function filterMALAnime(query, type)
                     {
                         if (type == 1)
                         {
-                            filteredMALAnime.push(
+                            filtered.push(
                             {
                                 id: anime.id,
                                 title: synonym
@@ -120,11 +187,11 @@ function filterMALAnime(query, type)
                         }
                         else if (type == 2)
                         {
-                            filteredMALAnime.push(
+                            filtered.push(
                             {
                                 id: anime.id,
                                 title: anime.title,
-                                thumbnail: data.node.main_picture.medium
+                                thumbnail: anime.thumbnail
                             })
                         }
                         break;
@@ -133,7 +200,7 @@ function filterMALAnime(query, type)
             }
         }
     }
-    return filteredMALAnime
+    return filtered
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,8 +217,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 console.log('Launching OpEdAni...')
 app.listen(port, () => console.log(`Launched OpEdAni at http://localhost:3000.`))
 
-fetchMALAnime(true, 0)
-setInterval(fetchMALAnime, 86400000)
+fetchAnimeIDs()
+setInterval(fetchAnimeIDs, 86400000)
 
 ////////////////////////////////////////////////////////////////////////////////
 // RESPONSES
@@ -164,7 +231,10 @@ function getIndexPage(request, response)
 
 function getAnimePage(request, response)
 {
-    response.render('anime')
+    response.render('anime',
+    {
+
+    })
 }
 
 function getAnimeResultsPage(request, response)
@@ -177,23 +247,18 @@ function getAnimeResultsPage(request, response)
     })
 }
 
-function getMALAnime(request, response)
+function getAnimeMALs(request, response)
 {
     const parameters = url.parse(request.url, true).query
-    const filteredMALAnime = filterMALAnime(parameters.query, parameters.type)
-    response.json(JSON.stringify(filteredMALAnime))
+    const filtered = filterAnimeMALs(parameters.query, parameters.type)
+    response.json(JSON.stringify(filtered))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PAGE ROUTES
+// ROUTES
 ////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/anime-results', getAnimeResultsPage)
-
-////////////////////////////////////////////////////////////////////////////////
-// API ROUTES
-////////////////////////////////////////////////////////////////////////////////
-
-app.get('/api/get-mal-anime', getMALAnime)
+app.get('/api/get-anime-mals', getAnimeMALs)

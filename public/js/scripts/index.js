@@ -11,36 +11,38 @@ let suggestions = []
 
 let autocompleteTimeout
 
-function getMALAnimeResponse(response)
-{
-    suggestions = JSON.parse(response)
-    autocompletePrimary.empty()
-    autocompletePrimary.toggleClass('util-hidden', suggestions.length == 0)
-    let count = 0
-    for (const suggestion of suggestions)
-    {
-        autocompletePrimary.append(`<button class="autocomplete-item util-button-secondary" data-id=${suggestion.id}>${suggestion.title}</div>`)
-        ++count
-        if (count == 10)
-        {
-            break;
-        }
-    }
-}
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTIONS
+///////////////////////////////////////////////////////////////////////////////
 
-function getMALAnime(query)
+function getAnimeMALs(query)
 {
+    autocompleteTimeout = undefined
     $.ajax(
     {
-        url: `${location.origin}/api/get-mal-anime`,
+        url: `${location.origin}/api/get-anime-mals`,
         data:
         {
             query: query,
             type: 1
         },
-        success: getMALAnimeResponse
+        success: response =>
+        {
+            suggestions = JSON.parse(response)
+            autocompletePrimary.empty()
+            autocompletePrimary.toggleClass('util-hidden', suggestions.length == 0)
+            let count = 0
+            for (const suggestion of suggestions)
+            {
+                autocompletePrimary.append(`<button class="autocomplete-item util-button-secondary" data-id=${suggestion.id}>${suggestion.title}</div>`)
+                ++count
+                if (count == 10)
+                {
+                    break;
+                }
+            }
+        }
     })
-    autocompleteTimeout = undefined
 }
 
 function searchbarPrimarySearch_OnClick()
@@ -65,7 +67,7 @@ function searchbarPrimaryInput_OnInput(event)
         clearTimeout(autocompleteTimeout)
         autocompleteTimeout = undefined
     }
-    autocompleteTimeout = setTimeout(() => getMALAnime(query), 500)
+    autocompleteTimeout = setTimeout(() => getAnimeMALs(query), 500)
 }
 
 function setElements()
