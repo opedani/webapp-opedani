@@ -85,15 +85,15 @@ main
 
 h1
 {
-    color: var(--color-primary);
+    color: var(--color-white);
     font-size: 32px;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
 }
 
 h2
 {
-    color: var(--color-primary);
+    color: var(--color-white);
     font-size: 24px;
     padding: 10px;
     text-align: center;

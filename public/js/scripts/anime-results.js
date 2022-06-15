@@ -6,7 +6,7 @@ let animeResultsCount
 let animeResults
 let animeResultsLoad
 
-let suggestions = []
+let MALGenerics = []
 let displayCount = 0
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ let displayCount = 0
 
 function toggleLoad()
 {
-    if (displayCount == suggestions.length)
+    if (displayCount == MALGenerics.length)
     {
         animeResultsLoad.addClass('util-hidden')
     }
@@ -24,16 +24,16 @@ function toggleLoad()
 function appendItems(count)
 {
     const previousDisplayCount = displayCount
-    for (let i = previousDisplayCount; i < previousDisplayCount + count && i < suggestions.length; ++i)
+    for (let i = previousDisplayCount; i < previousDisplayCount + count && i < MALGenerics.length; ++i)
     {
         animeResults.append(`
             <article class="anime-results-item">
                 <button class="anime-results-go util-button-primary">
                     <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
-                <img class="anime-results-thumbnail" src="${suggestions[i].thumbnail}" alt="<${suggestions[i].title} thumbnail>">
+                <img class="anime-results-thumbnail" src="${MALGenerics[i].thumbnail}" alt="<${MALGenerics[i].title} thumbnail>">
                 <div class="anime-results-info">
-                    <div><cite>${suggestions[i].title}</cite></div>
+                    <div><cite>${MALGenerics[i].title}</cite></div>
                     <div>
                         <i class="fa-solid fa-star"></i>
                         Score:
@@ -62,24 +62,21 @@ function setEventListeners()
     animeResultsLoad.on('click', () => appendItems(10))
 }
 
-function getMALAnimeResponse(response)
-{
-    suggestions = JSON.parse(response)
-    animeResultsCount.text(suggestions.length)
-    appendItems(10)
-}
-
-function getMALAnime()
+function getMALGenerics()
 {
     $.ajax(
     {
-        url: `${location.origin}/api/get-mal-anime`,
+        url: `${location.origin}/api/get-mal-generics`,
         data:
         {
-            query: new URLSearchParams(location.search).get('query'),
-            type: 2
+            query: new URLSearchParams(location.search).get('query')
         },
-        success: getMALAnimeResponse
+        success: response =>
+        {
+            MALGenerics = JSON.parse(response)
+            animeResultsCount.text(MALGenerics.length)
+            appendItems(10)
+        }
     })
 }
 
@@ -91,7 +88,7 @@ function ready()
 {
     setElements()
     setEventListeners()
-    getMALAnime()
+    getMALGenerics()
 }
 
 $(document).ready(ready)
