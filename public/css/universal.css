@@ -1,12 +1,12 @@
 :root
 {
-    --color-white: #D0D0D0;
+    --color-white: #d0d0d0;
     --color-white-dark: #878787;
     --color-black: #101010;
     --color-primary: #347faa;
     --color-primary-dark: #21526e;
-    --color-accent: #d67e26;
-    --color-accent-dark: #8b5118;
+    --color-accent: #e08428;
+    --color-accent-dark: #97591a;
     --color-gray: #404040;
     --color-gray-dark: #292929;
 }
@@ -66,6 +66,8 @@ a:hover
 p
 {
     color: var(--color-white);
+    line-height: 1.5;
+    white-space: pre-line;
 }
 
 button
@@ -85,6 +87,9 @@ main
 
 h1
 {
+    background-color: var(--color-gray);
+    border-top: 1px solid var(--color-gray-dark);
+    border-bottom: 1px solid var(--color-gray-dark);
     color: var(--color-white);
     font-size: 32px;
     padding: 10px;
@@ -93,6 +98,9 @@ h1
 
 h2
 {
+    background-color: var(--color-gray);
+    border-top: 1px solid var(--color-gray-dark);
+    border-bottom: 1px solid var(--color-gray-dark);
     color: var(--color-white);
     font-size: 24px;
     padding: 10px;
@@ -113,14 +121,13 @@ img
 
 .autocomplete-item
 {
-    border: 1px solid var(--color-gray-dark);
-    border-bottom: none;
+    border-top: 1px solid var(--color-gray-dark);
     padding: 10px;
 }
 
 .autocomplete-item:last-child
 {
-    border: 1px solid var(--color-gray-dark);
+    border-bottom: 1px solid var(--color-gray-dark);
 }
 
 .util-hidden

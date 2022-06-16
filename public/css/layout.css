@@ -1,7 +1,6 @@
 .nav-primary
 {
     background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-primary-dark);
     display: flex;
     justify-content: flex-end;
     position: sticky;
@@ -20,8 +19,7 @@
 
 footer
 {
-    background-color: var(--color-gray);
-    border-top: 1px solid var(--color-gray-dark);
+    background-color: var(--color-primary-dark);
     color: var(--color-white);
     display: grid;
     gap: 20px;

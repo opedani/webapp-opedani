@@ -5,5 +5,20 @@ block head-content
     script(src='/js/scripts/anime.js' type='module')
 
 block main-content
-    h1 #{title}
-    img.anime-thumbnail(src='#{thumbnail}' alt='<#{title} thumbnail>')
+    h1.anime-title #{title}
+    img.anime-thumbnail(src=`${thumbnail}` alt=`<${title} thumbnail>`)
+    h2 Openings &amp Endings #[i.fa-solid.fa-music]
+    h2 MyAnimeList #[i.fa-solid.fa-list]
+    div.anime-mal
+        div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit #[cite #{title}] on MyAnimeList]
+        div #[i.fa-solid.fa-gauge] Score: #{score}
+        div #[i.fa-solid.fa-ranking-star] Rank: ##{rank}
+        div #[i.fa-solid.fa-people-group] Popularity: ##{popularity}
+    h2 About #[i.fa-solid.fa-circle-question]
+    div.anime-about
+        div #[i.fa-solid.fa-compact-disc] Type: #{type}
+        div #[i.fa-solid.fa-calendar-day] Aired: #{aired}
+        div #[i.fa-solid.fa-heart-pulse] Status: #{status}
+        div #[i.fa-solid.fa-list-ol] Episodes: #{episodes}
+        div #[i.fa-solid.fa-building] Studios: #{studios}
+        p.anime-about-description #{description}

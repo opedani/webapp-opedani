@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 const https = require('https')
+const moment = require('moment')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -21,11 +22,11 @@ function getMALGenerics()
 
 function fetchMALSpecifics(id, callback)
 {
-    console.log('Fetching MAL specifics...')
+    console.log(`Fetching MAL specifics... { id: ${id} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: '/v2/anime/' + id + '?fields=id,title,alternative_titles,main_picture,synopsis,mean,rank,nsfw,media_type,opening_themes,ending_themes',
+        path: '/v2/anime/' + id + '?fields=id,title,alternative_titles,main_picture,synopsis,mean,rank,popularity,nsfw,media_type,start_date,status,num_episodes,studios,opening_themes,ending_themes',
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -47,13 +48,17 @@ function fetchMALSpecifics(id, callback)
                 title: streamObject.title,
                 synonyms: [],
                 thumbnail: '/images/thumbnail.png',
-                synopsis: streamObject.synopsis,
-                mean: streamObject.mean,
+                description: streamObject.synopsis.replace('[Written by MAL Rewrite]', '').trim(),
+                score: streamObject.mean,
                 rank: streamObject.rank,
-                nsfw: streamObject.nsfw,
-                type: streamObject.media_type,
+                popularity: streamObject.popularity,
+                type: streamObject.media_type[0].toUpperCase() + streamObject.media_type.slice(1),
+                aired: moment(streamObject.start_date).format('MMMM Do[,] YYYY'),
+                status: streamObject.status == 'finished_airing' ? 'Complete' : 'Incomplete',
+                episodes: streamObject.num_episodes,
+                studios: '',
                 ops: [],
-                eds: []
+                eds: [],
             }
             if (streamObject.alternative_titles.en.length > 0)
             {
@@ -66,6 +71,14 @@ function fetchMALSpecifics(id, callback)
             if (streamObject.main_picture)
             {
                 result.thumbnail = streamObject.main_picture.medium
+            }
+            for (const studio of streamObject.studios)
+            {
+                if (result.studios.length > 0)
+                {
+                    result.studios += ', '
+                }
+                result.studios += studio.name
             }
             if (streamObject.opening_themes)
             {
@@ -81,7 +94,7 @@ function fetchMALSpecifics(id, callback)
                     result.eds.push(ed.text)
                 }
             }
-            console.log('Fetched MAL specifics.')
+            console.log(`Fetched MAL specifics for \"${result.title}\". { id: ${id} }`)
             callback(result)
         })
     })
@@ -91,10 +104,10 @@ function fetchMALGenerics(offset)
 {
     if (!offset)
     {
-        console.log('Fetching MAL generics...')
         MALGenerics = []
         offset = 0
     }
+    console.log(`Fetching MAL generics... { offset: ${offset} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -143,7 +156,7 @@ function fetchMALGenerics(offset)
             }
             else
             {
-                console.log('Fetched ' + MALGenerics.length + ' MAL generics from api.myanimelist.net.')
+                console.log(`Fetched ${MALGenerics.length} MAL generics from api.myanimelist.net.`)
             }
         })
     })
