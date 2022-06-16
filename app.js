@@ -53,11 +53,21 @@ function getAnimePage(request, response)
     const parameters = url.parse(request.url, true).query
     fetch.fetchMALSpecifics(parameters.id, result =>
     {
-        console.log(result)
         response.render('anime',
         {
             title: result.title,
-            thumbnail: result.thumbnail
+            thumbnail: result.thumbnail,
+            description: result.description,
+            mean: result.mean,
+            rank: result.rank,
+            popularity: result.popularity,
+            type: result.type,
+            aired: result.aired,
+            status: result.status,
+            episodes: result.episodes,
+            studios: result.studios,
+            ops: result.ops,
+            eds: result.eds
         })
     })
 }
