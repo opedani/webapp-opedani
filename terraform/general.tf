@@ -20,7 +20,7 @@ resource "aws_route53_zone" "opedani_hosted_zone" {
 
 
 # RSA key pair for SSH
-resource "aws_key_pair" "kagekowalski_ssh_key" {
-  key_name   = "kagekowalski.pub"
-  public_key = file("data/kagekowalski.pub")
+resource "aws_key_pair" "ansible_ssh_key" {
+  key_name   = "ansible.pub"
+  public_key = file("data/ansible.pub")
 }

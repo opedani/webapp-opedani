@@ -8,7 +8,7 @@ resource "aws_instance" "node1_ec2" {
   user_data                   = file("data/node_init.sh")
   user_data_replace_on_change = true
   security_groups             = [aws_security_group.node1_sg.name]
-  key_name                    = "kagekowalski.pub"
+  key_name                    = aws_key_pair.ansible_ssh_key.key_name
 }
 
 

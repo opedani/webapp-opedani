@@ -7,7 +7,7 @@ resource "aws_instance" "apache_ec2" {
   instance_type   = "t2.micro"
   user_data       = file("data/apache_init.sh")
   security_groups = [aws_security_group.apache_sg.name]
-  key_name        = aws_key_pair.kagekowalski_ssh_key.key_name
+  key_name        = aws_key_pair.ansible_ssh_key.key_name
 }
 
 
