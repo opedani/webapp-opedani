@@ -97,3 +97,21 @@ resource "aws_security_group_rule" "apache_sg_ssh_out" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.apache_sg.id
 }
+resource "aws_security_group_rule" "apache_sg_3000_in" {
+  description       = "Allows traffic in on port 3000"
+  type              = "ingress"
+  from_port         = 3000
+  to_port           = 3000
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.apache_sg.id
+}
+resource "aws_security_group_rule" "apache_sg_3000_out" {
+  description       = "Allows traffic out on port 3000"
+  type              = "egress"
+  from_port         = 3000
+  to_port           = 3000
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.apache_sg.id
+}

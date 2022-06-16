@@ -7,7 +7,7 @@ sudo yum update -y
 
 
 # Install and configure httpd (Apache Web Server) as a reverse proxy
-sudo yum -y install httpd
+sudo yum install -y httpd
 cd /etc/httpd/conf
 echo 'LoadModule proxy_module modules/mod_proxy.so' | sudo tee -a httpd.conf
 echo 'LoadModule proxy_balancer_module modules/mod_proxy_balancer.so' | sudo tee -a httpd.conf
