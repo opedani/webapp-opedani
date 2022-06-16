@@ -22,7 +22,7 @@ function getMALGenerics()
 
 function fetchMALSpecifics(id, callback)
 {
-    console.log('Fetching MAL specifics...')
+    console.log(`Fetching MAL specifics... { id: ${id} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -94,7 +94,7 @@ function fetchMALSpecifics(id, callback)
                     result.eds.push(ed.text)
                 }
             }
-            console.log(`Fetched MAL specifics for \"${result.title}\".`)
+            console.log(`Fetched MAL specifics for \"${result.title}\". { id: ${id} }`)
             callback(result)
         })
     })
@@ -104,10 +104,10 @@ function fetchMALGenerics(offset)
 {
     if (!offset)
     {
-        console.log('Fetching MAL generics...')
         MALGenerics = []
         offset = 0
     }
+    console.log(`Fetching MAL generics... { offset: ${offset} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
@@ -156,7 +156,7 @@ function fetchMALGenerics(offset)
             }
             else
             {
-                console.log('Fetched ' + MALGenerics.length + ' MAL generics from api.myanimelist.net.')
+                console.log(`Fetched ${MALGenerics.length} MAL generics from api.myanimelist.net.`)
             }
         })
     })
