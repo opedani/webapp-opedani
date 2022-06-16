@@ -84,14 +84,26 @@ function fetchMALSpecifics(id, callback)
             {
                 for (const op of streamObject.opening_themes)
                 {
-                    result.ops.push(op.text)
+                    const data =
+                    {
+                        id: op.id,
+                        title: op.text.match(/\"(.*)\"/)[1],
+                        band: op.text.match(/by (.*)( \(ep)*/)[1]
+                    }
+                    result.ops.push(data)
                 }
             }
             if (streamObject.ending_themes)
             {
                 for (const ed of streamObject.ending_themes)
                 {
-                    result.eds.push(ed.text)
+                    const data =
+                    {
+                        id: ed.id,
+                        title: ed.text.match(/\"(.*)\"/)[1],
+                        band: ed.text.match(/by (.*)( \(ep)*/)[1]
+                    }
+                    result.eds.push(data)
                 }
             }
             console.log(`Fetched MAL specifics for \"${result.title}\". { id: ${id} }`)

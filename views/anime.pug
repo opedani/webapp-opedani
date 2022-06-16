@@ -7,10 +7,31 @@ block head-content
 block main-content
     h1.anime-title #{title}
     img.anime-thumbnail(src=`${thumbnail}` alt=`<${title} thumbnail>`)
-    h2 Openings &amp Endings #[i.fa-solid.fa-music]
+    h2 Openings #[i.fa-solid.fa-music]
+    div.anime-opeds
+        each op in ops
+            article.anime-opeds-item
+                button(data-id=`${op.id}`).anime-opeds-go.util-button-primary
+                    i.fa-solid.fa-eye.fa-2x
+                div.anime-opeds-info
+                    div #[cite #{op.title}]
+                    div #{op.band}
+                    div #[i.fa-solid.fa-gauge] Best Score:
+                    div #[i.fa-solid.fa-ranking-star] Best Rank:
+    h2 Endings #[i.fa-solid.fa-music]
+    div.anime-opeds
+        each ed in eds
+            article.anime-opeds-item
+                button(data-id=`${ed.id}`).anime-opeds-go.util-button-primary
+                    i.fa-solid.fa-eye.fa-2x
+                div.anime-opeds-info
+                    div #[cite #{ed.title}]
+                    div #{ed.band}
+                    div #[i.fa-solid.fa-gauge] Best Score:
+                    div #[i.fa-solid.fa-ranking-star] Best Rank:
     h2 MyAnimeList #[i.fa-solid.fa-list]
     div.anime-mal
-        div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit #[cite #{title}] on MyAnimeList]
+        div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit on MyAnimeList]
         div #[i.fa-solid.fa-gauge] Score: #{score}
         div #[i.fa-solid.fa-ranking-star] Rank: ##{rank}
         div #[i.fa-solid.fa-people-group] Popularity: ##{popularity}
@@ -21,4 +42,4 @@ block main-content
         div #[i.fa-solid.fa-heart-pulse] Status: #{status}
         div #[i.fa-solid.fa-list-ol] Episodes: #{episodes}
         div #[i.fa-solid.fa-building] Studios: #{studios}
-        p.anime-about-description #{description}
+    p.anime-about-description #{description}
