@@ -48,15 +48,15 @@ function fetchMALSpecifics(id, callback)
                 title: streamObject.title,
                 synonyms: [],
                 thumbnail: '/images/thumbnail.png',
-                description: streamObject.synopsis,
-                mean: streamObject.mean,
+                description: streamObject.synopsis.replace('[Written by MAL Rewrite]', '').trim(),
+                score: streamObject.mean,
                 rank: streamObject.rank,
                 popularity: streamObject.popularity,
                 type: streamObject.media_type[0].toUpperCase() + streamObject.media_type.slice(1),
                 aired: moment(streamObject.start_date).format('MMMM Do[,] YYYY'),
                 status: streamObject.status == 'finished_airing' ? 'Complete' : 'Incomplete',
                 episodes: streamObject.num_episodes,
-                studios: [],
+                studios: '',
                 ops: [],
                 eds: [],
             }
@@ -74,7 +74,11 @@ function fetchMALSpecifics(id, callback)
             }
             for (const studio of streamObject.studios)
             {
-                result.studios.push(studio.name)
+                if (result.studios.length > 0)
+                {
+                    result.studios += ', '
+                }
+                result.studios += studio.name
             }
             if (streamObject.opening_themes)
             {

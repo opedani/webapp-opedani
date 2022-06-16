@@ -55,10 +55,11 @@ function getAnimePage(request, response)
     {
         response.render('anime',
         {
+            id: result.id,
             title: result.title,
             thumbnail: result.thumbnail,
             description: result.description,
-            mean: result.mean,
+            score: result.score,
             rank: result.rank,
             popularity: result.popularity,
             type: result.type,
