@@ -16,7 +16,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./ansible
 
     steps:
     - name: Run Playbook
@@ -24,6 +23,8 @@ jobs:
       with:
         # Required, playbook filepath
         playbook: playbook.yml
+        # Optional, directory where playbooks live
+        directory: ./ansible
         # Optional, SSH private key
         key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
         # Optional, additional flags to pass to ansible-playbook
