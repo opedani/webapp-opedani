@@ -65,6 +65,7 @@ function getAnimePage(request, response)
             type: result.type,
             aired: result.aired,
             status: result.status,
+            genres: result.genres,
             episodes: result.episodes,
             studios: result.studios,
             ops: result.ops,
