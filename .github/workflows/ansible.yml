@@ -21,5 +21,19 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
-      run: ansible-playbook playbook.yml
+      uses: actions/checkout@v3
+
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2.5.0
+      with:
+        # Required, playbook filepath
+        playbook: playbook.yml
+        # Optional, directory where playbooks live
+        directory: ./
+        # Optional, SSH private key
+        key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+        # Optional, additional flags to pass to ansible-playbook
+        options: |
+          --inventory .inventory
+          --limit node
+          --verbose
