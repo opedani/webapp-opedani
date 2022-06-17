@@ -1,0 +1,68 @@
+name: 'CI CD Dev'
+
+# Occurs on all pull requests and all non-master pushes
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Always use Bash shell and start in ./terraform subdirectory
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    # Install the latest Terraform CLI and configure it with a Terraform Cloud API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API }}
+
+    # Run "terraform init"
+    - name: Terraform Init
+      run: terraform init
+
+    # Run "terraform fmt -check -diff"
+    - name: Terraform Format
+      run: terraform fmt -check -diff
+
+    # Run "terraform plan"
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+  ansible:
+    name: 'Ansible'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: terraform
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Dry run the Ansible playbook
+      - name: Dry Run Playbook
+        uses: dawidd6/action-ansible-playbook@v2.5.0
+        with:
+          playbook: playbook.yml
+          directory: ./ansible
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          options: |
+            --inventory .inventory
+            --limit node
+            --verbose
+            --diff
+            --check
