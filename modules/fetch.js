@@ -12,7 +12,13 @@ const moment = require('moment')
 let MALGenerics = []
 
 ////////////////////////////////////////////////////////////////////////////////
-// FUNCTIONS
+// HELPER FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// EXPORTED FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
 function getMALGenerics()
@@ -84,11 +90,43 @@ function fetchMALSpecifics(id, callback)
             {
                 for (const op of streamObject.opening_themes)
                 {
+                    const ordinalMatch = op.text.match(/#(\d+):/)
+                    let ordinal = 1
+                    if (ordinalMatch)
+                    {
+                        ordinal = parseInt(ordinalMatch[1])
+                    }
+                    const titleMatch = op.text.match(/\"(.+)\"/)
+                    let title = '<Title>'
+                    if (titleMatch)
+                    {
+                        title = titleMatch[1]
+                    }
+                    const episodesMatch = op.text.match(/\(ep.+/)
+                    let episodes = streamObject.num_episodes
+                    let bandRegex
+                    if (episodesMatch)
+                    {
+                        episodes = episodesMatch[1]
+                        bandRegex = /by (.+) \(/
+                    }
+                    else
+                    {
+                        bandRegex = /by (.+)/
+                    }
+                    const bandMatch = op.text.match(bandRegex)
+                    let band = '<Band>'
+                    if (bandMatch)
+                    {
+                        band = bandMatch[1]
+                    }
                     const data =
                     {
                         id: op.id,
-                        title: op.text.match(/\"(.*)\"/)[1],
-                        band: op.text.match(/by (.*)( \(ep)*/)[1]
+                        ordinal: ordinal,
+                        title: title,
+                        episodes: episodes,
+                        band: band
                     }
                     result.ops.push(data)
                 }
@@ -97,11 +135,42 @@ function fetchMALSpecifics(id, callback)
             {
                 for (const ed of streamObject.ending_themes)
                 {
+                    const ordinalMatch = ed.text.match(/#(\d+):/)
+                    let ordinal = 1
+                    if (ordinalMatch)
+                    {
+                        ordinal = parseInt(ordinalMatch[1])
+                    }
+                    const titleMatch = ed.text.match(/\"(.+)\"/)
+                    let title = '<Title>'
+                    if (titleMatch)
+                    {
+                        title = titleMatch[1]
+                    }
+                    const episodesMatch = ed.text.match(/\(ep.+/)
+                    let episodes = streamObject.num_episodes
+                    let bandRegex
+                    if (episodesMatch)
+                    {
+                        episodes = episodesMatch[1]
+                        bandRegex = /by (.+) \(/
+                    }
+                    else
+                    {
+                        bandRegex = /by (.+)/
+                    }
+                    const bandMatch = ed.text.match(bandRegex)
+                    let band = '<Band>'
+                    if (bandMatch)
+                    {
+                        band = bandMatch[1]
+                    }
                     const data =
                     {
                         id: ed.id,
-                        title: ed.text.match(/\"(.*)\"/)[1],
-                        band: ed.text.match(/by (.*)( \(ep)*/)[1]
+                        ordinal: ordinal,
+                        title: title,
+                        band: band
                     }
                     result.eds.push(data)
                 }

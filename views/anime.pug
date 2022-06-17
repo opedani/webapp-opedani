@@ -16,8 +16,8 @@ block main-content
                 div.anime-opeds-info
                     div #[cite #{op.title}]
                     div #{op.band}
-                    div #[i.fa-solid.fa-gauge] Best Score:
-                    div #[i.fa-solid.fa-ranking-star] Best Rank:
+                    div #[i.fa-solid.fa-gauge] Score:
+                    div #[i.fa-solid.fa-ranking-star] Rank:
     h2 Endings #[i.fa-solid.fa-music]
     div.anime-opeds
         each ed in eds
@@ -27,8 +27,8 @@ block main-content
                 div.anime-opeds-info
                     div #[cite #{ed.title}]
                     div #{ed.band}
-                    div #[i.fa-solid.fa-gauge] Best Score:
-                    div #[i.fa-solid.fa-ranking-star] Best Rank:
+                    div #[i.fa-solid.fa-gauge] Score:
+                    div #[i.fa-solid.fa-ranking-star] Rank:
     h2 MyAnimeList #[i.fa-solid.fa-list]
     div.anime-mal
         div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit on MyAnimeList]
