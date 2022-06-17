@@ -89,7 +89,6 @@ main
 h1
 {
     background-color: var(--color-gray);
-    background-image: url("/images/background-heading.png");
     color: var(--color-white);
     font-size: 32px;
     padding: 10px;
@@ -99,7 +98,6 @@ h1
 h2
 {
     background-color: var(--color-gray);
-    background-image: url("/images/background-heading.png");
     color: var(--color-white);
     font-size: 24px;
     padding: 10px;

@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 let searchbarPrimary
-let searchbarPrimarySearch
 let searchbarPrimaryInput
 let autocompletePrimary
 
@@ -44,18 +43,22 @@ function getMALGenerics(query)
     })
 }
 
-function searchbarPrimarySearch_OnClick()
+function searchbarPrimary_OnSubmit(event)
 {
-    if (MALGenerics.length > 1)
+    if (searchbarPrimaryInput.val().length > 0)
     {
-        const parameters = new URLSearchParams()
-        parameters.append('query', searchbarPrimaryInput.val())
-        location.href = `${location.origin}/anime-results?${parameters.toString()}`
+        if (MALGenerics.length == 1)
+        {
+            location.href = `${location.origin}/anime?id=${MALGenerics[0].id}`
+        }
+        else
+        {
+            const parameters = new URLSearchParams()
+            parameters.append('query', searchbarPrimaryInput.val())
+            location.href = `${location.origin}/anime-results?${parameters.toString()}`
+        }
     }
-    else if (MALGenerics.length == 1)
-    {
-        location.href = `${location.origin}/anime?id=${MALGenerics[0].id}`
-    }
+    event.preventDefault()
 }
 
 function searchbarPrimaryInput_OnInput(event)
@@ -78,14 +81,13 @@ function autocompletePrimary_OnClick(event)
 function setElements()
 {
     searchbarPrimary = $('#searchbar-primary')
-    searchbarPrimarySearch = $('#searchbar-primary-search')
     searchbarPrimaryInput = $('#searchbar-primary-input')
     autocompletePrimary = $('#autocomplete-primary')
 }
 
 function setEventListeners()
 {
-    searchbarPrimarySearch.on('click', searchbarPrimarySearch_OnClick)
+    searchbarPrimary.on('submit', searchbarPrimary_OnSubmit)
     searchbarPrimaryInput.on('input', searchbarPrimaryInput_OnInput)
     autocompletePrimary.on('click', '.autocomplete-item', autocompletePrimary_OnClick)
 }

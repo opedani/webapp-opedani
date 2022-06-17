@@ -15,10 +15,7 @@ let displayCount = 0
 
 function toggleLoad()
 {
-    if (displayCount == MALGenerics.length)
-    {
-        animeResultsLoad.addClass('util-hidden')
-    }
+    animeResultsLoad.toggleClass('util-hidden', displayCount == MALGenerics.length)
 }
 
 function appendItems(count)
@@ -36,11 +33,11 @@ function appendItems(count)
                     <div><cite>${MALGenerics[i].title}</cite></div>
                     <div>
                         <i class="fa-solid fa-gauge"></i>
-                        Score:
+                        Best Score:
                     </div>
                     <div>
                         <i class="fa-solid fa-ranking-star"></i>
-                        Rank:
+                        Best Rank:
                     </div>
                 </div>
             </article>
@@ -48,6 +45,12 @@ function appendItems(count)
         ++displayCount;
     }
     toggleLoad()
+}
+
+function animeResultsGo_OnClick(event)
+{
+    const id = $(event.target).data('id')
+    location.href = `${location.origin}/anime?id=${id}`
 }
 
 function setElements()
@@ -60,6 +63,7 @@ function setElements()
 function setEventListeners()
 {
     animeResultsLoad.on('click', () => appendItems(10))
+    animeResults.on('click', '.anime-results-go', animeResultsGo_OnClick)
 }
 
 function getMALGenerics()
