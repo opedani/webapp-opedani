@@ -13,35 +13,29 @@
 
 .anime-opeds-item
 {
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+}
+
+.anime-opeds-item:first-child
+{
+    border-top: none;
     display: flex;
 }
 
 .anime-opeds-go
 {
-    background-color: var(--color-primary);
-    border-top: 1px solid var(--color-primary-dark);
     padding: 10px;
-}
-
-.anime-opeds-item:first-child > .anime-opeds-go
-{
-    border-top: none;
 }
 
 .anime-opeds-info
 {
-    border-top: 1px solid var(--color-gray-dark);
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     gap: 10px;
     overflow: hidden;
     padding: 10px;
-}
-
-.anime-opeds-item:first-child > .anime-opeds-info
-{
-    border-top: none;
 }
 
 .anime-mal

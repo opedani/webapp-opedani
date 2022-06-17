@@ -33,11 +33,11 @@ function appendItems(count)
                     <div><cite>${MALGenerics[i].title}</cite></div>
                     <div>
                         <i class="fa-solid fa-gauge"></i>
-                        Best Score:
+                        Best Score: None
                     </div>
                     <div>
                         <i class="fa-solid fa-ranking-star"></i>
-                        Best Rank:
+                        Best Rank: None
                     </div>
                 </div>
             </article>
@@ -49,7 +49,7 @@ function appendItems(count)
 
 function animeResultsGo_OnClick(event)
 {
-    const id = $(event.target).data('id')
+    const id = $(event.currentTarget).data('id')
     location.href = `${location.origin}/anime?id=${id}`
 }
 

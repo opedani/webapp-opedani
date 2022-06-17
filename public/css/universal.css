@@ -88,7 +88,7 @@ main
 
 h1
 {
-    background-color: var(--color-gray);
+    background-color: var(--color-gray-dark);
     color: var(--color-white);
     font-size: 32px;
     padding: 10px;
@@ -97,7 +97,7 @@ h1
 
 h2
 {
-    background-color: var(--color-gray);
+    background-color: var(--color-gray-dark);
     color: var(--color-white);
     font-size: 24px;
     padding: 10px;
@@ -132,12 +132,38 @@ img
     display: none !important;
 }
 
+.util-button-primary
+{
+    background-color: var(--color-primary);
+}
+
 .util-button-primary:hover
 {
     background-color: var(--color-primary-dark);
 }
 
+.util-button-secondary
+{
+    color: var(--color-white);
+}
+
 .util-button-secondary:hover
 {
     color: var(--color-white-dark);
+}
+
+[disabled]
+{
+    color: var(--color-white-dark);
+    cursor: auto;
+}
+
+.util-button-primary[disabled]
+{
+    background-color: var(--color-gray);
+}
+
+.util-button-primary[disabled]:hover
+{
+    background-color: auto;
 }
