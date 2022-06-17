@@ -28,14 +28,14 @@ function appendItems(count)
     {
         animeResults.append(`
             <article class="anime-results-item">
-                <button class="anime-results-go util-button-primary">
+                <button class="anime-results-go util-button-primary" data-id="${MALGenerics[i].id}">
                     <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
                 <img class="anime-results-thumbnail" src="${MALGenerics[i].thumbnail}" alt="<${MALGenerics[i].title} thumbnail>">
                 <div class="anime-results-info">
                     <div><cite>${MALGenerics[i].title}</cite></div>
                     <div>
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-gauge"></i>
                         Score:
                     </div>
                     <div>

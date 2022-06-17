@@ -5,6 +5,53 @@
     width: 300px;
 }
 
+.anime-opeds
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.anime-opeds-item
+{
+    display: flex;
+}
+
+.anime-opeds-go
+{
+    background-color: var(--color-primary);
+    border-top: 1px solid var(--color-primary-dark);
+    padding: 10px;
+}
+
+.anime-opeds-item:first-child > .anime-opeds-go
+{
+    border-top: none;
+}
+
+.anime-opeds-info
+{
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.anime-opeds-item:first-child > .anime-opeds-info
+{
+    border-top: none;
+}
+
+.anime-mal
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
 .anime-about
 {
     display: flex;
@@ -18,15 +65,8 @@
     background-color: var(--color-black);
     border-top: 1px solid var(--color-gray-dark);
     border-bottom: 1px solid var(--color-gray-dark);
+    font-family:'Times New Roman', Times, serif;
     max-height: 300px;
     overflow: auto;
-    padding: 10px;
-}
-
-.anime-mal
-{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     padding: 10px;
 }
