@@ -1,0 +1,32 @@
+name: 'Ansible'
+
+# Occurs on pushes to master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  ansible:
+    name: 'Ansible'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Always use bash shell and start in ./ansible directory
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./ansible
+
+    steps:
+    - name: Run Playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        # Required, playbook filepath
+        playbook: playbook.yml
+        # Optional, SSH private key
+        key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+        # Optional, additional flags to pass to ansible-playbook
+        options: |
+          --inventory .inventory
+          --verbose
