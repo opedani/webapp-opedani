@@ -30,15 +30,9 @@ function appendItems(count)
                 </button>
                 <img class="anime-results-thumbnail" src="${MALGenerics[i].thumbnail}" alt="<${MALGenerics[i].title} thumbnail>">
                 <div class="anime-results-info">
-                    <div><cite>${MALGenerics[i].title}</cite></div>
-                    <div>
-                        <i class="fa-solid fa-gauge"></i>
-                        Best Score: None
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-ranking-star"></i>
-                        Best Rank: None
-                    </div>
+                    <div><i class="fa-solid fa-film"></i> <cite>${MALGenerics[i].title}</cite></div>
+                    <div><i class="fa-solid fa-gauge"></i> Best Score: None</div>
+                    <div><i class="fa-solid fa-ranking-star"></i> Best Rank: None</div>
                 </div>
             </article>
         `)
