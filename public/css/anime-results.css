@@ -25,6 +25,7 @@
 
 .anime-results-go
 {
+    background-color: var(--color-primary);
     padding: 10px;
 }
 

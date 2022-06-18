@@ -77,6 +77,12 @@ button
     border: none;
     color: var(--color-white);
     cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover
+{
+    opacity: 0.5;
 }
 
 main
@@ -109,6 +115,20 @@ img
     color: var(--color-white);
 }
 
+.searchbar
+{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.searchbar-input
+{
+    font-size: 20px;
+    width: 100%;
+}
+
 .autocomplete
 {
     display: flex;
@@ -119,7 +139,6 @@ img
 .autocomplete-item
 {
     border-top: 1px solid var(--color-gray-dark);
-    font-size: 20px;
     padding: 10px;
 }
 
@@ -133,38 +152,8 @@ img
     display: none !important;
 }
 
-.util-button-primary
-{
-    background-color: var(--color-primary);
-}
-
-.util-button-primary:hover
-{
-    background-color: var(--color-primary-dark);
-}
-
-.util-button-secondary
-{
-    color: var(--color-white);
-}
-
-.util-button-secondary:hover
-{
-    color: var(--color-white-dark);
-}
-
 [disabled]
 {
     color: var(--color-white-dark);
     cursor: auto;
-}
-
-.util-button-primary[disabled]
-{
-    background-color: var(--color-gray);
-}
-
-.util-button-primary[disabled]:hover
-{
-    background-color: auto;
 }

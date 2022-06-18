@@ -18,9 +18,21 @@
     margin-right: auto;
 }
 
+.menu-primary
+{
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary-dark);
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    width: 300px;
+}
+
 footer
 {
-    background-color: var(--color-primary-dark);
+    background-color: var(--color-gray-dark);
     color: var(--color-white);
     display: grid;
     gap: 20px;

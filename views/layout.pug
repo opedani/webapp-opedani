@@ -16,10 +16,15 @@ html(lang='en')
         block head-content
     body
         nav.nav-primary
-            button.nav-primary-button.util-button-primary#nav-primary-home
+            button.nav-primary-button#nav-primary-home
                 i.fa-solid.fa-house.fa-2x
-            button.nav-primary-button.util-button-primary#nav-primary-menu
+            button.nav-primary-button#nav-primary-menu
                 i.fa-solid.fa-bars.fa-2x
+            div.menu-primary.util-hidden#menu-primary
+                form.searchbar#menu-primary-searchbar
+                    button(type='submit')
+                        i.fa-solid.fa-magnifying-glass.fa-2x
+                    input(type='text' placeholder='Search anime...' autocomplete='off').searchbar-input#menu-primary-searchbar-input
         main
             block main-content
         footer
