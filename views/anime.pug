@@ -18,7 +18,7 @@ block main-content
                     div #[i.fa-solid.fa-guitar] Band: #{op.band}
                     div #[i.fa-solid.fa-gauge] Score: None
                     div #[i.fa-solid.fa-ranking-star] Rank: None
-                    div #[i.fa-solid.fa-list-ol] Episode#{op.episodeCount > 1 ? 's' : ''}: #{op.episodes}
+                    div #[i.fa-solid.fa-list-ol] Episodes: #{op.episodes}
     h2 #[i.fa-solid.fa-circle-stop] Endings #[i.fa-solid.fa-circle-stop]
     div.anime-opeds
         each ed in eds
@@ -30,7 +30,7 @@ block main-content
                     div #[i.fa-solid.fa-guitar] Band: #{ed.band}
                     div #[i.fa-solid.fa-gauge] Score: None
                     div #[i.fa-solid.fa-ranking-star] Rank: None
-                    div #[i.fa-solid.fa-list-ol] Episode#{ed.episodeCount > 1 ? 's' : ''}: #{ed.episodes}
+                    div #[i.fa-solid.fa-list-ol] Episodes: #{ed.episodes}
     h2 #[i.fa-solid.fa-list] MyAnimeList #[i.fa-solid.fa-list]
     div.anime-mal
         div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit on MyAnimeList]

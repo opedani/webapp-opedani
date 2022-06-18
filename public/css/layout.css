@@ -25,6 +25,7 @@
     border-right: none;
     display: flex;
     flex-direction: column;
+    padding: 10px;
     position: absolute;
     top: 100%;
     width: 300px;
@@ -39,9 +40,4 @@ footer
     grid-template-columns: repeat(6, 1fr);
     padding: 20px;
     place-items: center;
-}
-
-.footer-copyright
-{
-    grid-column: 1 / 7;
 }
