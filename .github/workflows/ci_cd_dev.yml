@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v3
 
       # Dry run the Ansible playbook
-      - name: Dry Run Playbook
+      - name: Dry Run Playbooks
         uses: dawidd6/action-ansible-playbook@v2.5.0
         with:
           playbook: playbook.yml
