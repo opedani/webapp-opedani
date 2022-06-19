@@ -1,5 +1,40 @@
 ---
-- name: Playbook
+- name: Apache Playbook
+  hosts: apache
+  remote_user: ec2-user
+  become: yes
+
+  tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install Apache (httpd)
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Stop Apache (httpd), if started
+      ansible.builtin.service:
+        name: httpd
+        state: stopped
+
+    - name: Configure Apache reverse proxy
+      copy:
+        src: data/httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        owner: root
+        group: root
+        mode: 644
+
+    - name: Restart and enable Apache (httpd)
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+        enabled: yes
+
+- name: Node Playbook
   hosts: node
   remote_user: ec2-user
 
