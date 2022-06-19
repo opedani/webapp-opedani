@@ -39,6 +39,11 @@
   remote_user: ec2-user
 
   tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+
     - name: Git Pull
       git:
         repo: https://github.com/opedani/webapp-opedani.git

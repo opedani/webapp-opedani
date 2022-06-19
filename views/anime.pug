@@ -11,7 +11,7 @@ block main-content
     div.anime-opeds
         each op in ops
             article.anime-opeds-item
-                button(data-id=`${op.id}`).anime-opeds-go
+                button(data-id=`${op.id}` data-anime-id=`${id}`).anime-opeds-go
                     i.fa-solid.fa-eye.fa-2x
                 div.anime-opeds-info
                     div #[i.fa-solid.fa-music] #[cite #{op.title}]
@@ -23,7 +23,7 @@ block main-content
     div.anime-opeds
         each ed in eds
             article.anime-opeds-item
-                button(data-id=`${ed.id}`).anime-opeds-go
+                button(data-id=`${ed.id}` data-anime-id=`${id}`).anime-opeds-go
                     i.fa-solid.fa-eye.fa-2x
                 div.anime-opeds-info
                     div #[i.fa-solid.fa-music] #[cite #{ed.title}]
