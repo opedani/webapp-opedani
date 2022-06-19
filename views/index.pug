@@ -5,8 +5,8 @@ block head-content
     script(src='/js/scripts/index.js' type='module')
 
 block main-content
-    form.searchbar-primary#searchbar-primary
-        button(type='submit').util-button-secondary
+    form#index-searchbar
+        button(type='submit')
             i.fa-solid.fa-magnifying-glass.fa-3x
-        input(type='text' placeholder='Search anime...' autocomplete='off').searchbar-primary-input#searchbar-primary-input
-    div.autocomplete.hidden#autocomplete-primary
+        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar-input
+    div.autocomplete.hidden#index-autocomplete

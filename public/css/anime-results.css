@@ -14,19 +14,19 @@
 
 .anime-results-item
 {
+    border-top: 1px solid var(--color-gray-dark);
     display: flex;
+}
+
+.anime-results-item:last-child
+{
+    border-bottom: 1px solid var(--color-gray-dark);
 }
 
 .anime-results-go
 {
     background-color: var(--color-primary);
-    border-top: 1px solid var(--color-primary-dark);
     padding: 10px;
-}
-
-.anime-results-item:last-child > .anime-results-go
-{
-    border-bottom: 1px solid var(--color-primary-dark);
 }
 
 .anime-results-thumbnail
@@ -37,18 +37,12 @@
 
 .anime-results-info
 {
-    border-top: 1px solid var(--color-gray-dark);
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     gap: 10px;
     overflow: hidden;
     padding: 10px;
-}
-
-.anime-results-item:last-child > .anime-results-info
-{
-    border-bottom: 1px solid var(--color-gray-dark);
 }
 
 .anime-results-load

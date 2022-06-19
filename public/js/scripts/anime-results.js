@@ -25,20 +25,14 @@ function appendItems(count)
     {
         animeResults.append(`
             <article class="anime-results-item">
-                <button class="anime-results-go util-button-primary" data-id="${MALGenerics[i].id}">
+                <button class="anime-results-go" data-id="${MALGenerics[i].id}">
                     <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
                 <img class="anime-results-thumbnail" src="${MALGenerics[i].thumbnail}" alt="<${MALGenerics[i].title} thumbnail>">
                 <div class="anime-results-info">
-                    <div><cite>${MALGenerics[i].title}</cite></div>
-                    <div>
-                        <i class="fa-solid fa-gauge"></i>
-                        Best Score:
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-ranking-star"></i>
-                        Best Rank:
-                    </div>
+                    <div><i class="fa-solid fa-film"></i> <cite>${MALGenerics[i].title}</cite></div>
+                    <div><i class="fa-solid fa-gauge"></i> Best Score: None</div>
+                    <div><i class="fa-solid fa-ranking-star"></i> Best Rank: None</div>
                 </div>
             </article>
         `)
@@ -49,7 +43,7 @@ function appendItems(count)
 
 function animeResultsGo_OnClick(event)
 {
-    const id = $(event.target).data('id')
+    const id = $(event.currentTarget).data('id')
     location.href = `${location.origin}/anime?id=${id}`
 }
 

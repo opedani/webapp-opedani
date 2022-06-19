@@ -15,7 +15,70 @@ let MALGenerics = []
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-
+function parseOpeds(oped, episodeCount)
+{
+    const data =
+    {
+        id: oped.id,
+        ordinal: 1,
+        title: '',
+        band: '',
+        episodes: episodeCount > 1 ? `1 - ${episodeCount}` : '1',
+        episodeCount: episodeCount,
+        valid: true
+    }
+    const ordinalMatch = oped.text.match(/#(\d+):/)
+    if (ordinalMatch)
+    {
+        data.ordinal = parseInt(ordinalMatch[1])
+    }
+    const titleMatch = oped.text.match(/\"(.+)\"/)
+    if (titleMatch)
+    {
+        data.title = titleMatch[1]
+    }
+    const episodesMatch = oped.text.match(/\(ep.+\)/)
+    let bandRegex 
+    if (episodesMatch)
+    {
+        bandRegex = /by (.+) \(/
+        const episodeMatches = episodesMatch[0].match(/(\d+-\d+|\d+)/g)
+        data.episodes = ''
+        data.episodeCount = 0
+        for (const match of episodeMatches)
+        {
+            if (data.episodes.length > 0)
+            {
+                data.episodes += ', '
+            }
+            if (match.includes('-'))
+            {
+                data.episodes += match.replace('-', ' - ')
+                const split = match.split('-').map(element => parseInt(element))
+                data.episodeCount += split[1] - split[0] + 1
+            }
+            else
+            {
+                data.episodes += match
+                data.episodeCount += 1
+            }
+        }
+        if (data.episodeCount < episodeCount * 0.25)
+        {
+            data.valid = false
+        }
+    }
+    else
+    {
+        bandRegex = /by (.+)/
+    }
+    const bandMatch = oped.text.match(bandRegex)
+    if (bandMatch)
+    {
+        data.band = bandMatch[1]
+    }
+    return data
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXPORTED FUNCTIONS
@@ -32,7 +95,7 @@ function fetchMALSpecifics(id, callback)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: '/v2/anime/' + id + '?fields=id,title,alternative_titles,main_picture,synopsis,mean,rank,popularity,nsfw,media_type,start_date,status,num_episodes,studios,opening_themes,ending_themes',
+        path: '/v2/anime/' + id + '?fields=id,title,alternative_titles,main_picture,synopsis,mean,rank,popularity,nsfw,media_type,start_date,status,genres,num_episodes,studios,opening_themes,ending_themes',
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -61,6 +124,7 @@ function fetchMALSpecifics(id, callback)
                 type: streamObject.media_type[0].toUpperCase() + streamObject.media_type.slice(1),
                 aired: moment(streamObject.start_date).format('MMMM Do[,] YYYY'),
                 status: streamObject.status == 'finished_airing' ? 'Complete' : 'Incomplete',
+                genres: '',
                 episodes: streamObject.num_episodes,
                 studios: '',
                 ops: [],
@@ -78,6 +142,14 @@ function fetchMALSpecifics(id, callback)
             {
                 result.thumbnail = streamObject.main_picture.medium
             }
+            for (const genre of streamObject.genres)
+            {
+                if (result.genres.length > 0)
+                {
+                    result.genres += ', '
+                }
+                result.genres += genre.name
+            }
             for (const studio of streamObject.studios)
             {
                 if (result.studios.length > 0)
@@ -90,93 +162,21 @@ function fetchMALSpecifics(id, callback)
             {
                 for (const op of streamObject.opening_themes)
                 {
-                    const ordinalMatch = op.text.match(/#(\d+):/)
-                    let ordinal = 1
-                    if (ordinalMatch)
-                    {
-                        ordinal = parseInt(ordinalMatch[1])
-                    }
-                    const titleMatch = op.text.match(/\"(.+)\"/)
-                    let title = '<Title>'
-                    if (titleMatch)
-                    {
-                        title = titleMatch[1]
-                    }
-                    const episodesMatch = op.text.match(/\(ep.+/)
-                    let episodes = streamObject.num_episodes
-                    let bandRegex
-                    if (episodesMatch)
-                    {
-                        episodes = episodesMatch[1]
-                        bandRegex = /by (.+) \(/
-                    }
-                    else
-                    {
-                        bandRegex = /by (.+)/
-                    }
-                    const bandMatch = op.text.match(bandRegex)
-                    let band = '<Band>'
-                    if (bandMatch)
-                    {
-                        band = bandMatch[1]
-                    }
-                    const data =
-                    {
-                        id: op.id,
-                        ordinal: ordinal,
-                        title: title,
-                        episodes: episodes,
-                        band: band
-                    }
-                    result.ops.push(data)
+                    result.ops.push(parseOpeds(op, streamObject.num_episodes))
                 }
             }
             if (streamObject.ending_themes)
             {
                 for (const ed of streamObject.ending_themes)
                 {
-                    const ordinalMatch = ed.text.match(/#(\d+):/)
-                    let ordinal = 1
-                    if (ordinalMatch)
-                    {
-                        ordinal = parseInt(ordinalMatch[1])
-                    }
-                    const titleMatch = ed.text.match(/\"(.+)\"/)
-                    let title = '<Title>'
-                    if (titleMatch)
-                    {
-                        title = titleMatch[1]
-                    }
-                    const episodesMatch = ed.text.match(/\(ep.+/)
-                    let episodes = streamObject.num_episodes
-                    let bandRegex
-                    if (episodesMatch)
-                    {
-                        episodes = episodesMatch[1]
-                        bandRegex = /by (.+) \(/
-                    }
-                    else
-                    {
-                        bandRegex = /by (.+)/
-                    }
-                    const bandMatch = ed.text.match(bandRegex)
-                    let band = '<Band>'
-                    if (bandMatch)
-                    {
-                        band = bandMatch[1]
-                    }
-                    const data =
-                    {
-                        id: ed.id,
-                        ordinal: ordinal,
-                        title: title,
-                        band: band
-                    }
-                    result.eds.push(data)
+                    result.eds.push(parseOpeds(ed, streamObject.num_episodes))
                 }
             }
-            console.log(`Fetched MAL specifics for \"${result.title}\". { id: ${id} }`)
-            callback(result)
+            console.log(`Fetched MAL specifics. { id: ${id} }`)
+            if (callback)
+            {
+                callback(result)
+            }
         })
     })
 }
@@ -185,10 +185,10 @@ function fetchMALGenerics(offset)
 {
     if (!offset)
     {
+        console.log(`Fetching MAL generics...`)
         MALGenerics = []
         offset = 0
     }
-    console.log(`Fetching MAL generics... { offset: ${offset} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
