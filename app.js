@@ -85,7 +85,12 @@ function getAnimeResultsPage(request, response)
 
 function getOpedPage(request, response)
 {
-    response.render('oped')
+    const parameters = url.parse(request.url, true).query
+    response.render('oped',
+    {
+        id: parameters.id,
+        animeId: parameters.animeId
+    })
 }
 
 function getContactPage(request, response)
