@@ -15,8 +15,18 @@ let MALGenerics = []
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function parseOpeds(oped, data)
+function parseOpeds(oped, episodeCount)
 {
+    const data =
+    {
+        id: oped.id,
+        ordinal: 1,
+        title: '',
+        band: '',
+        episodes: episodeCount > 1 ? `1 - ${episodeCount}` : '1',
+        episodeCount: episodeCount,
+        valid: true
+    }
     const ordinalMatch = oped.text.match(/#(\d+):/)
     if (ordinalMatch)
     {
@@ -28,13 +38,12 @@ function parseOpeds(oped, data)
         data.title = titleMatch[1]
     }
     const episodesMatch = oped.text.match(/\(ep.+\)/)
-    let bandRegex
+    let bandRegex 
     if (episodesMatch)
     {
         bandRegex = /by (.+) \(/
         const episodeMatches = episodesMatch[0].match(/(\d+-\d+|\d+)/g)
         data.episodes = ''
-        const episodeCountTotal = data.episodeCount
         data.episodeCount = 0
         for (const match of episodeMatches)
         {
@@ -54,7 +63,7 @@ function parseOpeds(oped, data)
                 data.episodeCount += 1
             }
         }
-        if (data.episodeCount < episodeCountTotal * 0.25)
+        if (data.episodeCount < episodeCount * 0.25)
         {
             data.valid = false
         }
@@ -68,6 +77,7 @@ function parseOpeds(oped, data)
     {
         data.band = bandMatch[1]
     }
+    return data
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,36 +162,14 @@ function fetchMALSpecifics(id, callback)
             {
                 for (const op of streamObject.opening_themes)
                 {
-                    const data =
-                    {
-                        id: op.id,
-                        ordinal: 1,
-                        title: '',
-                        band: '',
-                        episodes: `1 - ${streamObject.num_episodes}`,
-                        episodeCount: streamObject.num_episodes,
-                        valid: true
-                    }
-                    parseOpeds(op, data)
-                    result.ops.push(data)
+                    result.ops.push(parseOpeds(op, streamObject.num_episodes))
                 }
             }
             if (streamObject.ending_themes)
             {
                 for (const ed of streamObject.ending_themes)
                 {
-                    const data =
-                    {
-                        id: ed.id,
-                        ordinal: 1,
-                        title: '',
-                        band: '',
-                        episodes: streamObject.num_episodes,
-                        episodeCount: streamObject.num_episodes,
-                        valid: true
-                    }
-                    parseOpeds(ed, data)
-                    result.eds.push(data)
+                    result.eds.push(parseOpeds(ed, streamObject.num_episodes))
                 }
             }
             console.log(`Fetched MAL specifics. { id: ${id} }`)

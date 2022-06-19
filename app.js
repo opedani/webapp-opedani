@@ -83,6 +83,16 @@ function getAnimeResultsPage(request, response)
     })
 }
 
+function getOpedPage(request, response)
+{
+    response.render('oped')
+}
+
+function getContactPage(request, response)
+{
+    response.render('contact')
+}
+
 function getMALGenerics(request, response)
 {
     const parameters = url.parse(request.url, true).query
@@ -97,4 +107,6 @@ function getMALGenerics(request, response)
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/anime-results', getAnimeResultsPage)
+app.get('/oped', getOpedPage)
+app.get('/contact', getContactPage)
 app.get('/api/get-mal-generics', getMALGenerics)

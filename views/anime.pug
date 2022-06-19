@@ -5,40 +5,32 @@ block head-content
     script(src='/js/scripts/anime.js' type='module')
 
 block main-content
-    h1.anime-title #{title}
+    h1.anime-title #[cite #{title}]
     img.anime-thumbnail(src=`${thumbnail}` alt=`<${title} thumbnail>`)
     h2 #[i.fa-solid.fa-circle-play] Openings #[i.fa-solid.fa-circle-play]
     div.anime-opeds
         each op in ops
             article.anime-opeds-item
-                if op.valid
-                    button(data-id=`${op.id}`).anime-opeds-go.util-button-primary
-                        i.fa-solid.fa-eye.fa-2x
-                else
-                    button(disabled).anime-opeds-go.util-button-primary
-                        i.fa-solid.fa-eye.fa-2x
+                button(data-id=`${op.id}`).anime-opeds-go
+                    i.fa-solid.fa-eye.fa-2x
                 div.anime-opeds-info
-                    div #[cite #{op.title}]
-                    div #{op.band}
-                    div Episodes: #{op.episodes}
+                    div #[i.fa-solid.fa-music] #[cite #{op.title}]
+                    div #[i.fa-solid.fa-guitar] Band: #{op.band}
                     div #[i.fa-solid.fa-gauge] Score: None
                     div #[i.fa-solid.fa-ranking-star] Rank: None
+                    div #[i.fa-solid.fa-list-ol] Episodes: #{op.episodes}
     h2 #[i.fa-solid.fa-circle-stop] Endings #[i.fa-solid.fa-circle-stop]
     div.anime-opeds
         each ed in eds
             article.anime-opeds-item
-                if ed.valid
-                    button(data-id=`${ed.id}`).anime-opeds-go.util-button-primary
-                        i.fa-solid.fa-eye.fa-2x
-                else
-                    button(disabled).anime-opeds-go.util-button-primary
-                        i.fa-solid.fa-eye.fa-2x
+                button(data-id=`${ed.id}`).anime-opeds-go
+                    i.fa-solid.fa-eye.fa-2x
                 div.anime-opeds-info
-                    div #[cite #{ed.title}]
-                    div #{ed.band}
-                    div Episodes: #{ed.episodes}
+                    div #[i.fa-solid.fa-music] #[cite #{ed.title}]
+                    div #[i.fa-solid.fa-guitar] Band: #{ed.band}
                     div #[i.fa-solid.fa-gauge] Score: None
                     div #[i.fa-solid.fa-ranking-star] Rank: None
+                    div #[i.fa-solid.fa-list-ol] Episodes: #{ed.episodes}
     h2 #[i.fa-solid.fa-list] MyAnimeList #[i.fa-solid.fa-list]
     div.anime-mal
         div #[i.fa-solid.fa-up-right-from-square] #[a(href=`https://myanimelist.net/anime/${id}`) Visit on MyAnimeList]
