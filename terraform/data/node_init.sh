@@ -30,6 +30,7 @@ module.exports = {
     max_memory_restart : '256M'
   }]
 };
+
 EOF
 pm2 reload ecosystem.config.js
 pm2 save
