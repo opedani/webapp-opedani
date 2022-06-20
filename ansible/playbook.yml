@@ -55,8 +55,7 @@
     - name: npm install
       ansible.builtin.shell:
         cmd: npm install
-        args:
-          chdir: /home/ec2-user/webapp-opedani
+        chdir: /home/ec2-user/webapp-opedani
 
     - name: Copy pm2 ecosystem file
       copy:
@@ -69,11 +68,9 @@
     - name: pm2 reload
       ansible.builtin.shell:
         cmd: pm2 reload ecosystem.config.js
-        args:
-          chdir: /home/ec2-user
+        chdir: /home/ec2-user
 
     - name: pm2 save
       ansible.builtin.shell:
         cmd: pm2 save
-        args:
-          chdir: /home/ec2-user
+        chdir: /home/ec2-user
