@@ -43,10 +43,63 @@
       yum:
         name: '*'
         state: latest
+      become: true
 
-    - name: Git Pull
+    - name: Prep node installation
+      ansible.builtin.shell:
+        cmd: curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
+
+    - name: Install node, git, and dev tools
+      yum:
+        name:
+          - git
+          - nodejs
+          - gcc-c++
+          - make
+        state: latest
+      become: true
+
+    - name: Install pm2
+      ansible.builtin.shell:
+        cmd: npm install pm2@latest -g
+      become: true
+
+    - name: git clone / pull
       git:
         repo: https://github.com/opedani/webapp-opedani.git
         dest: /home/ec2-user/webapp-opedani
         single_branch: yes
         version: master
+
+    - name: npm install
+      ansible.builtin.shell:
+        cmd: npm install
+        args:
+          chdir: /home/ec2-user/webapp-opedani
+
+    - name: pm2 startup
+      ansible.builtin.shell:
+        cmd: pm2 startup
+
+    - name: pm2 ecosystem
+      ansible.builtin.shell:
+        cmd: pm2 ecosystem
+        args:
+          chdir: /home/ec2-user
+
+    - name: Setup pm2 ecosystem file
+      copy:
+        src: data/ecosystem.config.js
+        dest: /home/ec2-user/ecosystem.config.js
+
+    - name: pm2 reload
+      ansible.builtin.shell:
+        cmd: pm2 reload ecosystem.config.js
+        args:
+          chdir: /home/ec2-user
+
+    - name: pm2 save
+      ansible.builtin.shell:
+        cmd: pm2 save
+        args:
+          chdir: /home/ec2-user
