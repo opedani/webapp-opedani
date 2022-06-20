@@ -68,7 +68,7 @@ function fetchAnimeThemes(offset)
     const options =
     {
         hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,animethemes.song,animethemes.song.artists,resources&fields[anime]=id,name&page[size]=100&page[number]=${offset}`
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id,name&page[size]=100&page[number]=${offset}`
     }
     https.get(options, (response) =>
     {
@@ -91,8 +91,23 @@ function fetchAnimeThemes(offset)
             }
             else
             {
-                for (const anime of object.anime)
+                for (const data of object.anime)
                 {
+                    const anime =
+                    {
+                        id: data.id,
+                        opeds: []
+                    }
+                    for (const theme of data.animethemes)
+                    {
+                        for (const entry of theme.animethemeentries)
+                        {
+                            for (const video of entry.videos)
+                            {
+                                anime.opeds.push(video.link)
+                            }
+                        }
+                    }
                     animethemes.push(anime)
                 }
                 fetchAnimeThemes(offset + 1)
