@@ -14,7 +14,7 @@ resource "aws_instance" "node1_ec2" {
 # Public IP for node1 server (Elastic IP)
 resource "aws_eip" "node1_eip" {
   instance = aws_instance.node1_ec2.id
-  vpc = true
+  vpc      = true
 }
 
 
