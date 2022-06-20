@@ -2,20 +2,28 @@
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-
+let animeOpedsGo
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
+function animeOpedsGo_OnClick(event)
+{
+    const currentTarget = $(event.currentTarget)
+    const id = currentTarget.data('id')
+    const animeId = currentTarget.data('anime-id')
+    location.href = `${location.origin}/oped?id=${id}&anime-id=${animeId}`
+}
+
 function setElements()
 {
-    
+    animeOpedsGo = $('.anime-opeds-go')
 }
 
 function setEventListeners()
 {
-    
+    animeOpedsGo.on('click', animeOpedsGo_OnClick)
 }
 
 ///////////////////////////////////////////////////////////////////////////////

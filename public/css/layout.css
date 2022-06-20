@@ -33,11 +33,11 @@
 
 footer
 {
+    align-items: center;
     background-color: var(--color-gray-dark);
     color: var(--color-white);
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(6, 1fr);
-    padding: 20px;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
 }

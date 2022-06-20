@@ -13,47 +13,48 @@ block main-content
     h2 #[i.fa-solid.fa-gear] Technical #[i.fa-solid.fa-gear]
     div.contact-section
         p Technical issues should be reported if the site is not functioning as expected or erroneous information is displayed.
-        p Please fill in the optional URL field if the issue can be found at a particular address.
         form#contact-technical-form
             label(for='contact-technical-name') #[i.fa-solid.fa-signature] Name:
-            input(type='text' name='name' autocomplete='off' spellcheck='false' required)#contact-technical-name
+            input(type='text' autocomplete='off' spellcheck='false' required)#contact-technical-name
             label(for='contact-technical-email') #[i.fa-solid.fa-at] Email:
-            input(type='email' name='email' autocomplete='off' spellcheck='false' required)#contact-technical-email
-            label(for='contact-technical-url') #[i.fa-solid.fa-link] URL:
-            input(type='url' name='url' autocomplete='off' spellcheck='false')#contact-technical-url
+            input(type='email' autocomplete='off' spellcheck='false' required)#contact-technical-email
             label(for='contact-technical-message') #[i.fa-solid.fa-paragraph] Message:
-            textarea(name='email' required)#contact-technical-message
-            button(type='submit').submit-form Submit
+            textarea(required)#contact-technical-message
+            label(for='contact-technical-url') #[i.fa-solid.fa-link] URL:
+            input(type='url' placeholder='<Optional>' autocomplete='off' spellcheck='false')#contact-technical-url
+            label(for='contact-technical-device') #[i.fa-solid.fa-laptop] Device:
+            input(type='text' placeholder='<Optional>' autocomplete='off' spellcheck='false')#contact-technical-device
+            button(type='submit').submit Submit
     h2 #[i.fa-solid.fa-briefcase] Business #[i.fa-solid.fa-briefcase]
     div.contact-section
         p Business inquiries should be submitted if you would like to partner with the OpEdAni team or request information about the site.
         form#contact-business-form
             label(for='contact-business-name') #[i.fa-solid.fa-signature] Name:
-            input(type='text' name='name' autocomplete='off' spellcheck='false' required)#contact-business-name
+            input(type='text' autocomplete='off' spellcheck='false' required)#contact-business-name
             label(for='contact-business-email') #[i.fa-solid.fa-at] Email:
-            input(type='email' name='email' autocomplete='off' spellcheck='false' required)#contact-business-email
+            input(type='email' autocomplete='off' spellcheck='false' required)#contact-business-email
             label(for='contact-business-message') #[i.fa-solid.fa-paragraph] Message:
-            textarea(name='email' required)#contact-business-message
-            button(type='submit').submit-form Submit
+            textarea(required)#contact-business-message
+            button(type='submit').submit Submit
     h2 #[i.fa-solid.fa-lightbulb] Suggestion #[i.fa-solid.fa-lightbulb]
     div.contact-section
         p Suggestions should be submitted if you think of a potentially beneficial addition or change to the site.
         form#contact-suggestion-form
             label(for='contact-suggestion-name') #[i.fa-solid.fa-signature] Name:
-            input(type='text' name='name' autocomplete='off' spellcheck='false' required)#contact-suggestion-name
+            input(type='text' autocomplete='off' spellcheck='false' required)#contact-suggestion-name
             label(for='contact-suggestion-email') #[i.fa-solid.fa-at] Email:
-            input(type='email' name='email' autocomplete='off' spellcheck='false' required)#contact-suggestion-email
+            input(type='email' autocomplete='off' spellcheck='false' required)#contact-suggestion-email
             label(for='contact-suggestion-message') #[i.fa-solid.fa-paragraph] Message:
-            textarea(name='email' required)#contact-suggestion-message
-            button(type='submit').submit-form Submit
+            textarea(required)#contact-suggestion-message
+            button(type='submit').submit Submit
     h2 #[i.fa-solid.fa-circle-question] Other #[i.fa-solid.fa-circle-question]
     div.contact-section
         p Submit something that was not mentioned above.
         form#contact-other-form
             label(for='contact-other-name') #[i.fa-solid.fa-signature] Name:
-            input(type='text' name='name' autocomplete='off' spellcheck='false' required)#contact-other-name
+            input(type='text' autocomplete='off' spellcheck='false' required)#contact-other-name
             label(for='contact-other-email') #[i.fa-solid.fa-at] Email:
-            input(type='email' name='email' autocomplete='off' spellcheck='false' required)#contact-other-email
+            input(type='email' autocomplete='off' spellcheck='false' required)#contact-other-email
             label(for='contact-other-message') #[i.fa-solid.fa-paragraph] Message:
-            textarea(name='email' required)#contact-other-message
-            button(type='submit').submit-form Submit
+            textarea(required)#contact-other-message
+            button(type='submit').submit Submit
