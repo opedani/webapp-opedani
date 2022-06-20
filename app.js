@@ -33,20 +33,10 @@ function matchPrimaryKeys()
     console.log('Matching primary keys...')
     for (const anime of myanimelist)
     {
-        let animethemesId
-        for (const animetheme of animethemes)
-        {
-            const resource = animetheme.resources.find(resource => resource.site == 'MyAnimeList')
-            if (resource && resource.external_id == anime.id)
-            {
-                animethemesId = animetheme.id
-                break;
-            }
-        }
         const result =
         {
             myanimelist: anime.id,
-            animethemes: animethemesId
+            animethemes: animethemes.find(animetheme => animetheme.myanimelistId == anime.id)
         }
         primaryKeys.push(result)
     }
@@ -68,7 +58,7 @@ function fetchAnimeThemes(offset)
     const options =
     {
         hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id,name&page[size]=100&page[number]=${offset}`
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&page[size]=100&page[number]=${offset}`
     }
     https.get(options, (response) =>
     {
@@ -96,7 +86,13 @@ function fetchAnimeThemes(offset)
                     const anime =
                     {
                         id: data.id,
+                        myanimelistId: undefined,
                         opeds: []
+                    }
+                    const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
+                    if (resource && resource.external_id == anime.id)
+                    {
+                        anime.myanimelistId = resource.external_id
                     }
                     for (const theme of data.animethemes)
                     {
@@ -138,6 +134,34 @@ function fetchMyAnimeListOpeds(id, callback)
         response.on('end', () =>
         {
             const object = JSON.parse(string)
+            if (object.opening_themes)
+            {
+                for (const data of object.opening_themes)
+                {
+                    const op =
+                    {
+                        id: data.id,
+                        title: data.text.match(/\"(.+)\"/)[1].replace(/\s\(.+\)/, ''),
+                        artists: '',
+                        episodes: ''
+                    }
+                    console.log(data, op)
+                }
+            }
+            if (object.ending_themes)
+            {
+                for (const data of object.ending_themes)
+                {
+                    const ed =
+                    {
+                        id: data.id,
+                        title: data.text.match(/\"(.+)\"/)[1].replace(/\s\(.+\)/, ''),
+                        artists: '',
+                        episodes: ''
+                    }
+                    console.log(data, ed)
+                }
+            }
             console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
             if (callback)
             {
@@ -157,7 +181,7 @@ function fetchMyAnimeList(offset)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: `/v2/anime/ranking?ranking_type=all&fields=id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,nsfw,media_type,status,genres,num_episodes,start_season,broadcast,rating,related_anime,recommendations,studios&limit=500&offset=${offset}`,
+        path: `/v2/anime/ranking?ranking_type=all&fields=id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,nsfw,media_type,status,genres,num_episodes,start_season,broadcast,rating,studios&limit=500&offset=${offset}`,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -205,7 +229,9 @@ function fetchMyAnimeList(offset)
                         season: node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : '<No Data>',
                         broadcast: node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : '<No Data>',
                         rating: node.rating ? node.rating.replace('_', '-').toUpperCase() : '<No Data>',
-                        studios: node.studios.map(studio => studio.name)
+                        studios: node.studios.map(studio => studio.name),
+                        opening_themes: [],
+                        ending_themes: []
                     }
                     myanimelist.push(anime)
                 }

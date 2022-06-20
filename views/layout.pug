@@ -12,5 +12,12 @@ html(lang='en')
         script(src='/scripts/layout.js' type='module')
         block head-content
     body
+        nav.layout-nav
+            button(type='button').layout-nav-button
+                i.fa-solid.fa-house.fa-2x
+            button(type='button').layout-nav-button
+                i.fa-solid.fa-bars.fa-2x
         main
             block main-content
+        footer
+            div Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
