@@ -280,6 +280,11 @@ function getIndexPage(request, response)
     response.render('index')
 }
 
+function getContactPage(request, response)
+{
+    response.render('contact')
+}
+
 function getAnimeSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
@@ -306,6 +311,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
+app.get('/contact', getContactPage)
 app.get('/api/get-anime-search-results', getAnimeSearchResults)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)

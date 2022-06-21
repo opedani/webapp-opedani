@@ -1,0 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTIONS
+///////////////////////////////////////////////////////////////////////////////
+
+export default function status(text)
+{
+    const element = $(`<div class="util-status">${text}</div>`)
+    $(document.body).append(element)
+    setTimeout(() =>
+    {
+        element.remove()
+    },
+    5000)
+}
