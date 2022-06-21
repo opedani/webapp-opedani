@@ -4,29 +4,17 @@ block head-content
     script(src='/scripts/index.js' type='module')
 
 block main-content
-    div.util-column-outer
-        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false' autofocus)
-        div.util-row-inner
+    div.index-wrapper
+        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false' autofocus)#index-searchbar
+        div.search-filters
             select
-                option Category...
-                option Anime (Default)
+                option Anime
                 option Oped
                 option User
             select
-                option Filter...
-                option Rank (Default)
+                option Rank
                 option Title
         hr
-        div.util-column-inner
-            article.anime-result
-                button(type='button').util-go
-                    i.fa-solid.fa-eye.fa-2x
-                img(src='/images/thumbnail.png' alt='<Thumbnail>').util-thumbnail
-                div.util-column-inner
-                    div.util-column-outer
-                        header #[cite Steins;Gate]
-                        div #[i.fa-solid.fa-circle-play] Openings: 1
-                        div #[i.fa-solid.fa-circle-stop] Endings: 1
-                    div.anime-result-stats
-                        div #[i.fa-solid.fa-star] 9.08
-                        div #[i.fa-solid.fa-ranking-star] #4
+        div.search-results.util-hidden#search-results
+        button(type='button').util-hidden#search-results-load
+            i.fa-solid.fa-arrow-down.fa-2x

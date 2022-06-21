@@ -241,6 +241,36 @@ function fetchMyAnimeList(offset)
     })
 }
 
+function filterAnime(query, fields)
+{
+    const filteredAnime = []
+    query = query.toLowerCase().trim()
+    if (query.length > 0)
+    {
+        for (const anime of myanimelist)
+        {
+            for (const title of anime.titles)
+            {
+                if (title.toLowerCase().includes(query))
+                {
+                    const object =
+                    {
+                        id: anime.id,
+                        title: title
+                    }
+                    for (const field of fields)
+                    {
+                        object[field] = anime[field]
+                    }
+                    filteredAnime.push(object)
+                    break;
+                }
+            }
+        }
+    }
+    return filteredAnime
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // AJAX FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
@@ -248,6 +278,14 @@ function fetchMyAnimeList(offset)
 function getIndexPage(request, response)
 {
     response.render('index')
+}
+
+function getAnimeSearchResults(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    const filteredAnime = filterAnime(arguments.query, [ 'thumbnail' ])
+    filteredAnime.sort((anime1, anime2) => anime1.title < anime2.title)
+    response.json(JSON.stringify(filteredAnime))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +300,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
+app.get('/api/get-anime-search-results', getAnimeSearchResults)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))

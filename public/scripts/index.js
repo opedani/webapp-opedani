@@ -2,99 +2,107 @@
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let indexSearchbar
-let indexSearchbarInput
-let indexAutocomplete
+let jIndexSearchbar
+let jSearchResults
+let jSearchResultsLoad
 
-let MALGenerics = []
-
-let autocompleteTimeout
+let searchTimeout
+let searchResults = []
+let searchResultsCount = 0
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function getMALGenerics(query)
+function addSearchResults()
 {
-    autocompleteTimeout = undefined
-    $.ajax(
+    let capacity = searchResultsCount + 10
+    for (let i = searchResultsCount; i < capacity; ++i)
     {
-        url: `${location.origin}/api/get-mal-generics`,
-        data:
+        const result = searchResults[i]
+        jSearchResults.append(`
+            <article class="anime-result">
+                <button class="util-go" type="button">
+                    <i class="fa-solid fa-eye fa-2x"></i>
+                </button>
+                <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
+                <div class="anime-result-textbox">
+                    <header class="anime-result-header"><cite>${result.title}</cite></header>
+                    <div class="anime-result-stats">
+                        <div><i class="fa-solid fa-star"></i> 10.0</div>
+                        <div><i class="fa-solid fa-ranking-star"></i> #1</div>
+                    </div>
+                </div>
+            </article>
+        `)
+        ++searchResultsCount
+        if (searchResultsCount == capacity)
         {
-            query: query
-        },
-        success: response =>
+            jSearchResultsLoad.removeClass('util-hidden')
+            break;
+        }
+        if (searchResultsCount == searchResults.length)
         {
-            MALGenerics = JSON.parse(response)
-            indexAutocomplete.empty()
-            indexAutocomplete.toggleClass('util-hidden', MALGenerics.length == 0)
-            let count = 0
-            for (const suggestion of MALGenerics)
+            jSearchResultsLoad.addClass('util-hidden')
+            break;
+        }
+    }
+}
+
+function indexSearchbar_OnInput(event)
+{
+    const query = event.target.value
+    if (searchTimeout)
+    {
+        clearTimeout(searchTimeout)
+        searchTimeout = undefined
+    }
+    searchTimeout = setTimeout(() =>
+    {
+        searchTimeout = undefined
+        searchResultsCount = 0
+        const request =
+        {
+            url: `${location.origin}/api/get-anime-search-results`,
+            data:
             {
-                indexAutocomplete.append(`<button class="autocomplete-item" data-id=${suggestion.id}><cite>${suggestion.title}</cite></div>`)
-                ++count
-                if (count == 10)
-                {
-                    break;
-                }
+                query: query
+            },
+            success: response =>
+            {
+                searchResults = JSON.parse(response)
+                jSearchResults.empty()
+                jSearchResults.toggleClass('util-hidden', searchResults.length == 0)
+                addSearchResults()
+                console.log(searchResults.length)
             }
         }
-    })
+        $.ajax(request)
+    },
+    500)
 }
 
-function indexSearchbar_OnSubmit(event)
+function searchResultLoad_OnClick()
 {
-    if (indexSearchbarInput.val().length > 0)
-    {
-        if (MALGenerics.length == 1)
-        {
-            location.href = `${location.origin}/anime?id=${MALGenerics[0].id}`
-        }
-        else
-        {
-            const parameters = new URLSearchParams()
-            parameters.append('query', indexSearchbarInput.val())
-            location.href = `${location.origin}/anime-results?${parameters.toString()}`
-        }
-    }
-    event.preventDefault()
-}
-
-function indexSearchbarInput_OnInput(event)
-{
-    const query = event.target.value.trim()
-    if (autocompleteTimeout)
-    {
-        clearTimeout(autocompleteTimeout)
-        autocompleteTimeout = undefined
-    }
-    autocompleteTimeout = setTimeout(() => getMALGenerics(query), 500)
-}
-
-function indexAutocomplete_OnClick(event)
-{
-    const id = $(event.currentTarget).data('id')
-    location.href = `${location.origin}/anime?id=${id}`
+    addSearchResults()
 }
 
 function setElements()
 {
-    indexSearchbar = $('#index-searchbar')
-    indexSearchbarInput = $('#index-searchbar-input')
-    indexAutocomplete = $('#index-autocomplete')
+    jIndexSearchbar = $('#index-searchbar')
+    jSearchResults = $('#search-results')
+    jSearchResultsLoad = $('#search-results-load')
 }
 
-function setEventListeners()
+function setListeners()
 {
-    indexSearchbar.on('submit', indexSearchbar_OnSubmit)
-    indexSearchbarInput.on('input', indexSearchbarInput_OnInput)
-    indexAutocomplete.on('click', '.autocomplete-item', indexAutocomplete_OnClick)
+    jIndexSearchbar.on('input', indexSearchbar_OnInput)
+    jSearchResultsLoad.on('click', searchResultLoad_OnClick)
 }
 
 function setContent()
 {
-    indexSearchbarInput.val('')
+    jIndexSearchbar.val('')
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,7 +112,7 @@ function setContent()
 function ready()
 {
     setElements()
-    setEventListeners()
+    setListeners()
     setContent()
 }
 
