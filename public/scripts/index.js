@@ -3,12 +3,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 let jIndexSearchbar
+let jSearchFiltersCategory
+let jSearchFiltersSort
 let jSearchResults
 let jSearchResultsLoad
 
 let searchTimeout
 let searchResults = []
-let searchResultsCount = 0
+let displayCount = 0
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
@@ -16,8 +18,8 @@ let searchResultsCount = 0
 
 function addSearchResults()
 {
-    let capacity = searchResultsCount + 10
-    for (let i = searchResultsCount; i < capacity; ++i)
+    let capacity = displayCount + 10
+    for (let i = displayCount; i < capacity && i < searchResults.length; ++i)
     {
         const result = searchResults[i]
         jSearchResults.append(`
@@ -29,23 +31,21 @@ function addSearchResults()
                 <div class="anime-result-textbox">
                     <header class="anime-result-header"><cite>${result.title}</cite></header>
                     <div class="anime-result-stats">
-                        <div><i class="fa-solid fa-star"></i> 10.0</div>
-                        <div><i class="fa-solid fa-ranking-star"></i> #1</div>
+                        <div><i class="fa-solid fa-star"></i></div>
+                        <div><i class="fa-solid fa-ranking-star"></i></div>
                     </div>
                 </div>
             </article>
         `)
-        ++searchResultsCount
-        if (searchResultsCount == capacity)
-        {
-            jSearchResultsLoad.removeClass('util-hidden')
-            break;
-        }
-        if (searchResultsCount == searchResults.length)
-        {
-            jSearchResultsLoad.addClass('util-hidden')
-            break;
-        }
+        ++displayCount
+    }
+    if (displayCount == capacity)
+    {
+        jSearchResultsLoad.removeClass('util-hidden')
+    }
+    if (displayCount == searchResults.length)
+    {
+        jSearchResultsLoad.addClass('util-hidden')
     }
 }
 
@@ -60,13 +60,14 @@ function indexSearchbar_OnInput(event)
     searchTimeout = setTimeout(() =>
     {
         searchTimeout = undefined
-        searchResultsCount = 0
+        displayCount = 0
         const request =
         {
             url: `${location.origin}/api/get-anime-search-results`,
             data:
             {
-                query: query
+                query: query,
+                sort: jSearchFiltersSort.val()
             },
             success: response =>
             {
@@ -74,12 +75,21 @@ function indexSearchbar_OnInput(event)
                 jSearchResults.empty()
                 jSearchResults.toggleClass('util-hidden', searchResults.length == 0)
                 addSearchResults()
-                console.log(searchResults.length)
             }
         }
         $.ajax(request)
     },
     500)
+}
+
+function searchFiltersCategory_OnChange()
+{
+
+}
+
+function searchFiltersType_OnChange()
+{
+    
 }
 
 function searchResultLoad_OnClick()
@@ -90,6 +100,8 @@ function searchResultLoad_OnClick()
 function setElements()
 {
     jIndexSearchbar = $('#index-searchbar')
+    jSearchFiltersCategory = $('#search-filters-category')
+    jSearchFiltersSort = $('#search-filters-sort')
     jSearchResults = $('#search-results')
     jSearchResultsLoad = $('#search-results-load')
 }
@@ -97,6 +109,8 @@ function setElements()
 function setListeners()
 {
     jIndexSearchbar.on('input', indexSearchbar_OnInput)
+    jSearchFiltersCategory.on('change', searchFiltersCategory_OnChange)
+    jSearchFiltersSort.on('change', searchFiltersSort_OnChange)
     jSearchResultsLoad.on('click', searchResultLoad_OnClick)
 }
 

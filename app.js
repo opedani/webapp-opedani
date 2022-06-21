@@ -214,7 +214,7 @@ function fetchMyAnimeList(offset)
                     const anime =
                     {
                         id: node.id,
-                        titles: [ node.title ],
+                        titles: node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ] : [ node.title ],
                         thumbnail: node.main_picture ? node.main_picture.large : '/images/thumbnail.png',
                         start: moment(node.start_date).format('MMMM Do[,] YYYY'),
                         end: moment(node.end_date).format('MMMM Do[,] YYYY'),
@@ -284,7 +284,13 @@ function getAnimeSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const filteredAnime = filterAnime(arguments.query, [ 'thumbnail' ])
-    filteredAnime.sort((anime1, anime2) => anime1.title < anime2.title)
+    if (arguments.sort == 'title')
+    {
+        filteredAnime.sort((anime1, anime2) =>
+        {
+            return anime1.title < anime2.title ? -1 : 1
+        })
+    }
     response.json(JSON.stringify(filteredAnime))
 }
 
