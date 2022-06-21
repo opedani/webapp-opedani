@@ -1,0 +1,222 @@
+/*****************************************************************************/
+/* COMMON
+/*****************************************************************************/
+
+:root
+{
+    --color-white: #d9d9d9;
+    --color-white-dark: #a6a6a6;
+    --color-black: #1a1a1a;
+    --color-primary: #4090bf;
+    --color-primary-dark: #265773;
+    --color-accent: #8640bf;
+    --color-accent-dark: #502673;
+    --color-gray: #494950;
+    --color-gray-dark: #303036;
+}
+
+::selection
+{
+    background: var(--color-accent-dark);
+}
+
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
+    background-color: var(--color-black);
+    background-image: url("/images/background-page.png");
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    height: 100%;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+main
+{
+    display: flex;
+    flex-direction: column;
+}
+
+footer
+{
+    align-items: center;
+    background-color: var(--color-black);
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 20px;
+}
+
+hr
+{
+    border: none;
+    border-top: 1px solid var(--color-gray-dark);
+}
+
+button
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    color: var(--color-white);
+    cursor: pointer;
+    padding: 10px;
+}
+
+button:hover
+{
+    opacity: 0.75;
+}
+
+input[type=text]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+input[type=text]:focus
+{
+    outline: 1px solid var(--color-gray);
+}
+
+select
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+select:focus
+{
+    outline: none;
+}
+
+img
+{
+    align-items: center;
+    background-color: var(--color-gray-dark);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/*****************************************************************************/
+/* LAYOUT
+/*****************************************************************************/
+
+.layout-nav
+{
+    background-color: var(--color-black);
+    border-bottom: 1px solid var(--color-gray-dark);
+    display: flex;
+    position: sticky;
+    top: 0;
+}
+
+.layout-nav-button:first-child
+{
+    margin-right: auto;
+}
+
+/*****************************************************************************/
+/* INDEX
+/*****************************************************************************/
+
+.index-wrapper
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.search-filters
+{
+    display: flex;
+    gap: 10px;
+}
+
+.search-results
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.anime-result
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    display: flex;
+    position: relative;
+}
+
+.anime-result-textbox
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.anime-result-header
+{
+    border-bottom: 1px solid var(--color-gray-dark);
+    padding: 10px;
+    text-align: center;
+}
+
+.anime-result-stats
+{
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: auto;
+    padding: 10px;
+}
+
+/*****************************************************************************/
+/* UTILITIES
+/*****************************************************************************/
+
+.util-go
+{
+    background-color: var(--color-primary);
+    border-right: 1px solid var(--color-primary-dark);
+    padding: 10px;
+}
+
+.util-thumbnail
+{
+    max-width: 100px;
+    min-width: 100px;
+}
+
+.util-hidden
+{
+    display: none;
+}
