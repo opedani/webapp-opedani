@@ -26,7 +26,7 @@
         dest: /etc/httpd/conf/httpd.conf
         owner: root
         group: root
-        mode: 644
+        mode: 0644
 
     - name: Restart and enable Apache (httpd)
       ansible.builtin.service:
@@ -63,7 +63,7 @@
         dest: /home/ec2-user/ecosystem.config.js
         owner: ec2-user
         group: ec2-user
-        mode: 664
+        mode: 0664
 
     - name: pm2 reload
       ansible.builtin.shell:
