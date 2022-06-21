@@ -2,28 +2,25 @@
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let animeOpedsGo
+let jHome
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function animeOpedsGo_OnClick(event)
+function home_OnClick()
 {
-    const currentTarget = $(event.currentTarget)
-    const id = currentTarget.data('id')
-    const animeId = currentTarget.data('anime-id')
-    location.href = `${location.origin}/oped?id=${id}&anime-id=${animeId}`
+    location.href = location.origin
 }
 
 function setElements()
 {
-    animeOpedsGo = $('.anime-opeds-go')
+    jHome = $('#home')
 }
 
-function setEventListeners()
+function setListeners()
 {
-    animeOpedsGo.on('click', animeOpedsGo_OnClick)
+    jHome.on('click', home_OnClick)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,7 +30,7 @@ function setEventListeners()
 function ready()
 {
     setElements()
-    setEventListeners()
+    setListeners()
 }
 
 $(document).ready(ready)

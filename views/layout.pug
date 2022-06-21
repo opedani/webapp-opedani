@@ -3,30 +3,21 @@ html(lang='en')
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible' content='IE=edge')
-        meta(name='description' content='OpEdAni is a place to rank and discuss anime opening and ending songs and animations.')
+        meta(name='description' content='OpEdAni is an online community of anime enthusiasts to rank, discuss, watch, and listen to openings and endings.')
         meta(name='viewport' content='width=device-width, initial-scale=1')
         title OpEdAni: Anime Openings &amp Endings
-        link(rel='stylesheet' href='/css/universal.css')
-        link(rel='stylesheet' href='/css/layout.css')
+        link(rel='stylesheet' href='/stylesheet.css')
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-        script(src='/js/modules/persist.js' type='module')
-        script(src='/js/modules/autocomplete.js' type='module')
-        script(src='/js/scripts/layout.js' type='module')
+        script(src='/scripts/layout.js' type='module')
         block head-content
     body
-        nav.nav-primary
-            button.nav-primary-button#nav-primary-home
+        nav.layout-nav
+            button(type='button').layout-nav-button#home
                 i.fa-solid.fa-house.fa-2x
-            button.nav-primary-button#nav-primary-menu
+            button(type='button').layout-nav-button#menu
                 i.fa-solid.fa-bars.fa-2x
-            div.menu-primary.util-hidden#menu-primary
-                form#menu-primary-searchbar
-                    button(type='submit')
-                        i.fa-solid.fa-magnifying-glass.fa-2x
-                    input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#menu-primary-searchbar-input
         main
             block main-content
         footer
-            div.util-gc2 #[i.fa-solid.fa-envelope] #[a(href='/contact') Contact] #[i.fa-solid.fa-envelope]
-            div.util-gc6 Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
+            div Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
