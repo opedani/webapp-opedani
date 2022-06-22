@@ -2,7 +2,6 @@
 // DEPENDENCIES
 ////////////////////////////////////////////////////////////////////////////////
 
-const { text } = require('express')
 const express = require('express')
 const https = require('https')
 const moment = require('moment')
@@ -280,6 +279,11 @@ function getIndexPage(request, response)
     response.render('index')
 }
 
+function getAnimePage(request, response)
+{
+    response.render('anime')
+}
+
 function getContactPage(request, response)
 {
     response.render('contact')
@@ -289,14 +293,14 @@ function getAnimeSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const filteredAnime = filterAnime(arguments.query, [ 'thumbnail' ])
-    if (arguments.sort == 'title')
-    {
-        filteredAnime.sort((anime1, anime2) =>
-        {
-            return anime1.title < anime2.title ? -1 : 1
-        })
-    }
     response.json(JSON.stringify(filteredAnime))
+}
+
+function submitContactForm(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    // todo
+    response.json('{ success: true }')
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -311,8 +315,10 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
+app.get('/anime', getAnimePage)
 app.get('/contact', getContactPage)
 app.get('/api/get-anime-search-results', getAnimeSearchResults)
+app.get('/api/submit-contact-form', submitContactForm)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))

@@ -38,17 +38,36 @@ function contactFilter_OnChange()
 
 function contactForm_OnSubmit(event)
 {
-    jContactName.val('')
-    jContactEmail.val('')
-    jContactMessage.val('')
-    if (jContactFilter.val() == 'technical')
+    const technical = jContactFilter.val() == 'technical'
+    const jContactDevice = $('#contact-device')
+    const jContactURL = $('#contact-url')
+    const request =
     {
-        const jContactDevice = $('#contact-device')
-        const jContactURL = $('#contact-url')
-        jContactDevice.val('')
-        jContactURL.val('')
+        url: `${location.origin}/api/submit-contact-form`,
+        data:
+        {
+            category: jContactFilter.val(),
+            name: jContactName.val(),
+            email: jContactEmail.val(),
+            message: jContactMessage.val(),
+            device: technical ? jContactDevice.val() : '',
+            url: technical ? jContactURL.val() : ''
+        },
+        success: response =>
+        {
+            console.log(response) // check
+            status('Success! Your email was sent to the OpEdAni team.')
+            jContactName.val('')
+            jContactEmail.val('')
+            jContactMessage.val('')
+            if (technical)
+            {
+                jContactDevice.val('')
+                jContactURL.val('')
+            }
+        }
     }
-    status('Success! Your email was sent to the OpEdAni team.')
+    $.ajax(request)
     event.preventDefault()
 }
 
