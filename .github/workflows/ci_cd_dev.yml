@@ -26,7 +26,7 @@ jobs:
 
     # Install the latest Terraform CLI and configure it with a Terraform Cloud API token
     - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
       with:
         cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API }}
 

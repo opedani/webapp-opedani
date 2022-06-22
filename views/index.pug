@@ -5,16 +5,14 @@ block head-content
 
 block main-content
     div.index-wrapper
-        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false' autofocus)#index-searchbar
+        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar
         div.search-filters
-            select
-                option Anime
-                option Oped
-                option User
-            select
-                option Rank
-                option Title
+            select#search-filters-category
+                option(value='anime') Anime
+                option(value='oped') Oped
+                option(value='user') User
+            select#search-filters-sort
+                option(value='rank') Rank
         hr
         div.search-results.util-hidden#search-results
-        button(type='button').util-hidden#search-results-load
-            i.fa-solid.fa-arrow-down.fa-2x
+        button(type='button').util-hidden#search-results-load #[i.fa-solid.fa-arrow-down] Continue
