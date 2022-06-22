@@ -111,6 +111,52 @@ function fetchAnimeThemes(offset)
     })
 }
 
+function parseOped(id, text)
+{
+    const ordinalMatch = text.match(/#(\d+):/)
+    const ordinal = ordinalMatch ? parseInt(ordinalMatch[1]) : 1
+    const titleMatch = text.match(/\"(.+)\"/)
+    const title = titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '')
+    const artistsMatch = text.match(/by\s(.+)/)
+    let artists = artistsMatch[1].replace(/\s\(ep.+\)/, '')
+    if (artists.includes(' and '))
+    {
+        artists = artists.split(' and ')
+    }
+    else if (artists.includes(', '))
+    {
+        artists = artists.split(', ')
+    }
+    else
+    {
+        artists = artists.split()
+    }
+    const episodesMatch = text.match(/\(ep.+\)/)
+    let episodes
+    if (episodesMatch)
+    {
+        episodes = ''
+        const episodeGroups = episodesMatch[0].match(/\d+-\d+|\d+/g)
+        for (let i = 0; i < episodeGroups.length; ++i)
+        {
+            if (i > 0)
+            {
+                episodes += ', '
+            }
+            episodes += episodeGroups[i].replace('-', ' - ')
+        }
+    }
+    const oped =
+    {
+        id: id,
+        ordinal: ordinal,
+        title: title,
+        artists: artists,
+        episodes: episodes
+    }
+    return oped
+}
+
 function fetchMyAnimeListOpeds(id, callback)
 {
     console.log(`Fetching oped data from api.myanimelist.net... { id: ${id} }`)
@@ -133,35 +179,27 @@ function fetchMyAnimeListOpeds(id, callback)
         response.on('end', () =>
         {
             const object = JSON.parse(string)
+            const result =
+            {
+                ops: [],
+                eds: []
+            }
             if (object.opening_themes)
             {
                 for (const data of object.opening_themes)
                 {
-                    const op =
-                    {
-                        id: data.id,
-                        title: data.text.match(/\"(.+)\"/)[1].replace(/\s\(.+\)/, ''),
-                        artists: '',
-                        episodes: ''
-                    }
-                    console.log(data, op)
+                    result.ops.push(parseOped(data.id, data.text))
                 }
             }
             if (object.ending_themes)
             {
                 for (const data of object.ending_themes)
                 {
-                    const ed =
-                    {
-                        id: data.id,
-                        title: data.text.match(/\"(.+)\"/)[1].replace(/\s\(.+\)/, ''),
-                        artists: '',
-                        episodes: ''
-                    }
-                    console.log(data, ed)
+                    result.eds.push(parseOped(data.id, data.text))
                 }
             }
             console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
+            console.log(result)
             if (callback)
             {
                 callback(result)

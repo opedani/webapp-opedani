@@ -24,7 +24,7 @@ function addSearchResults()
         const result = searchResults[i]
         jSearchResults.append(`
             <article class="anime-result">
-                <button class="util-go" type="button">
+                <button class="util-go" type="button" data-id=${result.id}>
                     <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
                 <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
@@ -87,9 +87,15 @@ function searchFiltersCategory_OnChange()
 
 }
 
-function searchFiltersType_OnChange()
+function searchFiltersSort_OnChange()
 {
     
+}
+
+function searchResultGo_OnClick(event)
+{
+    const id = $(event.currentTarget).data('id')
+    location.href = `${location.origin}/anime?id=${id}`
 }
 
 function searchResultLoad_OnClick()
@@ -111,6 +117,7 @@ function setListeners()
     jIndexSearchbar.on('input', indexSearchbar_OnInput)
     jSearchFiltersCategory.on('change', searchFiltersCategory_OnChange)
     jSearchFiltersSort.on('change', searchFiltersSort_OnChange)
+    jSearchResults.on('click', '.util-go', searchResultGo_OnClick)
     jSearchResultsLoad.on('click', searchResultLoad_OnClick)
 }
 
