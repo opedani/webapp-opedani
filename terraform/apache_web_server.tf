@@ -5,6 +5,7 @@
 resource "aws_instance" "apache_ec2" {
   ami             = data.aws_ami.amazon_linux_2_ami.id
   instance_type   = "t2.micro"
+  user_data       = "data/apache_init.sh"
   security_groups = [aws_security_group.apache_sg.name]
   key_name        = aws_key_pair.ansible_ssh_key.key_name
 }
