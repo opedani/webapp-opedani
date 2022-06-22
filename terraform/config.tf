@@ -15,7 +15,7 @@ terraform {
   backend "remote" {
     organization = "opedani"
     workspaces {
-      name = "webapp-opedani"
+      name = var.environment
     }
   }
 }

@@ -29,6 +29,14 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API }}
 
+    # Pass variables to Terraform
+    - name: Set up Terraform variables
+      id: vars
+      run: |-
+        cat > pipeline.auto.tfvars <<EOF
+        environment = "production"
+        EOF
+
     # Run "terraform init"
     - name: Terraform Init
       run: terraform init
