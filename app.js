@@ -5,6 +5,7 @@
 const express = require('express')
 const https = require('https')
 const moment = require('moment')
+const { release } = require('os')
 const path = require('path')
 const url = require('url')
 
@@ -254,25 +255,40 @@ function fetchMyAnimeList(offset)
                 for (const data of object.data)
                 {
                     const node = data.node
+                    const type = node.media_type[0].toUpperCase() + node.media_type.slice(1)
+                    const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
+                    const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
+                    const start = moment(node.start_date).format('MMMM Do[,] YYYY')
+                    const end = moment(node.end_date).format('MMMM Do[,] YYYY')
+                    const synopsis = node.synopsis.replace('[Written by MAL Rewrite]', '').trim()
+                    const score = node.mean ? node.mean : undefined
+                    const rank = node.rank ? node.rank : undefined
+                    const status = node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+                    const genres = node.genres ? node.genres.map(genre => genre.name) : []
+                    const episodes = type != 'Movie' ? node.num_episodes : undefined
+                    const season = node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : undefined
+                    const broadcast = node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : undefined
+                    const rating = node.rating ? node.rating.replace('_', '-').toUpperCase() : undefined
+                    const studios = node.studios.length > 0 ? node.studios.map(studio => studio.name) : undefined
                     const anime =
                     {
                         id: node.id,
-                        titles: node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ],
-                        thumbnail: node.main_picture ? node.main_picture.large : '/images/thumbnail.png',
-                        start: moment(node.start_date).format('MMMM Do[,] YYYY'),
-                        end: moment(node.end_date).format('MMMM Do[,] YYYY'),
-                        synopsis: node.synopsis.replace('[Written by MAL Rewrite]', '').trim(),
-                        score: node.mean ? node.mean : '<No Data>',
-                        rank: node.rank ? node.rank : '<No Data>',
+                        type: type,
+                        titles: titles,
+                        thumbnail: thumbnail,
+                        start: start,
+                        end: end,
+                        synopsis: synopsis,
+                        score: score,
+                        rank: rank,
                         nsfw: node.nsfw,
-                        type: node.media_type[0].toUpperCase() + node.media_type.slice(1),
-                        status: node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' '),
-                        genres: node.genres ? node.genres.map(genre => genre.name) : [],
-                        episodes: node.num_episodes,
-                        season: node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : '<No Data>',
-                        broadcast: node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : '<No Data>',
-                        rating: node.rating ? node.rating.replace('_', '-').toUpperCase() : '<No Data>',
-                        studios: node.studios.map(studio => studio.name)
+                        status: status,
+                        genres: genres,
+                        episodes: episodes,
+                        season: season,
+                        broadcast: broadcast,
+                        rating: rating,
+                        studios: studios
                     }
                     myanimelist.push(anime)
                 }
@@ -338,8 +354,17 @@ function getAnimePage(request, response)
 function getOpedPage(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    // todo
-    response.render('oped')
+    const myanimelistEntry = myanimelist.find(anime => anime.id == arguments['anime-id'])
+    const animethemesEntry = animethemes.find(anime => anime.id == arguments['anime-id'])
+    fetchMyAnimeListOpeds(arguments['anime-id'], opeds =>
+    {  
+        response.render('oped',
+        {
+            myanimelist: myanimelistEntry,
+            myanimelistOpeds: opeds,
+            animethemes: animethemesEntry
+        })
+    })
 }
 
 function getContactPage(request, response)
