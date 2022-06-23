@@ -9,10 +9,10 @@ block main-content
     div.anime-wrapper
         h1 #[cite #{myanimelist.titles[0]}]
         hr
-        div.anime-opeds
+        div.anime-opeds#anime-opeds
             each op in myanimelistOpeds.ops
                 article.anime-oped
-                    button(type='button' data-id=`${op.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    button(type='button' data-id=`${op.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
                     div.anime-oped-body
                         div.anime-oped-info
                             div OP ##{op.ordinal}
@@ -22,7 +22,7 @@ block main-content
                             div #[i.fa-solid.fa-ranking-star]
             each ed in myanimelistOpeds.eds
                 article.anime-oped
-                    button(type='button' data-id=`${ed.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    button(type='button' data-id=`${ed.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
                     div.anime-oped-body
                         div.anime-oped-info
                             div ED ##{ed.ordinal}
@@ -32,8 +32,7 @@ block main-content
                             div #[i.fa-solid.fa-ranking-star]
         hr
         div.anime-info
-            if myanimelist.titles.length > 1
-                div Titles: #[cite #{myanimelist.titles.join(', ')}]
+            div Titles: #[cite #{myanimelist.titles.join(', ')}]
             div Studios: #{myanimelist.studios.join(', ')}
             div Type: #{myanimelist.type}
             div Season: #{myanimelist.season}
@@ -45,7 +44,8 @@ block main-content
             div Episodes: #{myanimelist.episodes}
             div Rating: #{myanimelist.rating}
             hr
-            div #[i.fa-solid.fa-star] MyAnimeList Score: #{myanimelist.score}
-            div #[i.fa-solid.fa-ranking-star] MyAnimeList Rank: #{myanimelist.rank}
+            div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${myanimelist.id}`) Visit MyAnimeList]
+            div #[i.fa-solid.fa-star] #{myanimelist.score}
+            div #[i.fa-solid.fa-ranking-star] #{myanimelist.rank}
             hr
             p.util-paragraph #{myanimelist.synopsis}

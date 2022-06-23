@@ -35,7 +35,7 @@ function matchPrimaryKeys()
         const result =
         {
             myanimelist: anime.id,
-            animethemes: animethemes.find(animetheme => animetheme.myanimelistId == anime.id)
+            animethemes: animethemes.find(animetheme => animetheme.id == anime.id)
         }
         primaryKeys.push(result)
     }
@@ -84,15 +84,14 @@ function fetchAnimeThemes(offset)
                 {
                     const anime =
                     {
-                        id: data.id,
-                        myanimelistId: undefined,
+                        id: undefined,
                         ops: [],
                         eds: []
                     }
                     const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
                     if (resource)
                     {
-                        anime.myanimelistId = resource.external_id
+                        anime.id = resource.external_id
                     }
                     for (const theme of data.animethemes)
                     {
@@ -258,7 +257,7 @@ function fetchMyAnimeList(offset)
                     const anime =
                     {
                         id: node.id,
-                        titles: node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ] : [ node.title ],
+                        titles: node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ],
                         thumbnail: node.main_picture ? node.main_picture.large : '/images/thumbnail.png',
                         start: moment(node.start_date).format('MMMM Do[,] YYYY'),
                         end: moment(node.end_date).format('MMMM Do[,] YYYY'),
@@ -336,6 +335,13 @@ function getAnimePage(request, response)
     })
 }
 
+function getOpedPage(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    // todo
+    response.render('oped')
+}
+
 function getContactPage(request, response)
 {
     response.render('contact')
@@ -368,6 +374,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
+app.get('/oped', getOpedPage)
 app.get('/contact', getContactPage)
 app.get('/api/get-anime-search-results', getAnimeSearchResults)
 app.get('/api/submit-contact-form', submitContactForm)

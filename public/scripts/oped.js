@@ -2,27 +2,18 @@
 // PROPERTIES
 ///////////////////////////////////////////////////////////////////////////////
 
-let jAnimeOpeds
-
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function animeOped_OnClick(event)
-{
-    const id = $(event.currentTarget).data('id')
-    const animeId = $(event.currentTarget).data('anime-id')
-    location.href = `${location.origin}/oped?id=${id}&anime-id=${animeId}`
-}
-
 function setElements()
 {
-    jAnimeOpeds = $('#anime-opeds')
+
 }
 
 function setListeners()
 {
-    jAnimeOpeds.on('click', '.util-go', animeOped_OnClick)
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////////
