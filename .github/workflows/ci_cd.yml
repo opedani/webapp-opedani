@@ -31,7 +31,7 @@ jobs:
 
     # Run "terraform init"
     - name: Terraform Init
-      run: terraform init -backend-config=backend.conf
+      run: terraform init -backend-config=production_backend.conf
 
     # Run "terraform fmt -check -diff"
     - name: Terraform Format
