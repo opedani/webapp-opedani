@@ -4,3 +4,58 @@ block head-content
     script(src='/scripts/anime.js' type='module')
 
 block main-content
+    div.util-banner
+        img(src=`${myanimelist.thumbnail}` alt='<Thumbnail>')
+    div.anime-wrapper
+        h1 #[cite #{myanimelist.titles[0]}]
+        hr
+        div.anime-opeds#anime-opeds
+            each op in myanimelistOpeds.ops
+                article.anime-oped
+                    button(type='button' data-id=`${op.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    div.anime-oped-body
+                        div.anime-oped-info
+                            div OP ##{op.ordinal}
+                            div #[cite #{op.title}]
+                        div.anime-oped-stats
+                            div #[i.fa-solid.fa-star]
+                            div #[i.fa-solid.fa-ranking-star]
+            each ed in myanimelistOpeds.eds
+                article.anime-oped
+                    button(type='button' data-id=`${ed.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    div.anime-oped-body
+                        div.anime-oped-info
+                            div ED ##{ed.ordinal}
+                            div #[cite #{ed.title}]
+                        div.anime-oped-stats
+                            div #[i.fa-solid.fa-star]
+                            div #[i.fa-solid.fa-ranking-star]
+        hr
+        div.anime-info
+            div Titles: #[cite #{myanimelist.titles.join(', ')}]
+            if myanimelist.studios
+                div Studios: #{myanimelist.studios.join(', ')}
+            div Type: #{myanimelist.type}
+            if myanimelist.season
+                div Season: #{myanimelist.season}
+            if myanimelist.start == myanimelist.end
+                div Date: #{myanimelist.start}
+            else
+                div Start Date: #{myanimelist.start}
+                div End Date: #{myanimelist.end}
+            if myanimelist.broadcast
+                div Broadcast: #{myanimelist.broadcast}
+            div Status: #{myanimelist.status}
+            div Genres: #{myanimelist.genres.join(', ')}
+            if myanimelist.episodes
+                div Episodes: #{myanimelist.episodes}
+            if myanimelist.rating
+                div Rating: #{myanimelist.rating}
+            hr
+            div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${myanimelist.id}`) Visit MyAnimeList]
+            if myanimelist.score
+                div #[i.fa-solid.fa-star] #{myanimelist.score}
+            if myanimelist.rank
+                div #[i.fa-solid.fa-ranking-star] #{myanimelist.rank}
+            hr
+            p.util-paragraph #{myanimelist.synopsis}
