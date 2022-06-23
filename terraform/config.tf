@@ -12,9 +12,7 @@ terraform {
   }
 
   # Backend (Terraform Cloud, configuration defined in *_backend.conf files)
-  backend "remote" {
-    workspaces = {}
-  }
+  backend "remote" {}
 }
 
 
