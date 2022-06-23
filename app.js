@@ -86,10 +86,11 @@ function fetchAnimeThemes(offset)
                     {
                         id: data.id,
                         myanimelistId: undefined,
-                        opeds: []
+                        ops: [],
+                        eds: []
                     }
                     const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
-                    if (resource && resource.external_id == anime.id)
+                    if (resource)
                     {
                         anime.myanimelistId = resource.external_id
                     }
@@ -99,7 +100,14 @@ function fetchAnimeThemes(offset)
                         {
                             for (const video of entry.videos)
                             {
-                                anime.opeds.push(video.link)
+                                if (video.link.match(/OP\d+/))
+                                {
+                                    anime.ops.push(video.link)
+                                }
+                                else if (video.link.match(/ED\d+/))
+                                {
+                                    anime.eds.push(video.link)
+                                }
                             }
                         }
                     }
@@ -116,9 +124,9 @@ function parseOped(id, text)
     const ordinalMatch = text.match(/#(\d+):/)
     const ordinal = ordinalMatch ? parseInt(ordinalMatch[1]) : 1
     const titleMatch = text.match(/\"(.+)\"/)
-    const title = titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '')
+    const title = titleMatch ? titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '') : '<No Data>'
     const artistsMatch = text.match(/by\s(.+)/)
-    let artists = artistsMatch[1].replace(/\s\(ep.+\)/, '')
+    let artists = artistsMatch ? artistsMatch[1].replace(/\s\(ep.+\)/, '') : '<No Data>'
     if (artists.includes(' and '))
     {
         artists = artists.split(' and ')
@@ -199,7 +207,6 @@ function fetchMyAnimeListOpeds(id, callback)
                 }
             }
             console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
-            console.log(result)
             if (callback)
             {
                 callback(result)
@@ -255,8 +262,8 @@ function fetchMyAnimeList(offset)
                         thumbnail: node.main_picture ? node.main_picture.large : '/images/thumbnail.png',
                         start: moment(node.start_date).format('MMMM Do[,] YYYY'),
                         end: moment(node.end_date).format('MMMM Do[,] YYYY'),
-                        synopsis: node.synopsis,
-                        mean: node.mean ? node.mean : '<No Data>',
+                        synopsis: node.synopsis.replace('[Written by MAL Rewrite]', '').trim(),
+                        score: node.mean ? node.mean : '<No Data>',
                         rank: node.rank ? node.rank : '<No Data>',
                         nsfw: node.nsfw,
                         type: node.media_type[0].toUpperCase() + node.media_type.slice(1),
@@ -266,9 +273,7 @@ function fetchMyAnimeList(offset)
                         season: node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : '<No Data>',
                         broadcast: node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : '<No Data>',
                         rating: node.rating ? node.rating.replace('_', '-').toUpperCase() : '<No Data>',
-                        studios: node.studios.map(studio => studio.name),
-                        opening_themes: [],
-                        ending_themes: []
+                        studios: node.studios.map(studio => studio.name)
                     }
                     myanimelist.push(anime)
                 }
@@ -319,7 +324,16 @@ function getIndexPage(request, response)
 
 function getAnimePage(request, response)
 {
-    response.render('anime')
+    const arguments = url.parse(request.url, true).query
+    const myanimelistEntry = myanimelist.find(anime => anime.id == arguments.id)
+    fetchMyAnimeListOpeds(arguments.id, opeds =>
+    {  
+        response.render('anime',
+        {
+            myanimelist: myanimelistEntry,
+            myanimelistOpeds: opeds
+        })
+    })
 }
 
 function getContactPage(request, response)

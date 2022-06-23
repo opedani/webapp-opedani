@@ -3,34 +3,34 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 let jIndexSearchbar
-let jSearchFiltersCategory
-let jSearchFiltersSort
-let jSearchResults
-let jSearchResultsLoad
+let jIndexFiltersCategory
+let jIndexFiltersSort
+let jIndexResults
+let jIndexResultsLoad
 
-let searchTimeout
-let searchResults = []
+let timeout
+let results = []
 let displayCount = 0
 
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 
-function addSearchResults()
+function addResults()
 {
     let capacity = displayCount + 10
-    for (let i = displayCount; i < capacity && i < searchResults.length; ++i)
+    for (let i = displayCount; i < capacity && i < results.length; ++i)
     {
-        const result = searchResults[i]
-        jSearchResults.append(`
-            <article class="anime-result">
+        const result = results[i]
+        jIndexResults.append(`
+            <article class="index-anime-result">
                 <button class="util-go" type="button" data-id=${result.id}>
                     <i class="fa-solid fa-eye fa-2x"></i>
                 </button>
                 <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
-                <div class="anime-result-textbox">
-                    <header class="anime-result-header"><cite>${result.title}</cite></header>
-                    <div class="anime-result-stats">
+                <div class="index-anime-body">
+                    <div class="index-anime-info"><cite>${result.title}</cite></div>
+                    <div class="index-anime-stats">
                         <div><i class="fa-solid fa-star"></i></div>
                         <div><i class="fa-solid fa-ranking-star"></i></div>
                     </div>
@@ -41,25 +41,25 @@ function addSearchResults()
     }
     if (displayCount == capacity)
     {
-        jSearchResultsLoad.removeClass('util-hidden')
+        jIndexResultsLoad.removeClass('util-hidden')
     }
-    if (displayCount == searchResults.length)
+    if (displayCount == results.length)
     {
-        jSearchResultsLoad.addClass('util-hidden')
+        jIndexResultsLoad.addClass('util-hidden')
     }
 }
 
 function indexSearchbar_OnInput(event)
 {
     const query = event.target.value
-    if (searchTimeout)
+    if (timeout)
     {
-        clearTimeout(searchTimeout)
-        searchTimeout = undefined
+        clearTimeout(timeout)
+        timeout = undefined
     }
-    searchTimeout = setTimeout(() =>
+    timeout = setTimeout(() =>
     {
-        searchTimeout = undefined
+        timeout = undefined
         displayCount = 0
         const request =
         {
@@ -67,14 +67,14 @@ function indexSearchbar_OnInput(event)
             data:
             {
                 query: query,
-                sort: jSearchFiltersSort.val()
+                sort: jIndexFiltersSort.val()
             },
             success: response =>
             {
-                searchResults = JSON.parse(response)
-                jSearchResults.empty()
-                jSearchResults.toggleClass('util-hidden', searchResults.length == 0)
-                addSearchResults()
+                results = JSON.parse(response)
+                jIndexResults.empty()
+                jIndexResults.toggleClass('util-hidden', results.length == 0)
+                addResults()
             }
         }
         $.ajax(request)
@@ -82,43 +82,43 @@ function indexSearchbar_OnInput(event)
     500)
 }
 
-function searchFiltersCategory_OnChange()
+function indexFiltersCategory_OnChange()
 {
 
 }
 
-function searchFiltersSort_OnChange()
+function indexFiltersSort_OnChange()
 {
     
 }
 
-function searchResultGo_OnClick(event)
+function indexResultGo_OnClick(event)
 {
     const id = $(event.currentTarget).data('id')
     location.href = `${location.origin}/anime?id=${id}`
 }
 
-function searchResultLoad_OnClick()
+function indexResultLoad_OnClick()
 {
-    addSearchResults()
+    addResults()
 }
 
 function setElements()
 {
     jIndexSearchbar = $('#index-searchbar')
-    jSearchFiltersCategory = $('#search-filters-category')
-    jSearchFiltersSort = $('#search-filters-sort')
-    jSearchResults = $('#search-results')
-    jSearchResultsLoad = $('#search-results-load')
+    jIndexFiltersCategory = $('#index-filters-category')
+    jIndexFiltersSort = $('#index-filters-sort')
+    jIndexResults = $('#index-results')
+    jIndexResultsLoad = $('#index-results-load')
 }
 
 function setListeners()
 {
     jIndexSearchbar.on('input', indexSearchbar_OnInput)
-    jSearchFiltersCategory.on('change', searchFiltersCategory_OnChange)
-    jSearchFiltersSort.on('change', searchFiltersSort_OnChange)
-    jSearchResults.on('click', '.util-go', searchResultGo_OnClick)
-    jSearchResultsLoad.on('click', searchResultLoad_OnClick)
+    jIndexFiltersCategory.on('change', indexFiltersCategory_OnChange)
+    jIndexFiltersSort.on('change', indexFiltersSort_OnChange)
+    jIndexResults.on('click', '.util-go', indexResultGo_OnClick)
+    jIndexResultsLoad.on('click', indexResultLoad_OnClick)
 }
 
 function setContent()
