@@ -11,13 +11,8 @@ terraform {
     }
   }
 
-  # Backend (Terraform Cloud)
-  backend "remote" {
-    organization = "opedani"
-    workspaces {
-      name = var.environment
-    }
-  }
+  # Backend (Terraform Cloud, configuration defined in *_backend.conf files)
+  backend "remote" {}
 }
 
 
