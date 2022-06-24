@@ -8,7 +8,6 @@ const moment = require('moment')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const { openStdin } = require('process')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -17,15 +16,55 @@ const { openStdin } = require('process')
 const app = express()
 const port = 3000
 
-const api = []
+let apiData = []
 
 let myanimelistComplete = false
 let myanimelistOpedsComplete = false
 let animethemesComplete = false
 
+const apiFile = 'api/api-data.json'
+
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
+
+function writeAPIData()
+{
+    console.log(`Writing API data to file... { file: ${apiFile} }`)
+    fs.writeFile(apiFile, JSON.stringify(apiData), (error) =>
+    {
+        if (error)
+        {
+            console.log(error)
+        }
+        else
+        {
+            console.log('Wrote API data to file.')
+        }
+    })
+}
+
+function readAPIData()
+{
+    console.log(`Reading API data from file... { file: ${apiFile} }`)
+    fs.readFile(apiFile, 'utf8', (error, data) =>
+    {
+        if (error)
+        {
+            console.log(error)
+        }
+        else
+        {
+            apiData = JSON.parse(data)
+            console.log('Read API data from file.')
+        }
+    })
+}
+
+function checkAPIData()
+{
+    return fs.existsSync(apiFile)
+}
 
 function parseAnimeThemes(root)
 {
@@ -95,7 +134,7 @@ function fetchAnimeThemes(offset)
                 const resource = object.anime.resources.find(resource => resource.site == 'MyAnimeList')
                 if (resource)
                 {
-                    const anime = api.find(anime => anime.id == resource.external_id)
+                    const anime = apiData.find(anime => anime.id == resource.external_id)
                     if (anime && anime.opeds)
                     {
                         anime.opeds.videos = animethemes
@@ -163,7 +202,7 @@ function fetchMyAnimeListOpeds(index)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: `/v2/anime/${api[index].id}?fields=id,opening_themes,ending_themes`,
+        path: `/v2/anime/${apiData[index].id}?fields=id,opening_themes,ending_themes`,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -195,28 +234,59 @@ function fetchMyAnimeListOpeds(index)
             {
                 for (const ending_theme of object.ending_themes)
                 {
-                    opeds.ops.push(parseMyAnimeListOped(ending_theme))
+                    opeds.eds.push(parseMyAnimeListOped(ending_theme))
                 }
             }
-            if (opeds.ops.length > 0 && opeds.eds.length > 0)
+            if (opeds.ops.length > 0 || opeds.eds.length > 0)
             {
-                api[index].opeds = opeds
+                apiData[index].opeds = opeds
             }
-            if (index == api.length - 1)
+            else
             {
-                console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
+                apiData.splice(index, 1)
+                --index
+            }
+            if (index == apiData.length - 1)
+            {
+                console.log(`Fetched oped data from api.myanimelist.net. { apiData.length: ${apiData.length} }`)
                 myanimelistOpedsComplete = true
             }
             else
             {
                 setTimeout(() =>
                 {
-                    console.log(index + ' of ' + api.length)
+                    if (index % 1000 == 0)
+                    {
+                        console.log(index + ' of ' + apiData.length)
+                    }
                     fetchMyAnimeListOpeds(index + 1)
                 },
                 500)
             }
         })
+    })
+    .on('error', (error) =>
+    {
+        console.log(error)
+        apiData.splice(index, 1)
+        --index
+        if (index == apiData.length - 1)
+        {
+            console.log(`Fetched oped data from api.myanimelist.net. { apiData.length: ${apiData.length} }`)
+            myanimelistOpedsComplete = true
+        }
+        else
+        {
+            setTimeout(() =>
+            {
+                if (index % 1000 == 0)
+                {
+                    console.log(index + ' of ' + apiData.length)
+                }
+                fetchMyAnimeListOpeds(index + 1)
+            },
+            500)
+        }
     })
 }
 
@@ -289,7 +359,7 @@ function fetchMyAnimeList(offset)
             const object = JSON.parse(string)
             if (object.data.length == 0)
             {
-                console.log(`Fetched data from api.myanimelist.net. { myanimelist.length: ${api.length} }`)
+                console.log(`Fetched data from api.myanimelist.net. { apiData.length: ${apiData.length} }`)
                 myanimelistComplete = true
             }
             else
@@ -297,7 +367,7 @@ function fetchMyAnimeList(offset)
                 for (const data of object.data)
                 {
                     const myanimelist = parseMyAnimeList(data)
-                    api.push(myanimelist)
+                    apiData.push(myanimelist)
                 }
                 fetchMyAnimeList(offset + 500)
             }
@@ -305,7 +375,7 @@ function fetchMyAnimeList(offset)
     })
 }
 
-function fetchAPI()
+function fetchAPIData()
 {
     fetchMyAnimeList()
     const myanimelistHandle = setInterval(() =>
@@ -320,32 +390,21 @@ function fetchAPI()
                 {
                     clearInterval(myanimelistHandle)
                     fetchAnimeThemes()
-                    const animeThemesHandle = setInterval(() =>
+                    const animethemesHandle = setInterval(() =>
                     {
-                        clearInterval(animeThemesHandle)
+                        if (animethemesComplete)
+                        {
+                            clearInterval(animethemesHandle)
+                            writeAPIData()
+                        }
                     },
-                    1000)
+                    10000)
                 }
             },
-            1000)
+            10000)
         }
     },
-    1000)
-}
-
-function writeAPI()
-{
-
-}
-
-function readAPI()
-{
-
-}
-
-function isAPIComplete()
-{
-    return myanimelistComplete && myanimelistOpedsComplete && animethemesComplete
+    10000)
 }
 
 function filterAnime(query, fields)
@@ -354,7 +413,7 @@ function filterAnime(query, fields)
     query = query.toLowerCase().trim()
     if (query.length > 0)
     {
-        for (const anime of api)
+        for (const anime of apiData)
         {
             for (const title of anime.titles)
             {
@@ -390,7 +449,7 @@ function getIndexPage(request, response)
 function getAnimePage(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const anime = api.find(anime => anime.id == arguments.id)
+    const anime = apiData.find(anime => anime.id == arguments.id)
     response.render('anime',
     {
         anime: anime
@@ -400,7 +459,7 @@ function getAnimePage(request, response)
 function getOpedPage(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const anime = api.find(anime => anime.id == arguments['anime-id'])
+    const anime = apiData.find(anime => anime.id == arguments['anime-id'])
     response.render('oped',
     {
         anime: anime
@@ -447,4 +506,11 @@ app.get('/api/submit-contact-form', submitContactForm)
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))
 
-fetchAPI()
+if (checkAPIData())
+{
+    readAPIData()
+}
+else
+{
+    fetchAPIData()
+}
