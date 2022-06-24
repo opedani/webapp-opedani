@@ -5,9 +5,10 @@
 const express = require('express')
 const https = require('https')
 const moment = require('moment')
-const { release } = require('os')
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
+const { openStdin } = require('process')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -16,36 +17,49 @@ const url = require('url')
 const app = express()
 const port = 3000
 
-let myanimelist = []
-let myanimeListComplete = false
+const api = []
 
-let animethemes = []
+let myanimelistComplete = false
+let myanimelistOpedsComplete = false
 let animethemesComplete = false
-
-let primaryKeys = []
 
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-function matchPrimaryKeys()
+function parseAnimeThemes(root)
 {
-    console.log('Matching primary keys...')
-    for (const anime of myanimelist)
+    const animethemes = []
+    for (const data of root)
     {
-        const result =
+        const theme =
         {
-            myanimelist: anime.id,
-            animethemes: animethemes.find(animetheme => animetheme.id == anime.id)
+            ops: [],
+            eds: []
         }
-        primaryKeys.push(result)
+        for (const theme of data.animethemes)
+        {
+            for (const entry of theme.animethemeentries)
+            {
+                for (const video of entry.videos)
+                {
+                    if (video.link.match(/OP\d+/))
+                    {
+                        theme.ops.push(video.link)
+                    }
+                    else if (video.link.match(/ED\d+/))
+                    {
+                        theme.eds.push(video.link)
+                    }
+                }
+            }
+            if (theme.ops.length > 0 && theme.eds.length > 0)
+            {
+                animethemes.push(theme)
+            }
+        }
     }
-    console.log('Matched primary keys.')
-}
-
-function checkMatchPrimaryKeys()
-{
-    return myanimeListComplete && animethemesComplete
+    return animethemes
 }
 
 function fetchAnimeThemes(offset)
@@ -74,44 +88,18 @@ function fetchAnimeThemes(offset)
             {
                 console.log(`Fetched data from api.animethemes.moe. { animethemes.length: ${animethemes.length} }`)
                 animethemesComplete = true
-                if (checkMatchPrimaryKeys())
-                {
-                    matchPrimaryKeys()
-                }
             }
             else
             {
-                for (const data of object.anime)
+                const animethemes = parseAnimeThemes(object.anime)
+                const resource = object.anime.resources.find(resource => resource.site == 'MyAnimeList')
+                if (resource)
                 {
-                    const anime =
+                    const anime = api.find(anime => anime.id == resource.external_id)
+                    if (anime && anime.opeds)
                     {
-                        id: undefined,
-                        ops: [],
-                        eds: []
+                        anime.opeds.videos = animethemes
                     }
-                    const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
-                    if (resource)
-                    {
-                        anime.id = resource.external_id
-                    }
-                    for (const theme of data.animethemes)
-                    {
-                        for (const entry of theme.animethemeentries)
-                        {
-                            for (const video of entry.videos)
-                            {
-                                if (video.link.match(/OP\d+/))
-                                {
-                                    anime.ops.push(video.link)
-                                }
-                                else if (video.link.match(/ED\d+/))
-                                {
-                                    anime.eds.push(video.link)
-                                }
-                            }
-                        }
-                    }
-                    animethemes.push(anime)
                 }
                 fetchAnimeThemes(offset + 1)
             }
@@ -119,13 +107,13 @@ function fetchAnimeThemes(offset)
     })
 }
 
-function parseOped(id, text)
+function parseMyAnimeListOped(root)
 {
-    const ordinalMatch = text.match(/#(\d+):/)
+    const ordinalMatch = root.text.match(/#(\d+):/)
     const ordinal = ordinalMatch ? parseInt(ordinalMatch[1]) : 1
-    const titleMatch = text.match(/\"(.+)\"/)
+    const titleMatch = root.text.match(/\"(.+)\"/)
     const title = titleMatch ? titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '') : '<No Data>'
-    const artistsMatch = text.match(/by\s(.+)/)
+    const artistsMatch = root.text.match(/by\s(.+)/)
     let artists = artistsMatch ? artistsMatch[1].replace(/\s\(ep.+\)/, '') : '<No Data>'
     if (artists.includes(' and '))
     {
@@ -139,7 +127,7 @@ function parseOped(id, text)
     {
         artists = artists.split()
     }
-    const episodesMatch = text.match(/\(ep.+\)/)
+    const episodesMatch = root.text.match(/\(ep.+\)/)
     let episodes
     if (episodesMatch)
     {
@@ -156,7 +144,7 @@ function parseOped(id, text)
     }
     const oped =
     {
-        id: id,
+        id: root.id,
         ordinal: ordinal,
         title: title,
         artists: artists,
@@ -165,13 +153,17 @@ function parseOped(id, text)
     return oped
 }
 
-function fetchMyAnimeListOpeds(id, callback)
+function fetchMyAnimeListOpeds(index)
 {
-    console.log(`Fetching oped data from api.myanimelist.net... { id: ${id} }`)
+    if (!index)
+    {
+        console.log(`Fetching oped data from api.myanimelist.net...`)
+        index = 0
+    }
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: `/v2/anime/${id}?fields=id,opening_themes,ending_themes`,
+        path: `/v2/anime/${api[index].id}?fields=id,opening_themes,ending_themes`,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -187,32 +179,86 @@ function fetchMyAnimeListOpeds(id, callback)
         response.on('end', () =>
         {
             const object = JSON.parse(string)
-            const result =
+            const opeds =
             {
                 ops: [],
                 eds: []
             }
             if (object.opening_themes)
             {
-                for (const data of object.opening_themes)
+                for (const opening_theme of object.opening_themes)
                 {
-                    result.ops.push(parseOped(data.id, data.text))
+                    opeds.ops.push(parseMyAnimeListOped(opening_theme))
                 }
             }
             if (object.ending_themes)
             {
-                for (const data of object.ending_themes)
+                for (const ending_theme of object.ending_themes)
                 {
-                    result.eds.push(parseOped(data.id, data.text))
+                    opeds.ops.push(parseMyAnimeListOped(ending_theme))
                 }
             }
-            console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
-            if (callback)
+            if (opeds.ops.length > 0 && opeds.eds.length > 0)
             {
-                callback(result)
+                api[index].opeds = opeds
+            }
+            if (index == api.length - 1)
+            {
+                console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
+                myanimelistOpedsComplete = true
+            }
+            else
+            {
+                setTimeout(() =>
+                {
+                    console.log(index + ' of ' + api.length)
+                    fetchMyAnimeListOpeds(index + 1)
+                },
+                500)
             }
         })
     })
+}
+
+function parseMyAnimeList(root)
+{
+    const node = root.node
+    const type = node.media_type[0].toUpperCase() + node.media_type.slice(1)
+    const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
+    const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
+    const start = moment(node.start_date).format('MMMM Do[,] YYYY')
+    const end = moment(node.end_date).format('MMMM Do[,] YYYY')
+    const synopsis = node.synopsis.replace('[Written by MAL Rewrite]', '').trim()
+    const score = node.mean ? node.mean : undefined
+    const rank = node.rank ? node.rank : undefined
+    const status = node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+    const genres = node.genres ? node.genres.map(genre => genre.name) : []
+    const episodes = type != 'Movie' ? node.num_episodes : undefined
+    const season = node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : undefined
+    const broadcast = node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : undefined
+    const rating = node.rating ? node.rating.replace('_', '-').toUpperCase() : undefined
+    const studios = node.studios.length > 0 ? node.studios.map(studio => studio.name) : undefined
+    const myanimelist =
+    {
+        id: node.id,
+        type: type,
+        titles: titles,
+        thumbnail: thumbnail,
+        start: start,
+        end: end,
+        synopsis: synopsis,
+        score: score,
+        rank: rank,
+        nsfw: node.nsfw,
+        status: status,
+        genres: genres,
+        episodes: episodes,
+        season: season,
+        broadcast: broadcast,
+        rating: rating,
+        studios: studios
+    }
+    return myanimelist
 }
 
 function fetchMyAnimeList(offset)
@@ -243,59 +289,63 @@ function fetchMyAnimeList(offset)
             const object = JSON.parse(string)
             if (object.data.length == 0)
             {
-                console.log(`Fetched data from api.myanimelist.net. { myanimelist.length: ${myanimelist.length} }`)
-                myanimeListComplete = true
-                if (checkMatchPrimaryKeys())
-                {
-                    matchPrimaryKeys()
-                }
+                console.log(`Fetched data from api.myanimelist.net. { myanimelist.length: ${api.length} }`)
+                myanimelistComplete = true
             }
             else
             {
                 for (const data of object.data)
                 {
-                    const node = data.node
-                    const type = node.media_type[0].toUpperCase() + node.media_type.slice(1)
-                    const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
-                    const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
-                    const start = moment(node.start_date).format('MMMM Do[,] YYYY')
-                    const end = moment(node.end_date).format('MMMM Do[,] YYYY')
-                    const synopsis = node.synopsis.replace('[Written by MAL Rewrite]', '').trim()
-                    const score = node.mean ? node.mean : undefined
-                    const rank = node.rank ? node.rank : undefined
-                    const status = node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-                    const genres = node.genres ? node.genres.map(genre => genre.name) : []
-                    const episodes = type != 'Movie' ? node.num_episodes : undefined
-                    const season = node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : undefined
-                    const broadcast = node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : undefined
-                    const rating = node.rating ? node.rating.replace('_', '-').toUpperCase() : undefined
-                    const studios = node.studios.length > 0 ? node.studios.map(studio => studio.name) : undefined
-                    const anime =
-                    {
-                        id: node.id,
-                        type: type,
-                        titles: titles,
-                        thumbnail: thumbnail,
-                        start: start,
-                        end: end,
-                        synopsis: synopsis,
-                        score: score,
-                        rank: rank,
-                        nsfw: node.nsfw,
-                        status: status,
-                        genres: genres,
-                        episodes: episodes,
-                        season: season,
-                        broadcast: broadcast,
-                        rating: rating,
-                        studios: studios
-                    }
-                    myanimelist.push(anime)
+                    const myanimelist = parseMyAnimeList(data)
+                    api.push(myanimelist)
                 }
                 fetchMyAnimeList(offset + 500)
             }
         })
     })
+}
+
+function fetchAPI()
+{
+    fetchMyAnimeList()
+    const myanimelistHandle = setInterval(() =>
+    {
+        if (myanimelistComplete)
+        {
+            clearInterval(myanimelistHandle)
+            fetchMyAnimeListOpeds()
+            const myanimelistOpedsHandle = setInterval(() =>
+            {
+                if (myanimelistOpedsComplete)
+                {
+                    clearInterval(myanimelistHandle)
+                    fetchAnimeThemes()
+                    const animeThemesHandle = setInterval(() =>
+                    {
+                        clearInterval(animeThemesHandle)
+                    },
+                    1000)
+                }
+            },
+            1000)
+        }
+    },
+    1000)
+}
+
+function writeAPI()
+{
+
+}
+
+function readAPI()
+{
+
+}
+
+function isAPIComplete()
+{
+    return myanimelistComplete && myanimelistOpedsComplete && animethemesComplete
 }
 
 function filterAnime(query, fields)
@@ -304,7 +354,7 @@ function filterAnime(query, fields)
     query = query.toLowerCase().trim()
     if (query.length > 0)
     {
-        for (const anime of myanimelist)
+        for (const anime of api)
         {
             for (const title of anime.titles)
             {
@@ -340,30 +390,20 @@ function getIndexPage(request, response)
 function getAnimePage(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const myanimelistEntry = myanimelist.find(anime => anime.id == arguments.id)
-    fetchMyAnimeListOpeds(arguments.id, opeds =>
-    {  
-        response.render('anime',
-        {
-            myanimelist: myanimelistEntry,
-            myanimelistOpeds: opeds
-        })
+    const anime = api.find(anime => anime.id == arguments.id)
+    response.render('anime',
+    {
+        anime: anime
     })
 }
 
 function getOpedPage(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const myanimelistEntry = myanimelist.find(anime => anime.id == arguments['anime-id'])
-    const animethemesEntry = animethemes.find(anime => anime.id == arguments['anime-id'])
-    fetchMyAnimeListOpeds(arguments['anime-id'], opeds =>
-    {  
-        response.render('oped',
-        {
-            myanimelist: myanimelistEntry,
-            myanimelistOpeds: opeds,
-            animethemes: animethemesEntry
-        })
+    const anime = api.find(anime => anime.id == arguments['anime-id'])
+    response.render('oped',
+    {
+        anime: anime
     })
 }
 
@@ -407,5 +447,4 @@ app.get('/api/submit-contact-form', submitContactForm)
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))
 
-fetchMyAnimeList()
-fetchAnimeThemes()
+fetchAPI()
