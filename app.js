@@ -8,6 +8,7 @@ const moment = require('moment')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+const { google } = require('googleapis')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -400,6 +401,16 @@ function getContactPage(request, response)
     response.render('contact')
 }
 
+function getPrivacyPolicyPage(request, response)
+{
+    response.render('privacy-policy')
+}
+
+function getTermsAndConditionsPage(request, response)
+{
+    response.render('terms-and-conditions')
+}
+
 function getAnimeSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
@@ -429,6 +440,8 @@ app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/oped', getOpedPage)
 app.get('/contact', getContactPage)
+app.get('/privacy-policy', getPrivacyPolicyPage)
+app.get('/terms-and-conditions', getTermsAndConditionsPage)
 app.get('/api/get-anime-search-results', getAnimeSearchResults)
 app.get('/api/submit-contact-form', submitContactForm)
 
