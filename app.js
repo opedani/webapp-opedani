@@ -19,132 +19,11 @@ const port = 3000
 let apiData = []
 
 let myanimelistComplete = false
-let myanimelistOpedsComplete = false
 let animethemesComplete = false
-
-const apiFile = 'api/api-data.json'
 
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
-
-function writeAPIData()
-{
-    console.log(`Writing API data to file... { file: ${apiFile} }`)
-    fs.writeFile(apiFile, JSON.stringify(apiData), (error) =>
-    {
-        if (error)
-        {
-            console.log(error)
-        }
-        else
-        {
-            console.log('Wrote API data to file.')
-        }
-    })
-}
-
-function readAPIData()
-{
-    console.log(`Reading API data from file... { file: ${apiFile} }`)
-    fs.readFile(apiFile, 'utf8', (error, data) =>
-    {
-        if (error)
-        {
-            console.log(error)
-        }
-        else
-        {
-            apiData = JSON.parse(data)
-            console.log('Read API data from file.')
-        }
-    })
-}
-
-function checkAPIData()
-{
-    return fs.existsSync(apiFile)
-}
-
-function parseAnimeThemes(root)
-{
-    const animethemes = []
-    for (const data of root)
-    {
-        const theme =
-        {
-            ops: [],
-            eds: []
-        }
-        for (const theme of data.animethemes)
-        {
-            for (const entry of theme.animethemeentries)
-            {
-                for (const video of entry.videos)
-                {
-                    if (video.link.match(/OP\d+/))
-                    {
-                        theme.ops.push(video.link)
-                    }
-                    else if (video.link.match(/ED\d+/))
-                    {
-                        theme.eds.push(video.link)
-                    }
-                }
-            }
-            if (theme.ops.length > 0 && theme.eds.length > 0)
-            {
-                animethemes.push(theme)
-            }
-        }
-    }
-    return animethemes
-}
-
-function fetchAnimeThemes(offset)
-{
-    if (!offset)
-    {
-        console.log('Fetching data from api.animethemes.moe...')
-        offset = 1
-    }
-    const options =
-    {
-        hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&page[size]=100&page[number]=${offset}`
-    }
-    https.get(options, (response) =>
-    {
-        let string = ''
-        response.on('data', (stream) =>
-        {
-            string += stream
-        })
-        response.on('end', () =>
-        {
-            const object = JSON.parse(string)
-            if (object.anime.length == 0)
-            {
-                console.log(`Fetched data from api.animethemes.moe. { animethemes.length: ${animethemes.length} }`)
-                animethemesComplete = true
-            }
-            else
-            {
-                const animethemes = parseAnimeThemes(object.anime)
-                const resource = object.anime.resources.find(resource => resource.site == 'MyAnimeList')
-                if (resource)
-                {
-                    const anime = apiData.find(anime => anime.id == resource.external_id)
-                    if (anime && anime.opeds)
-                    {
-                        anime.opeds.videos = animethemes
-                    }
-                }
-                fetchAnimeThemes(offset + 1)
-            }
-        })
-    })
-}
 
 function parseMyAnimeListOped(root)
 {
@@ -187,22 +66,19 @@ function parseMyAnimeListOped(root)
         ordinal: ordinal,
         title: title,
         artists: artists,
-        episodes: episodes
+        episodes: episodes,
+        videos: []
     }
     return oped
 }
 
-function fetchMyAnimeListOpeds(index)
+function fetchMyAnimeListOped(id, callback)
 {
-    if (!index)
-    {
-        console.log(`Fetching oped data from api.myanimelist.net...`)
-        index = 0
-    }
+    console.log(`Fetching oped data from api.myanimelist.net... { id: ${id} }`)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: `/v2/anime/${apiData[index].id}?fields=id,opening_themes,ending_themes`,
+        path: `/v2/anime/${id}?fields=id,opening_themes,ending_themes`,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -218,75 +94,113 @@ function fetchMyAnimeListOpeds(index)
         response.on('end', () =>
         {
             const object = JSON.parse(string)
-            const opeds =
-            {
-                ops: [],
-                eds: []
-            }
+            const anime = apiData.find(anime => anime.id == id)
+            anime.ops = []
+            anime.eds = []
             if (object.opening_themes)
             {
                 for (const opening_theme of object.opening_themes)
                 {
-                    opeds.ops.push(parseMyAnimeListOped(opening_theme))
+                    anime.ops.push(parseMyAnimeListOped(opening_theme))
                 }
             }
             if (object.ending_themes)
             {
                 for (const ending_theme of object.ending_themes)
                 {
-                    opeds.eds.push(parseMyAnimeListOped(ending_theme))
+                    anime.eds.push(parseMyAnimeListOped(ending_theme))
                 }
             }
-            if (opeds.ops.length > 0 || opeds.eds.length > 0)
+            console.log(`Fetched oped data from api.myanimelist.net. { id: ${id} }`)
+            if (callback)
             {
-                apiData[index].opeds = opeds
-            }
-            else
-            {
-                apiData.splice(index, 1)
-                --index
-            }
-            if (index == apiData.length - 1)
-            {
-                console.log(`Fetched oped data from api.myanimelist.net. { apiData.length: ${apiData.length} }`)
-                myanimelistOpedsComplete = true
-            }
-            else
-            {
-                setTimeout(() =>
-                {
-                    if (index % 1000 == 0)
-                    {
-                        console.log(index + ' of ' + apiData.length)
-                    }
-                    fetchMyAnimeListOpeds(index + 1)
-                },
-                500)
+                callback()
             }
         })
     })
-    .on('error', (error) =>
+}
+
+function parseAnimeThemes(root)
+{
+    const animethemes = []
+    for (const data of root)
     {
-        console.log(error)
-        apiData.splice(index, 1)
-        --index
-        if (index == apiData.length - 1)
+        const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
+        if (resource)
         {
-            console.log(`Fetched oped data from api.myanimelist.net. { apiData.length: ${apiData.length} }`)
-            myanimelistOpedsComplete = true
-        }
-        else
-        {
-            setTimeout(() =>
+            const result =
             {
-                if (index % 1000 == 0)
+                id: resource.external_id,
+                ops: [],
+                eds: []
+            }
+            for (const theme of data.animethemes)
+            {
+                for (const entry of theme.animethemeentries)
                 {
-                    console.log(index + ' of ' + apiData.length)
+                    for (const video of entry.videos)
+                    {
+                        if (video.link.match(/OP\d+/))
+                        {
+                            result.ops.push(video.link)
+                        }
+                        else if (video.link.match(/ED\d+/))
+                        {
+                            result.eds.push(video.link)
+                        }
+                    }
                 }
-                fetchMyAnimeListOpeds(index + 1)
-            },
-            500)
+                if (result.ops.length > 0 || result.eds.length > 0)
+                {
+                    animethemes.push(result)
+                }
+            }
         }
+    }
+    return animethemes
+}
+
+function fetchAnimeThemes(offset)
+{
+    if (!offset)
+    {
+        console.log('Fetching data from api.animethemes.moe...')
+        offset = 1
+    }
+    const options =
+    {
+        hostname: 'api.animethemes.moe',
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&page[size]=100&page[number]=${offset}`
+    }
+    https.get(options, (response) =>
+    {
+        let string = ''
+        response.on('data', (stream) =>
+        {
+            string += stream
+        })
+        response.on('end', () =>
+        {
+            const object = JSON.parse(string)
+            if (object.anime.length == 0)
+            {
+                console.log(`Fetched data from api.animethemes.moe.`)
+                animethemesComplete = true
+            }
+            else
+            {
+                const animethemes = parseAnimeThemes(object.anime)
+                for (const animetheme of animethemes)
+                {
+                    const anime = apiData.find(anime => anime.id == animetheme.id)
+                    if (anime)
+                    {
+                        // todo
+                    }
+                }
+                fetchAnimeThemes(offset + 1)
+            }
+        })
     })
 }
 
@@ -294,20 +208,19 @@ function parseMyAnimeList(root)
 {
     const node = root.node
     const type = node.media_type[0].toUpperCase() + node.media_type.slice(1)
-    const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
+    const titles = node.alternative_titles ? [ node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
     const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
     const start = moment(node.start_date).format('MMMM Do[,] YYYY')
     const end = moment(node.end_date).format('MMMM Do[,] YYYY')
-    const synopsis = node.synopsis.replace('[Written by MAL Rewrite]', '').trim()
-    const score = node.mean ? node.mean : undefined
-    const rank = node.rank ? node.rank : undefined
+    const score = node.mean ? node.mean : '<No Data>'
+    const rank = node.rank ? node.rank : '<No Data>'
     const status = node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-    const genres = node.genres ? node.genres.map(genre => genre.name) : []
-    const episodes = type != 'Movie' ? node.num_episodes : undefined
-    const season = node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : undefined
-    const broadcast = node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : undefined
-    const rating = node.rating ? node.rating.replace('_', '-').toUpperCase() : undefined
-    const studios = node.studios.length > 0 ? node.studios.map(studio => studio.name) : undefined
+    const genres = node.genres ? node.genres.map(genre => genre.name) : [ '<No Data>' ]
+    const episodes = node.num_episodes ? node.num_episodes : '<No Data>'
+    const season = node.start_season ? node.start_season.season[0].toUpperCase() + node.start_season.season.slice(1) : '<No Data>'
+    const broadcast = node.broadcast ? `${node.broadcast.day_of_the_week[0].toUpperCase() + node.broadcast.day_of_the_week.slice(1)} @ ${node.broadcast.start_time} JST` : '<No Data>'
+    const rating = node.rating ? node.rating.replace('_', '-').toUpperCase() : '<No Data>'
+    const studios = node.studios.length > 0 ? node.studios.map(studio => studio.name) : [ '<No Data>' ]
     const myanimelist =
     {
         id: node.id,
@@ -316,7 +229,7 @@ function parseMyAnimeList(root)
         thumbnail: thumbnail,
         start: start,
         end: end,
-        synopsis: synopsis,
+        synopsis: node.synopsis,
         score: score,
         rank: rank,
         nsfw: node.nsfw,
@@ -383,28 +296,18 @@ function fetchAPIData()
         if (myanimelistComplete)
         {
             clearInterval(myanimelistHandle)
-            fetchMyAnimeListOpeds()
-            const myanimelistOpedsHandle = setInterval(() =>
+            fetchAnimeThemes()
+            const animethemesHandle = setInterval(() =>
             {
-                if (myanimelistOpedsComplete)
+                if (animethemesComplete)
                 {
-                    clearInterval(myanimelistHandle)
-                    fetchAnimeThemes()
-                    const animethemesHandle = setInterval(() =>
-                    {
-                        if (animethemesComplete)
-                        {
-                            clearInterval(animethemesHandle)
-                            writeAPIData()
-                        }
-                    },
-                    10000)
+                    clearInterval(animethemesHandle)
                 }
             },
-            10000)
+            1000)
         }
     },
-    10000)
+    1000)
 }
 
 function filterAnime(query, fields)
@@ -450,20 +353,46 @@ function getAnimePage(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const anime = apiData.find(anime => anime.id == arguments.id)
-    response.render('anime',
+    if (anime.ops || anime.eds)
     {
-        anime: anime
-    })
+        response.render('anime',
+        {
+            anime: anime
+        })
+    }
+    else
+    {
+        fetchMyAnimeListOped(arguments.id, () =>
+        {
+            response.render('anime',
+            {
+                anime: anime
+            })
+        })
+    }
 }
 
 function getOpedPage(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const anime = apiData.find(anime => anime.id == arguments['anime-id'])
-    response.render('oped',
+    if (anime.ops || anime.eds)
     {
-        anime: anime
-    })
+        response.render('oped',
+        {
+            anime: anime
+        })
+    }
+    else
+    {
+        fetchMyAnimeListOped(arguments.id, () =>
+        {
+            response.render('oped',
+            {
+                anime: anime
+            })
+        })
+    }
 }
 
 function getContactPage(request, response)
@@ -506,11 +435,4 @@ app.get('/api/submit-contact-form', submitContactForm)
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))
 
-if (checkAPIData())
-{
-    readAPIData()
-}
-else
-{
-    fetchAPIData()
-}
+fetchAPIData()
