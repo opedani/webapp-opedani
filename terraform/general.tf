@@ -28,7 +28,7 @@ resource "aws_key_pair" "ansible_ssh_key" {
 # Generate inventory file for Ansible
 resource "local_file" "ansible_inventory" {
   filename = "../ansible/.inventory"
-  content = <<EOF
+  content  = <<EOF
 [apache]
 ${aws_eip.apache_eip.public_ip}
 [node]
