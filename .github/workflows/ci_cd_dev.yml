@@ -8,8 +8,8 @@ on:
       - master
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  ci_cd_dev:
+    name: 'CI CD Dev'
     runs-on: ubuntu-latest
     environment: development
 
@@ -42,26 +42,15 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false
 
-  ansible:
-    name: 'Ansible'
-    runs-on: ubuntu-latest
-    environment: development
-    needs: terraform
-
-    steps:
-      # Checkout the repository to the GitHub Actions runner
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      # Dry run the Ansible playbook
-      - name: Dry Run Playbooks
-        uses: dawidd6/action-ansible-playbook@v2.5.0
-        with:
-          playbook: playbook.yml
-          directory: ./ansible
-          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
-          options: |
-            --inventory .inventory
-            --verbose
-            --diff
-            --check
+    # Dry run the Ansible playbook
+    - name: Dry Run Playbooks
+      uses: dawidd6/action-ansible-playbook@v2.5.0
+      with:
+        playbook: playbook.yml
+        directory: ./ansible
+        key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+        options: |
+          --inventory .inventory
+          --verbose
+          --diff
+          --check
