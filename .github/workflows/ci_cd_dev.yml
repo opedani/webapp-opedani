@@ -47,7 +47,7 @@ jobs:
       uses: dawidd6/action-ansible-playbook@v2.5.0
       with:
         playbook: playbook.yml
-        directory: ../ansible
+        directory: ./ansible
         key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
         options: |
           --inventory .inventory
