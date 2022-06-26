@@ -10,9 +10,9 @@ let jAnimeOpeds
 
 function animeOped_OnClick(event)
 {
-    const id = $(event.currentTarget).data('id')
+    const opedId = $(event.currentTarget).data('oped-id')
     const animeId = $(event.currentTarget).data('anime-id')
-    location.href = `${location.origin}/oped?id=${id}&anime-id=${animeId}`
+    location.href = `${location.origin}/oped?oped-id=${opedId}&anime-id=${animeId}`
 }
 
 function setElements()

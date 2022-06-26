@@ -64,8 +64,9 @@ footer
 
 hr
 {
+    background-color: var(--color-gray-dark);
     border: none;
-    border-top: 1px solid var(--color-gray-dark);
+    height: 1px;
 }
 
 button

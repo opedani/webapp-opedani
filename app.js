@@ -20,11 +20,74 @@ const port = 3000
 let apiData = []
 
 let myanimelistComplete = false
-let animethemesComplete = false
 
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
+
+function parseAnimeTheme(root)
+{
+    const result =
+    {
+        ops: [],
+        eds: []
+    }
+    for (const theme of root.animethemes)
+    {
+        for (const entry of theme.animethemeentries)
+        {
+            for (const video of entry.videos)
+            {
+                if (video.link.match(/OP\d+/))
+                {
+                    result.ops.push(video.link)
+                }
+                else if (video.link.match(/ED\d+/))
+                {
+                    result.eds.push(video.link)
+                }
+            }
+        }
+    }
+    return result
+}
+
+function fetchAnimeTheme(id, callback)
+{
+    console.log(`Fetching data from api.animethemes.moe... { id: ${id} }`)
+    const options =
+    {
+        hostname: 'api.animethemes.moe',
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&filter[has]=resources&filter[site]=MyAnimeList&filter[external_id]=${id}`
+    }
+    https.get(options, (response) =>
+    {
+        let string = ''
+        response.on('data', (stream) =>
+        {
+            string += stream
+        })
+        response.on('end', () =>
+        {
+            const object = JSON.parse(string)
+            if (object.anime.length > 0)
+            {
+                const animetheme = parseAnimeTheme(object.anime[0])
+                const anime = apiData.find(anime => anime.id == id)
+                if (anime)
+                {
+                    anime.ops.videos = animetheme.ops
+                    anime.eds.videos = animetheme.eds
+                }
+            }
+            console.log(`Fetched data from api.animethemes.moe. { id: ${id} }`)
+            if (callback)
+            {
+                callback()
+            }
+        })
+    })
+}
 
 function parseMyAnimeListOped(root)
 {
@@ -67,8 +130,7 @@ function parseMyAnimeListOped(root)
         ordinal: ordinal,
         title: title,
         artists: artists,
-        episodes: episodes,
-        videos: []
+        episodes: episodes
     }
     return oped
 }
@@ -121,87 +183,11 @@ function fetchMyAnimeListOped(id, callback)
     })
 }
 
-function parseAnimeThemes(root)
+function fetchOped(id, callback)
 {
-    const animethemes = []
-    for (const data of root)
+    fetchMyAnimeListOped(id, () =>
     {
-        const resource = data.resources.find(resource => resource.site == 'MyAnimeList')
-        if (resource)
-        {
-            const result =
-            {
-                id: resource.external_id,
-                ops: [],
-                eds: []
-            }
-            for (const theme of data.animethemes)
-            {
-                for (const entry of theme.animethemeentries)
-                {
-                    for (const video of entry.videos)
-                    {
-                        if (video.link.match(/OP\d+/))
-                        {
-                            result.ops.push(video.link)
-                        }
-                        else if (video.link.match(/ED\d+/))
-                        {
-                            result.eds.push(video.link)
-                        }
-                    }
-                }
-                if (result.ops.length > 0 || result.eds.length > 0)
-                {
-                    animethemes.push(result)
-                }
-            }
-        }
-    }
-    return animethemes
-}
-
-function fetchAnimeThemes(offset)
-{
-    if (!offset)
-    {
-        console.log('Fetching data from api.animethemes.moe...')
-        offset = 1
-    }
-    const options =
-    {
-        hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&page[size]=100&page[number]=${offset}`
-    }
-    https.get(options, (response) =>
-    {
-        let string = ''
-        response.on('data', (stream) =>
-        {
-            string += stream
-        })
-        response.on('end', () =>
-        {
-            const object = JSON.parse(string)
-            if (object.anime.length == 0)
-            {
-                console.log(`Fetched data from api.animethemes.moe.`)
-                animethemesComplete = true
-            }
-            else
-            {
-                const animethemes = parseAnimeThemes(object.anime)
-                for (const animetheme of animethemes)
-                {
-                    const anime = apiData.find(anime => anime.id == animetheme.id)
-                    if (anime)
-                    {
-                        // todo
-                    }
-                }
-                fetchAnimeThemes(offset + 1)
-            }
-        })
+        fetchAnimeTheme(id, callback)
     })
 }
 
@@ -297,15 +283,6 @@ function fetchAPIData()
         if (myanimelistComplete)
         {
             clearInterval(myanimelistHandle)
-            fetchAnimeThemes()
-            const animethemesHandle = setInterval(() =>
-            {
-                if (animethemesComplete)
-                {
-                    clearInterval(animethemesHandle)
-                }
-            },
-            1000)
         }
     },
     1000)
@@ -354,7 +331,7 @@ function getAnimePage(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const anime = apiData.find(anime => anime.id == arguments.id)
-    if (anime.ops || anime.eds)
+    if (anime.ops)
     {
         response.render('anime',
         {
@@ -363,7 +340,7 @@ function getAnimePage(request, response)
     }
     else
     {
-        fetchMyAnimeListOped(arguments.id, () =>
+        fetchOped(arguments.id, () =>
         {
             response.render('anime',
             {
@@ -377,7 +354,7 @@ function getOpedPage(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const anime = apiData.find(anime => anime.id == arguments['anime-id'])
-    if (anime.ops || anime.eds)
+    if (anime.ops)
     {
         response.render('oped',
         {
@@ -386,7 +363,7 @@ function getOpedPage(request, response)
     }
     else
     {
-        fetchMyAnimeListOped(arguments.id, () =>
+        fetchOped(arguments['anime-id'], () =>
         {
             response.render('oped',
             {
