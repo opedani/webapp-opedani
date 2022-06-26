@@ -62,8 +62,8 @@ function contactForm_OnSubmit(event)
             name: jContactName.val(),
             email: jContactEmail.val(),
             message: jContactMessage.val(),
-            device: technical ? jContactDevice.val() : '',
-            url: technical ? jContactURL.val() : ''
+            device: technical ? jContactDevice.val() : undefined,
+            url: technical ? jContactURL.val() : undefined
         },
         success: response =>
         {
