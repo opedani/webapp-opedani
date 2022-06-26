@@ -31,6 +31,7 @@ resource "local_file" "ansible_inventory" {
   content  = <<EOF
 [apache]
 ${aws_eip.apache_eip.public_ip}
+
 [node]
 ${aws_eip.node1_eip.public_ip}
 EOF
