@@ -7,8 +7,8 @@ on:
       - master
 
 jobs:
-  ci_cd:
-    name: 'CI CD'
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
 
@@ -45,12 +45,23 @@ jobs:
     - name: Terraform Apply
       run: terraform apply
 
-    # Run the Ansible playbook
-    - name: Run Playbooks
-      uses: dawidd6/action-ansible-playbook@v2.5.0
-      with:
-        playbook: playbook.yml
-        directory: ./ansible
-        key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
-        options: |
-          --inventory .inventory
+  ansible:
+    name: 'Ansible'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: terraform
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Run the Ansible playbook
+      - name: Run Playbooks
+        uses: dawidd6/action-ansible-playbook@v2.5.0
+        with:
+          playbook: playbook.yml
+          directory: ./ansible
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          options: |
+            --inventory .inventory
