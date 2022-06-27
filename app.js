@@ -8,7 +8,6 @@ const moment = require('moment')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const { google } = require('googleapis')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -27,27 +26,28 @@ let myanimelistComplete = false
 
 function parseAnimeTheme(root)
 {
-    const result =
-    {
-        ops: [],
-        eds: []
-    }
+    const result = []
     for (const theme of root.animethemes)
     {
+        const oped = {}
+        oped.type = theme.type
+        oped.sequence = theme.sequence ? theme.sequence : 1
+        oped.entries = []
         for (const entry of theme.animethemeentries)
         {
+            const opedEntry = {}
+            opedEntry.version = entry.version ? entry.version : 1
+            opedEntry.videos = []
             for (const video of entry.videos)
             {
-                if (video.link.match(/OP\d+/))
-                {
-                    result.ops.push(video.link)
-                }
-                else if (video.link.match(/ED\d+/))
-                {
-                    result.eds.push(video.link)
-                }
+                const opedVideo = {}
+                opedVideo.type = video.mimetype
+                opedVideo.link = video.link
+                opedEntry.videos.push(opedVideo)
             }
+            oped.entries.push(opedEntry)
         }
+        result.push(oped)
     }
     return result
 }
@@ -58,7 +58,7 @@ function fetchAnimeTheme(id, callback)
     const options =
     {
         hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id&fields[animethemeentry]=id&fields[video]=link&filter[has]=resources&filter[site]=MyAnimeList&filter[external_id]=${id}`
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id,type,sequence&fields[animethemeentry]=id,version,episodes&fields[video]=mimetype,link&filter[has]=resources&filter[site]=MyAnimeList&filter[external_id]=${id}`
     }
     https.get(options, (response) =>
     {
@@ -72,12 +72,26 @@ function fetchAnimeTheme(id, callback)
             const object = JSON.parse(string)
             if (object.anime.length > 0)
             {
-                const animetheme = parseAnimeTheme(object.anime[0])
+                const animethemes = parseAnimeTheme(object.anime[0])
                 const anime = apiData.find(anime => anime.id == id)
-                if (anime)
+                for (const theme of animethemes)
                 {
-                    anime.ops.videos = animetheme.ops
-                    anime.eds.videos = animetheme.eds
+                    if (theme.type == 'OP')
+                    {
+                        const op = anime.ops.find(op => op.sequence == theme.sequence)
+                        if (op)
+                        {
+                            op.entries = theme.entries
+                        }
+                    }
+                    else if (theme.type == 'ED')
+                    {
+                        const ed = anime.eds.find(ed => ed.sequence == theme.sequence)
+                        if (ed)
+                        {
+                            ed.entries = theme.entries
+                        }
+                    }
                 }
             }
             console.log(`Fetched data from api.animethemes.moe. { id: ${id} }`)
@@ -91,8 +105,8 @@ function fetchAnimeTheme(id, callback)
 
 function parseMyAnimeListOped(root)
 {
-    const ordinalMatch = root.text.match(/#(\d+):/)
-    const ordinal = ordinalMatch ? parseInt(ordinalMatch[1]) : 1
+    const sequenceMatch = root.text.match(/#(\d+):/)
+    const sequence = sequenceMatch ? parseInt(sequenceMatch[1]) : 1
     const titleMatch = root.text.match(/\"(.+)\"/)
     const title = titleMatch ? titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '') : '<No Data>'
     const artistsMatch = root.text.match(/by\s(.+)/)
@@ -127,7 +141,7 @@ function parseMyAnimeListOped(root)
     const oped =
     {
         id: root.id,
-        ordinal: ordinal,
+        sequence: sequence,
         title: title,
         artists: artists,
         episodes: episodes
@@ -292,26 +306,23 @@ function filterAnime(query, fields)
 {
     const filteredAnime = []
     query = query.toLowerCase().trim()
-    if (query.length > 0)
+    for (const anime of apiData)
     {
-        for (const anime of apiData)
+        for (const title of anime.titles)
         {
-            for (const title of anime.titles)
+            if (query.length == 0 || title.toLowerCase().includes(query))
             {
-                if (title.toLowerCase().includes(query))
+                const object =
                 {
-                    const object =
-                    {
-                        id: anime.id,
-                        title: title
-                    }
-                    for (const field of fields)
-                    {
-                        object[field] = anime[field]
-                    }
-                    filteredAnime.push(object)
-                    break;
+                    id: anime.id,
+                    title: title
                 }
+                for (const field of fields)
+                {
+                    object[field] = anime[field]
+                }
+                filteredAnime.push(object)
+                break;
             }
         }
     }

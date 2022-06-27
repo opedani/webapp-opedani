@@ -7,10 +7,11 @@
     --color-white: #d9d9d9;
     --color-white-dark: #a6a6a6;
     --color-black: #1a1a1a;
+    --color-black-dark: #000000;
     --color-primary: #4090bf;
     --color-primary-dark: #265773;
-    --color-accent: #8640bf;
-    --color-accent-dark: #502673;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #6b3399;
     --color-gray: #494950;
     --color-gray-dark: #303036;
 }
@@ -64,7 +65,7 @@ footer
 
 hr
 {
-    background-color: var(--color-gray-dark);
+    background-color: var(--color-gray);
     border: none;
     height: 1px;
 }
@@ -179,6 +180,7 @@ form
 
 h1
 {
+    font-size: 40px;
     font-weight: normal;
     text-align: center;
 }
@@ -316,13 +318,6 @@ h1
     padding: 10px;
 }
 
-.anime-info
-{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 /*****************************************************************************/
 /* CONTACT
 /*****************************************************************************/
@@ -338,6 +333,13 @@ h1
 /*****************************************************************************/
 /* UTILITIES
 /*****************************************************************************/
+
+.util-no-results
+{
+    color: var(--color-white-dark);
+    padding: 20px;
+    text-align: center;
+}
 
 .util-go
 {
@@ -357,12 +359,26 @@ h1
     background-color: var(--color-black);
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.util-banner-background
+{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(5px);
+    height: 100%;
+    position: absolute;
+    width: 100%;
 }
 
 .util-banner img
 {
     max-width: 300px;
     min-width: 300px;
+    z-index: 1;
 }
 
 .util-hidden
@@ -387,4 +403,9 @@ h1
     bottom: 0;
     text-align: center;
     width: 100%;
+}
+
+.util-label
+{
+    color: var(--color-white-dark);
 }
