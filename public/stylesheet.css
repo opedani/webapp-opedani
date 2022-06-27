@@ -208,6 +208,7 @@ h1
     display: flex;
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 .layout-nav-button:first-child

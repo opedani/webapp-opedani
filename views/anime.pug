@@ -20,6 +20,12 @@ block main-content
                         div.anime-oped-info
                             div OP ##{op.sequence}
                             div #[cite #{op.title}]
+                            if op.artists
+                                div
+                                    each artist, index in op.artists
+                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
+                                        if index < op.artists.length - 1
+                                            | , 
                         div.anime-oped-stats
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
@@ -30,11 +36,24 @@ block main-content
                         div.anime-oped-info
                             div ED ##{ed.sequence}
                             div #[cite #{ed.title}]
+                            if ed.artists
+                                div
+                                    each artist, index in ed.artists
+                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
+                                        if index < ed.artists.length - 1
+                                            | , 
                         div.anime-oped-stats
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
         hr
-        div #[span.util-label Studios:] #{anime.studios.join(', ')}
+        div #[span.util-label Studios:] 
+            if anime.studios[0] == '<No Data>'
+                | #{anime.studios[0]}
+            else
+                each studio, index in anime.studios
+                    a(href=`/studio?${new URLSearchParams([['name', studio]])}`) #{studio}
+                    if index < anime.studios.length - 1
+                        | , 
         div #[span.util-label Type:] #{anime.type}
         div #[span.util-label Season:] #{anime.season}
         div #[span.util-label Start Date:] #{anime.start}
@@ -48,5 +67,6 @@ block main-content
         div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${anime.id}`) Visit MyAnimeList]
         div #[i.fa-solid.fa-star] #{anime.score}
         div #[i.fa-solid.fa-ranking-star] #{anime.rank}
+        div #[i.fa-solid.fa-people-group] #{anime.popularity}
         hr
         p.util-paragraph #{anime.synopsis}
