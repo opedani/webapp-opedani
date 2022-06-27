@@ -8,7 +8,6 @@ const moment = require('moment')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const { google } = require('googleapis')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -41,7 +40,10 @@ function parseAnimeTheme(root)
             opedEntry.videos = []
             for (const video of entry.videos)
             {
-                opedEntry.videos.push(video.link)
+                const opedVideo = {}
+                opedVideo.type = video.mimetype
+                opedVideo.link = video.link
+                opedEntry.videos.push(opedVideo)
             }
             oped.entries.push(opedEntry)
         }
@@ -56,7 +58,7 @@ function fetchAnimeTheme(id, callback)
     const options =
     {
         hostname: 'api.animethemes.moe',
-        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id,type,sequence&fields[animethemeentry]=id,version,episodes&fields[video]=link&filter[has]=resources&filter[site]=MyAnimeList&filter[external_id]=${id}`
+        path: `/anime?include=animethemes,animethemes.animethemeentries,animethemes.animethemeentries.videos,resources&fields[anime]=id&fields[animetheme]=id,type,sequence&fields[animethemeentry]=id,version,episodes&fields[video]=mimetype,link&filter[has]=resources&filter[site]=MyAnimeList&filter[external_id]=${id}`
     }
     https.get(options, (response) =>
     {

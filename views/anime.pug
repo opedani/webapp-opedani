@@ -5,6 +5,7 @@ block head-content
 
 block main-content
     div.util-banner
+        div(style=`background-image: url("${anime.thumbnail}")`).util-banner-background
         img(src=`${anime.thumbnail}` alt='<Thumbnail>')
     div.anime-wrapper
         h1 #[cite #{anime.titles[0]}]
@@ -32,7 +33,6 @@ block main-content
                             div #[i.fa-solid.fa-ranking-star]
         hr
         div.anime-info
-            div Titles: #[cite #{anime.titles.join(', ')}]
             div Studios: #{anime.studios.join(', ')}
             div Type: #{anime.type}
             div Season: #{anime.season}
