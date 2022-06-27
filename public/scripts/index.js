@@ -18,26 +18,37 @@ let displayCount = 0
 
 function addResults()
 {
+    const category = jIndexFiltersCategory.val()
     let capacity = displayCount + 10
     for (let i = displayCount; i < capacity && i < results.length; ++i)
     {
         const result = results[i]
-        jIndexResults.append(`
-            <article class="index-anime-result">
-                <button class="util-go" type="button" data-id=${result.id}>
-                    <i class="fa-solid fa-eye fa-2x"></i>
-                </button>
-                <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
-                <div class="index-anime-body">
-                    <div class="index-anime-info"><cite>${result.title}</cite></div>
-                    <div class="index-anime-stats">
-                        <div><i class="fa-solid fa-star"></i></div>
-                        <div><i class="fa-solid fa-ranking-star"></i></div>
+        if (category == 'anime')
+        {
+            jIndexResults.append(`
+                <article class="index-anime-result">
+                    <button class="util-go" type="button" data-id=${result.id}>
+                        <i class="fa-solid fa-eye fa-2x"></i>
+                    </button>
+                    <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
+                    <div class="index-anime-body">
+                        <div class="index-anime-info"><cite>${result.title}</cite></div>
+                        <div class="index-anime-stats">
+                            <div><i class="fa-solid fa-star"></i></div>
+                            <div><i class="fa-solid fa-ranking-star"></i></div>
+                        </div>
                     </div>
-                </div>
-            </article>
-        `)
+                </article>
+            `)
+        }
         ++displayCount
+    }
+    if (results.length == 0)
+    {
+        if (category == 'anime')
+        {
+            jIndexResults.append('<div class="util-no-results">This query does not match any anime.</div>')
+        }
     }
     if (displayCount == capacity)
     {
@@ -49,37 +60,35 @@ function addResults()
     }
 }
 
-function indexSearchbar_OnInput(event)
+function getAnimeSearchResults()
 {
-    const query = event.target.value
+    const request =
+    {
+        url: `${location.origin}/api/get-anime-search-results`,
+        data:
+        {
+            query: jIndexSearchbar.val(),
+            sort: jIndexFiltersSort.val()
+        },
+        success: response =>
+        {
+            results = JSON.parse(response)
+            displayCount = 0
+            jIndexResults.empty()
+            addResults()
+        }
+    }
+    $.ajax(request)
+}
+
+function indexSearchbar_OnInput()
+{
     if (timeout)
     {
         clearTimeout(timeout)
         timeout = undefined
     }
-    timeout = setTimeout(() =>
-    {
-        timeout = undefined
-        displayCount = 0
-        const request =
-        {
-            url: `${location.origin}/api/get-anime-search-results`,
-            data:
-            {
-                query: query,
-                sort: jIndexFiltersSort.val()
-            },
-            success: response =>
-            {
-                results = JSON.parse(response)
-                jIndexResults.empty()
-                jIndexResults.toggleClass('util-hidden', results.length == 0)
-                addResults()
-            }
-        }
-        $.ajax(request)
-    },
-    500)
+    timeout = setTimeout(getAnimeSearchResults, 500)
 }
 
 function indexFiltersCategory_OnChange()
@@ -124,6 +133,7 @@ function setListeners()
 function setContent()
 {
     jIndexSearchbar.val('')
+    getAnimeSearchResults()
 }
 
 ///////////////////////////////////////////////////////////////////////////////

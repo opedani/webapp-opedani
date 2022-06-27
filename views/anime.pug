@@ -11,6 +11,8 @@ block main-content
         h1 #[cite #{anime.titles[0]}]
         hr
         div.anime-opeds#anime-opeds
+            if anime.ops.length == 0 && anime.eds.length == 0
+                div.util-no-results This anime does not have any openings or endings.
             each op in anime.ops
                 article.anime-oped
                     button(type='button' data-oped-id=`${op.id}` data-anime-id=`${anime.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
@@ -32,20 +34,19 @@ block main-content
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
         hr
-        div.anime-info
-            div Studios: #{anime.studios.join(', ')}
-            div Type: #{anime.type}
-            div Season: #{anime.season}
-            div Start Date: #{anime.start}
-            div End Date: #{anime.end}
-            div Broadcast: #{anime.broadcast}
-            div Status: #{anime.status}
-            div Genres: #{anime.genres.join(', ')}
-            div Episodes: #{anime.episodes}
-            div Rating: #{anime.rating}
-            hr
-            div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${anime.id}`) Visit MyAnimeList]
-            div #[i.fa-solid.fa-star] #{anime.score}
-            div #[i.fa-solid.fa-ranking-star] #{anime.rank}
-            hr
-            p.util-paragraph #{anime.synopsis}
+        div #[span.util-label Studios:] #{anime.studios.join(', ')}
+        div #[span.util-label Type:] #{anime.type}
+        div #[span.util-label Season:] #{anime.season}
+        div #[span.util-label Start Date:] #{anime.start}
+        div #[span.util-label End Date:] #{anime.end}
+        div #[span.util-label Broadcast:] #{anime.broadcast}
+        div #[span.util-label Status:] #{anime.status}
+        div #[span.util-label Genres:] #{anime.genres.join(', ')}
+        div #[span.util-label Episodes:] #{anime.episodes}
+        div #[span.util-label Rating:] #{anime.rating}
+        hr
+        div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${anime.id}`) Visit MyAnimeList]
+        div #[i.fa-solid.fa-star] #{anime.score}
+        div #[i.fa-solid.fa-ranking-star] #{anime.rank}
+        hr
+        p.util-paragraph #{anime.synopsis}

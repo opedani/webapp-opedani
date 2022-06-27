@@ -306,26 +306,23 @@ function filterAnime(query, fields)
 {
     const filteredAnime = []
     query = query.toLowerCase().trim()
-    if (query.length > 0)
+    for (const anime of apiData)
     {
-        for (const anime of apiData)
+        for (const title of anime.titles)
         {
-            for (const title of anime.titles)
+            if (query.length == 0 || title.toLowerCase().includes(query))
             {
-                if (title.toLowerCase().includes(query))
+                const object =
                 {
-                    const object =
-                    {
-                        id: anime.id,
-                        title: title
-                    }
-                    for (const field of fields)
-                    {
-                        object[field] = anime[field]
-                    }
-                    filteredAnime.push(object)
-                    break;
+                    id: anime.id,
+                    title: title
                 }
+                for (const field of fields)
+                {
+                    object[field] = anime[field]
+                }
+                filteredAnime.push(object)
+                break;
             }
         }
     }

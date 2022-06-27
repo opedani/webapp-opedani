@@ -12,5 +12,7 @@ block main-content
             select#index-filters-sort
                 option(value='rank') Rank
         hr
-        div.index-results.util-hidden#index-results
+        div.index-results#index-results
+            div.util-no-results This query does not match any anime.
         button(type='button').util-hidden#index-results-load #[i.fa-solid.fa-arrow-down] Continue
+        hr

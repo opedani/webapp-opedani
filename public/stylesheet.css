@@ -10,8 +10,8 @@
     --color-black-dark: #000000;
     --color-primary: #4090bf;
     --color-primary-dark: #265773;
-    --color-accent: #8640bf;
-    --color-accent-dark: #502673;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #6b3399;
     --color-gray: #494950;
     --color-gray-dark: #303036;
 }
@@ -318,13 +318,6 @@ h1
     padding: 10px;
 }
 
-.anime-info
-{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 /*****************************************************************************/
 /* CONTACT
 /*****************************************************************************/
@@ -340,6 +333,13 @@ h1
 /*****************************************************************************/
 /* UTILITIES
 /*****************************************************************************/
+
+.util-no-results
+{
+    color: var(--color-white-dark);
+    padding: 20px;
+    text-align: center;
+}
 
 .util-go
 {
@@ -403,4 +403,9 @@ h1
     bottom: 0;
     text-align: center;
     width: 100%;
+}
+
+.util-label
+{
+    color: var(--color-white-dark);
 }
