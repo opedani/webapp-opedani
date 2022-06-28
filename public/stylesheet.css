@@ -406,33 +406,6 @@ h1
     min-width: 100px;
 }
 
-.util-banner
-{
-    background-color: var(--color-black);
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.util-banner-background
-{
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    filter: blur(5px);
-    height: 100%;
-    position: absolute;
-    width: 100%;
-}
-
-.util-banner img
-{
-    max-width: 300px;
-    min-width: 300px;
-    z-index: 1;
-}
-
 .util-hidden
 {
     display: none;

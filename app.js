@@ -306,9 +306,9 @@ function fetchAPIData()
     1000)
 }
 
-function filterAnime(query, fields)
+function filterAnimeSearchResults(query, fields)
 {
-    const filteredAnime = []
+    const searchResults = []
     query = query.toLowerCase().trim()
     for (const anime of apiData)
     {
@@ -325,12 +325,29 @@ function filterAnime(query, fields)
                 {
                     object[field] = anime[field]
                 }
-                filteredAnime.push(object)
+                searchResults.push(object)
                 break;
             }
         }
     }
-    return filteredAnime
+    return searchResults
+}
+
+function filterAnimeStudioResults(name)
+{
+    const searchResults = []
+    for (const anime of apiData)
+    {
+        for (const studio of anime.studios)
+        {
+            if (studio == name)
+            {
+                searchResults.push(anime)
+                break;
+            }
+        }
+    }
+    return searchResults
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -388,14 +405,18 @@ function getOpedPage(request, response)
     }
 }
 
+function getStudioPage(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    response.render('studio',
+    {
+        anime: filterAnimeStudioResults(arguments.name)
+    })
+}
+
 function getArtistPage(request, response)
 {
     response.render('artist')
-}
-
-function getStudioPage(request, response)
-{
-    response.render('studio')
 }
 
 function getContactPage(request, response)
@@ -413,11 +434,15 @@ function getTermsAndConditionsPage(request, response)
     response.render('terms-and-conditions')
 }
 
-function getAnimeSearchResults(request, response)
+function getSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const filteredAnime = filterAnime(arguments.query, [ 'thumbnail' ])
-    response.json(JSON.stringify(filteredAnime))
+    let searchResults = []
+    if (arguments.category == 'anime')
+    {
+        searchResults = filterAnimeSearchResults(arguments.query, [ 'thumbnail' ])
+    }
+    response.json(JSON.stringify(searchResults))
 }
 
 function submitContactForm(request, response)
@@ -446,7 +471,7 @@ app.get('/studio', getStudioPage)
 app.get('/contact', getContactPage)
 app.get('/privacy-policy', getPrivacyPolicyPage)
 app.get('/terms-and-conditions', getTermsAndConditionsPage)
-app.get('/api/get-anime-search-results', getAnimeSearchResults)
+app.get('/api/get-search-results', getSearchResults)
 app.get('/api/submit-contact-form', submitContactForm)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
