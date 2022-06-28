@@ -60,14 +60,15 @@ function addResults()
     }
 }
 
-function getAnimeSearchResults()
+function getSearchResults()
 {
     const request =
     {
-        url: `${location.origin}/api/get-anime-search-results`,
+        url: `${location.origin}/api/get-search-results`,
         data:
         {
             query: jIndexSearchbar.val(),
+            category: jIndexFiltersCategory.val(),
             sort: jIndexFiltersSort.val()
         },
         success: response =>
@@ -88,7 +89,7 @@ function indexSearchbar_OnInput()
         clearTimeout(timeout)
         timeout = undefined
     }
-    timeout = setTimeout(getAnimeSearchResults, 500)
+    timeout = setTimeout(getSearchResults, 500)
 }
 
 function indexFiltersCategory_OnChange()
@@ -133,7 +134,7 @@ function setListeners()
 function setContent()
 {
     jIndexSearchbar.val('')
-    getAnimeSearchResults()
+    getSearchResults()
 }
 
 ///////////////////////////////////////////////////////////////////////////////

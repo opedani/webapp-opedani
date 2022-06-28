@@ -189,12 +189,52 @@ h1
 /* ANIMATIONS
 /*****************************************************************************/
 
+@keyframes result-forward
+{
+    0%
+    {
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+    100%
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes result-backward
+{
+    0%
+    {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+    100%
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 @keyframes status
 {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
+    0%
+    {
+        opacity: 0;
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    90%
+    {
+        opacity: 1;
+    }
+    100%
+    {
+        opacity: 0;
+    }
 }
 
 /*****************************************************************************/
@@ -208,6 +248,7 @@ h1
     display: flex;
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 .layout-nav-button:first-child
@@ -242,9 +283,20 @@ h1
 
 .index-anime-result
 {
+    animation-duration: 500ms;
     background-color: var(--color-black);
     border: 1px solid var(--color-gray-dark);
     display: flex;
+}
+
+.index-anime-result:nth-child(odd)
+{
+    animation-name: result-forward;
+}
+
+.index-anime-result:nth-child(even)
+{
+    animation-name: result-backward;
 }
 
 .index-anime-body
@@ -354,33 +406,6 @@ h1
     min-width: 100px;
 }
 
-.util-banner
-{
-    background-color: var(--color-black);
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.util-banner-background
-{
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    filter: blur(5px);
-    height: 100%;
-    position: absolute;
-    width: 100%;
-}
-
-.util-banner img
-{
-    max-width: 300px;
-    min-width: 300px;
-    z-index: 1;
-}
-
 .util-hidden
 {
     display: none;
@@ -397,7 +422,6 @@ h1
     animation-duration: 5s;
     background-color: var(--color-primary);
     border-top: 1px solid var(--color-primary-dark);
-    opacity: 0;
     padding: 20px;
     position: fixed;
     bottom: 0;

@@ -2,12 +2,14 @@
 // DEPENDENCIES
 ////////////////////////////////////////////////////////////////////////////////
 
-const express = require('express')
 const https = require('https')
-const moment = require('moment')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+
+const express = require('express')
+const moment = require('moment')
+const { google } = require('googleapis')
 
 ////////////////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -110,7 +112,7 @@ function parseMyAnimeListOped(root)
     const titleMatch = root.text.match(/\"(.+)\"/)
     const title = titleMatch ? titleMatch[1].replace(/\s\(.+\)/, '').replace(/\sfeaturing.+/, '') : '<No Data>'
     const artistsMatch = root.text.match(/by\s(.+)/)
-    let artists = artistsMatch ? artistsMatch[1].replace(/\s\(ep.+\)/, '') : '<No Data>'
+    let artists = artistsMatch ? artistsMatch[1].replace(/\s\(ep.+\)/, '') : undefined
     if (artists.includes(' and '))
     {
         artists = artists.split(' and ')
@@ -215,6 +217,7 @@ function parseMyAnimeList(root)
     const end = moment(node.end_date).format('MMMM Do[,] YYYY')
     const score = node.mean ? node.mean : '<No Data>'
     const rank = node.rank ? node.rank : '<No Data>'
+    const popularity = node.popularity ? node.popularity : '<No Data>'
     const status = node.status.replaceAll('_', ' ').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
     const genres = node.genres ? node.genres.map(genre => genre.name) : [ '<No Data>' ]
     const episodes = node.num_episodes ? node.num_episodes : '<No Data>'
@@ -233,6 +236,7 @@ function parseMyAnimeList(root)
         synopsis: node.synopsis,
         score: score,
         rank: rank,
+        popularity: popularity,
         nsfw: node.nsfw,
         status: status,
         genres: genres,
@@ -255,7 +259,7 @@ function fetchMyAnimeList(offset)
     const options =
     {
         hostname: 'api.myanimelist.net',
-        path: `/v2/anime/ranking?ranking_type=all&fields=id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,nsfw,media_type,status,genres,num_episodes,start_season,broadcast,rating,studios&limit=500&offset=${offset}`,
+        path: `/v2/anime/ranking?ranking_type=all&fields=id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,nsfw,media_type,status,genres,num_episodes,start_season,broadcast,rating,studios&limit=500&offset=${offset}`,
         headers:
         {
             'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e'
@@ -302,9 +306,9 @@ function fetchAPIData()
     1000)
 }
 
-function filterAnime(query, fields)
+function filterAnimeSearchResults(query, fields)
 {
-    const filteredAnime = []
+    const searchResults = []
     query = query.toLowerCase().trim()
     for (const anime of apiData)
     {
@@ -321,12 +325,29 @@ function filterAnime(query, fields)
                 {
                     object[field] = anime[field]
                 }
-                filteredAnime.push(object)
+                searchResults.push(object)
                 break;
             }
         }
     }
-    return filteredAnime
+    return searchResults
+}
+
+function filterAnimeStudioResults(name)
+{
+    const searchResults = []
+    for (const anime of apiData)
+    {
+        for (const studio of anime.studios)
+        {
+            if (studio == name)
+            {
+                searchResults.push(anime)
+                break;
+            }
+        }
+    }
+    return searchResults
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -384,6 +405,20 @@ function getOpedPage(request, response)
     }
 }
 
+function getStudioPage(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    response.render('studio',
+    {
+        anime: filterAnimeStudioResults(arguments.name)
+    })
+}
+
+function getArtistPage(request, response)
+{
+    response.render('artist')
+}
+
 function getContactPage(request, response)
 {
     response.render('contact')
@@ -399,11 +434,15 @@ function getTermsAndConditionsPage(request, response)
     response.render('terms-and-conditions')
 }
 
-function getAnimeSearchResults(request, response)
+function getSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const filteredAnime = filterAnime(arguments.query, [ 'thumbnail' ])
-    response.json(JSON.stringify(filteredAnime))
+    let searchResults = []
+    if (arguments.category == 'anime')
+    {
+        searchResults = filterAnimeSearchResults(arguments.query, [ 'thumbnail' ])
+    }
+    response.json(JSON.stringify(searchResults))
 }
 
 function submitContactForm(request, response)
@@ -427,10 +466,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/oped', getOpedPage)
+app.get('/artist', getArtistPage)
+app.get('/studio', getStudioPage)
 app.get('/contact', getContactPage)
 app.get('/privacy-policy', getPrivacyPolicyPage)
 app.get('/terms-and-conditions', getTermsAndConditionsPage)
-app.get('/api/get-anime-search-results', getAnimeSearchResults)
+app.get('/api/get-search-results', getSearchResults)
 app.get('/api/submit-contact-form', submitContactForm)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
