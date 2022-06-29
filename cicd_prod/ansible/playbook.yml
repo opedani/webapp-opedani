@@ -48,6 +48,7 @@
       become: true
 
     - name: git clone / pull
+      ignore_errors: yes
       git:
         repo: https://github.com/opedani/webapp-opedani.git
         dest: /home/ec2-user/webapp-opedani
