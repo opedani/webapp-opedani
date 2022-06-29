@@ -6,7 +6,7 @@ block head-content
 block main-content
     div.util-banner
         div(style=`background-image: url("${anime.thumbnail}")`).util-banner-background
-        img(src=`${anime.thumbnail}` alt='<Thumbnail>')
+        img(src=`${anime.thumbnail}` alt='<Thumbnail>').util-banner-image
     div.anime-wrapper
         h1 #[cite #{anime.titles[0]}]
         hr

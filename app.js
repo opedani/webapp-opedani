@@ -306,7 +306,7 @@ function fetchAPIData()
     1000)
 }
 
-function filterAnimeSearchResults(query, fields)
+function filterAnimeResults(query)
 {
     const searchResults = []
     query = query.toLowerCase().trim()
@@ -319,11 +319,9 @@ function filterAnimeSearchResults(query, fields)
                 const object =
                 {
                     id: anime.id,
-                    title: title
-                }
-                for (const field of fields)
-                {
-                    object[field] = anime[field]
+                    title: title,
+                    thumbnail: anime.thumbnail,
+                    studios: anime.studios
                 }
                 searchResults.push(object)
                 break;
@@ -333,21 +331,32 @@ function filterAnimeSearchResults(query, fields)
     return searchResults
 }
 
-function filterAnimeStudioResults(name)
+function filterStudioResults(query)
 {
-    const searchResults = []
+    const searchResults = new Map()
     for (const anime of apiData)
     {
         for (const studio of anime.studios)
         {
-            if (studio == name)
+            if (query.length == 0 || studio.includes(query))
             {
-                searchResults.push(anime)
+                const object = searchResults.get(studio)
+                if (object)
+                {
+                    // todo
+                }
+                else
+                {
+                    searchResults.set(studio,
+                    {
+                        name: studio
+                    })
+                }
                 break;
             }
         }
     }
-    return searchResults
+    return Array.from(searchResults)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -410,7 +419,7 @@ function getStudioPage(request, response)
     const arguments = url.parse(request.url, true).query
     response.render('studio',
     {
-        anime: filterAnimeStudioResults(arguments.name)
+        anime: {} // todo
     })
 }
 
@@ -440,7 +449,11 @@ function getSearchResults(request, response)
     let searchResults = []
     if (arguments.category == 'anime')
     {
-        searchResults = filterAnimeSearchResults(arguments.query, [ 'thumbnail' ])
+        searchResults = filterAnimeResults(arguments.query)
+    }
+    else if (arguments.category == 'studio')
+    {
+        searchResults = filterStudioResults(arguments.query)
     }
     response.json(JSON.stringify(searchResults))
 }
