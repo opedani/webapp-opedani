@@ -30,6 +30,7 @@
         mode: 0644
 
     - name: Restart and enable Apache (httpd)
+      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: restarted
