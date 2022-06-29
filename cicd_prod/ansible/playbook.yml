@@ -1,0 +1,76 @@
+---
+- name: Apache Playbook
+  hosts: apache
+  remote_user: ec2-user
+  become: yes
+
+  tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install Apache (httpd)
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Stop Apache (httpd), if started
+      ansible.builtin.service:
+        name: httpd
+        state: stopped
+
+    - name: Configure Apache reverse proxy
+      copy:
+        src: data/httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Restart and enable Apache (httpd)
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+        enabled: yes
+
+- name: Node Playbook
+  hosts: node
+  remote_user: ec2-user
+
+  tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+      become: true
+
+    - name: git clone / pull
+      git:
+        repo: https://github.com/opedani/webapp-opedani.git
+        dest: /home/ec2-user/webapp-opedani
+        single_branch: yes
+        version: master
+
+    - name: npm install
+      ansible.builtin.shell:
+        cmd: npm install
+        chdir: /home/ec2-user/webapp-opedani
+
+    - name: Copy pm2 ecosystem file
+      copy:
+        src: data/ecosystem.config.js
+        dest: /home/ec2-user/ecosystem.config.js
+        owner: ec2-user
+        group: ec2-user
+        mode: 0664
+
+    - name: pm2 reload
+      ansible.builtin.shell:
+        cmd: pm2 reload ecosystem.config.js
+        chdir: /home/ec2-user
+
+    - name: pm2 save
+      ansible.builtin.shell:
+        cmd: pm2 save
+        chdir: /home/ec2-user
