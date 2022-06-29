@@ -9,6 +9,9 @@ terraform {
       source  = "hashicorp/aws"
       version = "4.17.0"
     }
+    local = {
+      version = "~>2.1"
+    }
   }
 
   # Backend (Terraform Cloud)

@@ -7,10 +7,11 @@
     --color-white: #d9d9d9;
     --color-white-dark: #a6a6a6;
     --color-black: #1a1a1a;
+    --color-black-dark: #000000;
     --color-primary: #4090bf;
     --color-primary-dark: #265773;
-    --color-accent: #8640bf;
-    --color-accent-dark: #502673;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #6b3399;
     --color-gray: #494950;
     --color-gray-dark: #303036;
 }
@@ -64,8 +65,9 @@ footer
 
 hr
 {
+    background-color: var(--color-gray);
     border: none;
-    border-top: 1px solid var(--color-gray-dark);
+    height: 1px;
 }
 
 button
@@ -178,6 +180,7 @@ form
 
 h1
 {
+    font-size: 40px;
     font-weight: normal;
     text-align: center;
 }
@@ -186,12 +189,52 @@ h1
 /* ANIMATIONS
 /*****************************************************************************/
 
+@keyframes result-forward
+{
+    0%
+    {
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+    100%
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes result-backward
+{
+    0%
+    {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+    100%
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 @keyframes status
 {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
+    0%
+    {
+        opacity: 0;
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    90%
+    {
+        opacity: 1;
+    }
+    100%
+    {
+        opacity: 0;
+    }
 }
 
 /*****************************************************************************/
@@ -205,6 +248,7 @@ h1
     display: flex;
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 .layout-nav-button:first-child
@@ -224,7 +268,7 @@ h1
     padding: 10px;
 }
 
-.index-filters
+.index-search
 {
     display: flex;
     gap: 10px;
@@ -237,26 +281,41 @@ h1
     gap: 10px;
 }
 
-.index-anime-result
+.index-result
 {
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
     background-color: var(--color-black);
     border: 1px solid var(--color-gray-dark);
     display: flex;
 }
 
-.index-anime-body
+.index-result:nth-child(odd)
+{
+    animation-name: result-forward;
+}
+
+.index-result:nth-child(even)
+{
+    animation-name: result-backward;
+}
+
+.index-result-body
 {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.index-anime-info
+.index-result-info
 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     padding: 10px;
 }
 
-.index-anime-stats
+.index-result-stats
 {
     border-top: 1px solid var(--color-gray-dark);
     display: flex;
@@ -315,13 +374,6 @@ h1
     padding: 10px;
 }
 
-.anime-info
-{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 /*****************************************************************************/
 /* CONTACT
 /*****************************************************************************/
@@ -337,6 +389,13 @@ h1
 /*****************************************************************************/
 /* UTILITIES
 /*****************************************************************************/
+
+.util-no-results
+{
+    color: var(--color-white-dark);
+    padding: 20px;
+    text-align: center;
+}
 
 .util-go
 {
@@ -356,12 +415,26 @@ h1
     background-color: var(--color-black);
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    position: relative;
 }
 
-.util-banner img
+.util-banner-background
+{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(5px);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.util-banner-image
 {
     max-width: 300px;
     min-width: 300px;
+    z-index: 1;
 }
 
 .util-hidden
@@ -380,10 +453,14 @@ h1
     animation-duration: 5s;
     background-color: var(--color-primary);
     border-top: 1px solid var(--color-primary-dark);
-    opacity: 0;
     padding: 20px;
     position: fixed;
     bottom: 0;
     text-align: center;
     width: 100%;
+}
+
+.util-label
+{
+    color: var(--color-white-dark);
 }

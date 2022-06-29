@@ -5,12 +5,13 @@ block head-content
 
 block main-content
     div.index-wrapper
-        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar
-        div.index-filters
-            select#index-filters-category
+        div.index-search
+            input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar
+            select#index-filter
                 option(value='anime') Anime
-            select#index-filters-sort
-                option(value='rank') Rank
+                option(value='studio') Studio
         hr
-        div.index-results.util-hidden#index-results
+        div.index-results#index-results
+            div.util-no-results This query does not match any anime.
         button(type='button').util-hidden#index-results-load #[i.fa-solid.fa-arrow-down] Continue
+        hr

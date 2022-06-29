@@ -5,57 +5,68 @@ block head-content
 
 block main-content
     div.util-banner
-        img(src=`${myanimelist.thumbnail}` alt='<Thumbnail>')
+        div(style=`background-image: url("${anime.thumbnail}")`).util-banner-background
+        img(src=`${anime.thumbnail}` alt='<Thumbnail>').util-banner-image
     div.anime-wrapper
-        h1 #[cite #{myanimelist.titles[0]}]
+        h1 #[cite #{anime.titles[0]}]
         hr
         div.anime-opeds#anime-opeds
-            each op in myanimelistOpeds.ops
+            if anime.ops.length == 0 && anime.eds.length == 0
+                div.util-no-results This anime does not have any openings or endings.
+            each op in anime.ops
                 article.anime-oped
-                    button(type='button' data-id=`${op.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    button(type='button' data-oped-id=`${op.id}` data-anime-id=`${anime.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
                     div.anime-oped-body
                         div.anime-oped-info
-                            div OP ##{op.ordinal}
+                            div OP ##{op.sequence}
                             div #[cite #{op.title}]
+                            if op.artists
+                                div
+                                    each artist, index in op.artists
+                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
+                                        if index < op.artists.length - 1
+                                            | , 
                         div.anime-oped-stats
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
-            each ed in myanimelistOpeds.eds
+            each ed in anime.eds
                 article.anime-oped
-                    button(type='button' data-id=`${ed.id}` data-anime-id=`${myanimelist.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
+                    button(type='button' data-oped-id=`${ed.id}` data-anime-id=`${anime.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
                     div.anime-oped-body
                         div.anime-oped-info
-                            div ED ##{ed.ordinal}
+                            div ED ##{ed.sequence}
                             div #[cite #{ed.title}]
+                            if ed.artists
+                                div
+                                    each artist, index in ed.artists
+                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
+                                        if index < ed.artists.length - 1
+                                            | , 
                         div.anime-oped-stats
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
         hr
-        div.anime-info
-            div Titles: #[cite #{myanimelist.titles.join(', ')}]
-            if myanimelist.studios
-                div Studios: #{myanimelist.studios.join(', ')}
-            div Type: #{myanimelist.type}
-            if myanimelist.season
-                div Season: #{myanimelist.season}
-            if myanimelist.start == myanimelist.end
-                div Date: #{myanimelist.start}
+        div #[span.util-label Studios:] 
+            if anime.studios[0] == '<No Data>'
+                | #{anime.studios[0]}
             else
-                div Start Date: #{myanimelist.start}
-                div End Date: #{myanimelist.end}
-            if myanimelist.broadcast
-                div Broadcast: #{myanimelist.broadcast}
-            div Status: #{myanimelist.status}
-            div Genres: #{myanimelist.genres.join(', ')}
-            if myanimelist.episodes
-                div Episodes: #{myanimelist.episodes}
-            if myanimelist.rating
-                div Rating: #{myanimelist.rating}
-            hr
-            div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${myanimelist.id}`) Visit MyAnimeList]
-            if myanimelist.score
-                div #[i.fa-solid.fa-star] #{myanimelist.score}
-            if myanimelist.rank
-                div #[i.fa-solid.fa-ranking-star] #{myanimelist.rank}
-            hr
-            p.util-paragraph #{myanimelist.synopsis}
+                each studio, index in anime.studios
+                    a(href=`/studio?${new URLSearchParams([['name', studio]])}`) #{studio}
+                    if index < anime.studios.length - 1
+                        | , 
+        div #[span.util-label Type:] #{anime.type}
+        div #[span.util-label Season:] #{anime.season}
+        div #[span.util-label Start Date:] #{anime.start}
+        div #[span.util-label End Date:] #{anime.end}
+        div #[span.util-label Broadcast:] #{anime.broadcast}
+        div #[span.util-label Status:] #{anime.status}
+        div #[span.util-label Genres:] #{anime.genres.join(', ')}
+        div #[span.util-label Episodes:] #{anime.episodes}
+        div #[span.util-label Rating:] #{anime.rating}
+        hr
+        div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${anime.id}`) Visit MyAnimeList]
+        div #[i.fa-solid.fa-star] #{anime.score}
+        div #[i.fa-solid.fa-ranking-star] #{anime.rank}
+        div #[i.fa-solid.fa-people-group] #{anime.popularity}
+        hr
+        p.util-paragraph #{anime.synopsis}

@@ -3,8 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 let jIndexSearchbar
-let jIndexFiltersCategory
-let jIndexFiltersSort
+let jIndexFilter
 let jIndexResults
 let jIndexResultsLoad
 
@@ -18,26 +17,63 @@ let displayCount = 0
 
 function addResults()
 {
+    const category = jIndexFilter.val()
     let capacity = displayCount + 10
     for (let i = displayCount; i < capacity && i < results.length; ++i)
     {
         const result = results[i]
-        jIndexResults.append(`
-            <article class="index-anime-result">
-                <button class="util-go" type="button" data-id=${result.id}>
-                    <i class="fa-solid fa-eye fa-2x"></i>
-                </button>
-                <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
-                <div class="index-anime-body">
-                    <div class="index-anime-info"><cite>${result.title}</cite></div>
-                    <div class="index-anime-stats">
-                        <div><i class="fa-solid fa-star"></i></div>
-                        <div><i class="fa-solid fa-ranking-star"></i></div>
+        if (category == 'anime')
+        {
+            jIndexResults.append(`
+                <article class="index-result">
+                    <button class="util-go" type="button" data-id=${result.id}>
+                        <i class="fa-solid fa-eye fa-2x"></i>
+                    </button>
+                    <img class="util-thumbnail" src="${result.thumbnail}" alt="<Thumbnail>">
+                    <div class="index-result-body">
+                        <div class="index-result-info">
+                            <div><cite>${result.title}</cite></div>
+                            <div>${result.studios.join(', ')}</div>
+                        </div>
+                        <div class="index-result-stats">
+                            <div><i class="fa-solid fa-star"></i></div>
+                            <div><i class="fa-solid fa-ranking-star"></i></div>
+                        </div>
                     </div>
-                </div>
-            </article>
-        `)
+                </article>
+            `)
+        }
+        else if (category == 'studio')
+        {
+            jIndexResults.append(`
+                <article class="index-result">
+                    <button class="util-go" type="button" data-name="todo">
+                        <i class="fa-solid fa-eye fa-2x"></i>
+                    </button>
+                    <div class="index-result-body">
+                        <div class="index-result-info">
+                            <div>${result[1].name}</div>
+                        </div>
+                        <div class="index-result-stats">
+                            <div><i class="fa-solid fa-star"></i></div>
+                            <div><i class="fa-solid fa-ranking-star"></i></div>
+                        </div>
+                    </div>
+                </article>
+            `)
+        }
         ++displayCount
+    }
+    if (results.length == 0)
+    {
+        if (category == 'anime')
+        {
+            jIndexResults.append('<div class="util-no-results">This query does not match any anime.</div>')
+        }
+        else if (category == 'studio')
+        {
+            jIndexResults.append('<div class="util-no-results">This query does not match any studio.</div>')
+        }
     }
     if (displayCount == capacity)
     {
@@ -49,53 +85,65 @@ function addResults()
     }
 }
 
-function indexSearchbar_OnInput(event)
+function getSearchResults()
 {
-    const query = event.target.value
+    const request =
+    {
+        url: `${location.origin}/api/get-search-results`,
+        data:
+        {
+            query: jIndexSearchbar.val(),
+            category: jIndexFilter.val()
+        },
+        success: response =>
+        {
+            results = JSON.parse(response)
+            displayCount = 0
+            jIndexResults.empty()
+            addResults()
+        }
+    }
+    $.ajax(request)
+}
+
+function updateSearchbarPlaceholder()
+{
+    jIndexSearchbar.attr('placeholder', `Search ${jIndexFilter.val()}...`)
+}
+
+function indexSearchbar_OnInput()
+{
     if (timeout)
     {
         clearTimeout(timeout)
         timeout = undefined
     }
-    timeout = setTimeout(() =>
+    timeout = setTimeout(getSearchResults, 500)
+}
+
+function indexFilter_OnChange()
+{
+    updateSearchbarPlaceholder()
+    if (timeout)
     {
+        clearTimeout(timeout)
         timeout = undefined
-        displayCount = 0
-        const request =
-        {
-            url: `${location.origin}/api/get-anime-search-results`,
-            data:
-            {
-                query: query,
-                sort: jIndexFiltersSort.val()
-            },
-            success: response =>
-            {
-                results = JSON.parse(response)
-                jIndexResults.empty()
-                jIndexResults.toggleClass('util-hidden', results.length == 0)
-                addResults()
-            }
-        }
-        $.ajax(request)
-    },
-    500)
-}
-
-function indexFiltersCategory_OnChange()
-{
-
-}
-
-function indexFiltersSort_OnChange()
-{
-    
+    }
+    getSearchResults()
 }
 
 function indexResultGo_OnClick(event)
 {
-    const id = $(event.currentTarget).data('id')
-    location.href = `${location.origin}/anime?id=${id}`
+    if (jIndexFilter.val() == 'anime')
+    {
+        const id = $(event.currentTarget).data('id')
+        location.href = `${location.origin}/anime?id=${id}`
+    }
+    else if (jIndexFilter.val() == 'studio')
+    {
+        const name = $(event.currentTarget).data('name')
+        location.href = `${location.origin}/studio?name=${name}`
+    }
 }
 
 function indexResultLoad_OnClick()
@@ -106,8 +154,7 @@ function indexResultLoad_OnClick()
 function setElements()
 {
     jIndexSearchbar = $('#index-searchbar')
-    jIndexFiltersCategory = $('#index-filters-category')
-    jIndexFiltersSort = $('#index-filters-sort')
+    jIndexFilter = $('#index-filter')
     jIndexResults = $('#index-results')
     jIndexResultsLoad = $('#index-results-load')
 }
@@ -115,15 +162,18 @@ function setElements()
 function setListeners()
 {
     jIndexSearchbar.on('input', indexSearchbar_OnInput)
-    jIndexFiltersCategory.on('change', indexFiltersCategory_OnChange)
-    jIndexFiltersSort.on('change', indexFiltersSort_OnChange)
+    jIndexFilter.on('change', indexFilter_OnChange)
     jIndexResults.on('click', '.util-go', indexResultGo_OnClick)
     jIndexResultsLoad.on('click', indexResultLoad_OnClick)
 }
 
 function setContent()
 {
-    jIndexSearchbar.val('')
+    const search = Object.fromEntries(new URLSearchParams(location.search).entries())
+    jIndexSearchbar.val(search.query ? search.query : '')
+    jIndexFilter.val(search.filter ? search.filter : 'anime')
+    updateSearchbarPlaceholder()
+    getSearchResults()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
