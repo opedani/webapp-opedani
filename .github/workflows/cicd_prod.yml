@@ -1,0 +1,67 @@
+name: 'CI CD Production'
+
+# Occurs on pushes to production branch
+on:
+  push:
+    branches:
+      production
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Always use Bash shell and start in ./cicd_prod/terraform subdirectory
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./cicd_prod/terraform
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    # Install the latest Terraform CLI and configure it with a Terraform Cloud API token
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API }}
+
+    # Run "terraform init"
+    - name: Terraform Init
+      run: terraform init
+
+    # Run "terraform fmt -check -diff"
+    - name: Terraform Format
+      run: terraform fmt -check -diff
+
+    # Run "terraform validate"
+    - name: Terraform Validate
+      run: terraform validate
+
+    # Run "terraform apply"
+    - name: Terraform Apply
+      run: terraform apply
+
+  ansible:
+    name: 'Ansible'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: terraform
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Run the Ansible playbook
+      - name: Run Playbooks
+        uses: dawidd6/action-ansible-playbook@v2.5.0
+        with:
+          playbook: playbook.yml
+          directory: ./cicd_prod/ansible
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          options: |
+            --inventory .inventory
