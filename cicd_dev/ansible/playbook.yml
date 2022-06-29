@@ -16,6 +16,7 @@
         state: latest
 
     - name: Stop Apache (httpd), if started
+      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: stopped
