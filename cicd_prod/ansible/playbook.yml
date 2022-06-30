@@ -53,7 +53,7 @@
         repo: https://github.com/opedani/webapp-opedani.git
         dest: /home/ec2-user/webapp-opedani
         single_branch: yes
-        version: master
+        version: production
 
     - name: npm install
       ignore_errors: yes
