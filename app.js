@@ -331,34 +331,6 @@ function filterAnimeResults(query)
     return searchResults
 }
 
-function filterStudioResults(query)
-{
-    const searchResults = new Map()
-    for (const anime of apiData)
-    {
-        for (const studio of anime.studios)
-        {
-            if (query.length == 0 || studio.includes(query))
-            {
-                const object = searchResults.get(studio)
-                if (object)
-                {
-                    // todo
-                }
-                else
-                {
-                    searchResults.set(studio,
-                    {
-                        name: studio
-                    })
-                }
-                break;
-            }
-        }
-    }
-    return Array.from(searchResults)
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // AJAX FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
@@ -414,15 +386,6 @@ function getOpedPage(request, response)
     }
 }
 
-function getStudioPage(request, response)
-{
-    const arguments = url.parse(request.url, true).query
-    response.render('studio',
-    {
-        anime: {} // todo
-    })
-}
-
 function getArtistPage(request, response)
 {
     response.render('artist')
@@ -451,9 +414,9 @@ function getSearchResults(request, response)
     {
         searchResults = filterAnimeResults(arguments.query)
     }
-    else if (arguments.category == 'studio')
+    else if (arguments.category == 'user')
     {
-        searchResults = filterStudioResults(arguments.query)
+        // todo
     }
     response.json(JSON.stringify(searchResults))
 }
@@ -480,10 +443,10 @@ app.get('/', getIndexPage)
 app.get('/anime', getAnimePage)
 app.get('/oped', getOpedPage)
 app.get('/artist', getArtistPage)
-app.get('/studio', getStudioPage)
 app.get('/contact', getContactPage)
 app.get('/privacy-policy', getPrivacyPolicyPage)
 app.get('/terms-and-conditions', getTermsAndConditionsPage)
+
 app.get('/api/get-search-results', getSearchResults)
 app.get('/api/submit-contact-form', submitContactForm)
 
@@ -491,3 +454,4 @@ console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni.`))
 
 fetchAPIData()
+setInterval(fetchAPIData, 100 * 60 * 60 * 24)

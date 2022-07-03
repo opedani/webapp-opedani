@@ -5,10 +5,13 @@ block head-content
 
 block main-content
     div.index-wrapper
-        div.index-search
-            input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar
-            select#index-filter
+        input(type='text' placeholder='Search anime...' autocomplete='off' spellcheck='false')#index-searchbar
+        div.index-options
+            select#index-category
                 option(value='anime') Anime
+                option(value='user') User
+            select#index-filter
+                option(value='title') Title
                 option(value='studio') Studio
         hr
         div.index-results#index-results
