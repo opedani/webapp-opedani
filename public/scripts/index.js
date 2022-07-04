@@ -64,6 +64,38 @@ function addResults()
     }
 }
 
+function sortResults()
+{
+    const category = jIndexCategory.val()
+    const filter = jIndexFilter.val()
+    if (category == 'anime')
+    {
+        if (filter == 'title')
+        {
+            results.sort((lhs, rhs) => lhs.title < rhs.title ? -1 : 1)
+        }
+        else if (filter == 'mal-rank')
+        {
+            results.sort((lhs, rhs) =>
+            {
+                if (lhs.rank == '<No Data>')
+                {
+                    return 1;
+                }
+                if (rhs.rank == '<No Data>')
+                {
+                    return -1;
+                }
+                return lhs.rank < rhs.rank ? -1 : 1
+            })
+        }
+    }
+    else if (category == 'mal-rank-decreasing')
+    {
+        // todo
+    }
+}
+
 function getSearchResults()
 {
     const request =
@@ -79,6 +111,7 @@ function getSearchResults()
             results = JSON.parse(response)
             displayCount = 0
             jIndexResults.empty()
+            sortResults()
             addResults()
         }
     }
@@ -97,8 +130,8 @@ function updateFilterOptions()
     {
         jIndexFilter.empty()
         jIndexFilter.append(`
+            <option value="mal-rank">MAL Rank</option>
             <option value="title">Title</option>
-            <option value="studio">Studio</option>
         `)
     }
     else if (category == 'user')
@@ -131,15 +164,10 @@ function indexCategory_OnChange()
 
 function indexFilter_OnChange()
 {
-    const filter = jIndexFilter.val()
-    if (filter == 'title')
-    {
-        // todo
-    }
-    else if (filter == 'studio')
-    {
-        // todo
-    }
+    displayCount = 0
+    jIndexResults.empty()
+    sortResults()
+    addResults()
 }
 
 function indexResultGo_OnClick(event)
@@ -183,7 +211,7 @@ function setContent()
     const search = Object.fromEntries(new URLSearchParams(location.search).entries())
     jIndexSearchbar.val(search.query ? search.query : '')
     jIndexCategory.val(search.category ? search.category : 'anime')
-    jIndexFilter.val(search.filter ? search.filter : 'title')
+    jIndexFilter.val(search.filter ? search.filter : 'mal-rank')
     updateSearchbarPlaceholder()
     getSearchResults()
 }

@@ -321,7 +321,8 @@ function filterAnimeResults(query)
                     id: anime.id,
                     title: title,
                     thumbnail: anime.thumbnail,
-                    studios: anime.studios
+                    studios: anime.studios,
+                    rank: anime.rank
                 }
                 searchResults.push(object)
                 break;

@@ -46,14 +46,7 @@ block main-content
                             div #[i.fa-solid.fa-star]
                             div #[i.fa-solid.fa-ranking-star]
         hr
-        div #[span.util-label Studios:] 
-            if anime.studios[0] == '<No Data>'
-                | #{anime.studios[0]}
-            else
-                each studio, index in anime.studios
-                    a(href=`/studio?${new URLSearchParams([['name', studio]])}`) #{studio}
-                    if index < anime.studios.length - 1
-                        | , 
+        div #[span.util-label Studios:] #{anime.studios.join(', ')}
         div #[span.util-label Type:] #{anime.type}
         div #[span.util-label Season:] #{anime.season}
         div #[span.util-label Start Date:] #{anime.start}
