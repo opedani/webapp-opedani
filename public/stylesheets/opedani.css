@@ -1,0 +1,25 @@
+:root
+{
+    --color-white: #d9d9d9;
+    --color-white-dark: #a6a6a6;
+    --color-black: #1a1a1a;
+    --color-black-dark: #000000;
+    --color-primary: #4090bf;
+    --color-primary-dark: #265773;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #6b3399;
+    --color-gray: #494950;
+    --color-gray-dark: #303036;
+}
+
+::selection
+{
+    background: var(--color-accent-dark);
+}
+
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}

@@ -3,25 +3,15 @@ html(lang='en')
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible' content='IE=edge')
-        meta(name='description' content='OpEdAni is an online community of anime enthusiasts to rank, discuss, watch, and listen to openings and endings.')
-        meta(name='keywords' content='anime')
+        meta(name='description' content='OpEdAni is the best place to rate and discuss anime openings and endings.')
+        meta(name='keywords' content='anime, rate, rank, opening, ending, op, ed')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        title OpEdAni: Anime Openings &amp Endings
-        link(rel='stylesheet' href='/stylesheet.css')
+        link(rel='stylesheet' href='/stylesheets/opedani.css')
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
         script(src='/scripts/layout.js' type='module')
         block head-content
     body
-        nav.layout-nav
-            button(type='button').layout-nav-button#home
-                i.fa-solid.fa-house.fa-2x
-            button(type='button').layout-nav-button#menu
-                i.fa-solid.fa-bars.fa-2x
         main
             block main-content
-        footer
-            div #[a(href='/contact') Contact]
-            div #[a(href='/privacy-policy') Privacy Policy]
-            div #[a(href='/terms-and-conditions') Terms &amp Conditions]
-            div Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
+        block script-content
