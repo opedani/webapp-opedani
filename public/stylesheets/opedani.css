@@ -23,3 +23,119 @@
     margin: 0;
     padding: 0;
 }
+
+html
+{
+    background-color: var(--color-black);
+    background-image: url('/images/background.png');
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    height: 100%;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+main
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+hr
+{
+    background-color: var(--color-gray);
+    height: 1px;
+    border: none;
+}
+
+h1
+{
+    color: var(--color-primary);
+    font-size: 32px;
+    line-height: 1.5;
+}
+
+p
+{
+    line-height: 1.5;
+}
+
+li
+{
+    line-height: 1.5;
+}
+
+form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label
+{
+    color: var(--color-white-dark);
+    line-height: 1.5;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+select
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+select:focus,
+button:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+button
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px;
+}
+
+.container
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.no-border
+{
+    border: none !important;
+}

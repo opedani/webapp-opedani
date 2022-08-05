@@ -1,0 +1,13 @@
+.main-nav
+{
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-black-dark);
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.main-nav-item:nth-child(2)
+{
+    margin-right: auto;
+}

@@ -7,11 +7,33 @@ html(lang='en')
         meta(name='keywords' content='anime, rate, rank, opening, ending, op, ed')
         meta(name='viewport' content='width=device-width, initial-scale=1')
         link(rel='stylesheet' href='/stylesheets/opedani.css')
-        script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
-        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-        script(src='/scripts/layout.js' type='module')
+        link(rel='stylesheet' href='/stylesheets/layout.css')
         block head-content
     body
+        nav.main-nav
+            div.main-nav-item
+                button.no-border#menu
+                    i.fa-solid.fa-bars.fa-2x
+            div.main-nav-item
+                a(href='/')
+                    button.no-border
+                        i.fa-solid.fa-home.fa-2x
+            div(data-unauth).main-nav-item.hidden
+                a(href='/sign-in')
+                    button.no-border
+                        i.fa-solid.fa-arrow-right-to-bracket.fa-2x
+            div(data-unauth).main-nav-item.hidden
+                a(href='/sign-up')
+                    button.no-border
+                        i.fa-solid.fa-user-plus.fa-2x
+            div(data-auth).main-nav-item.hidden
+                a(href='/sign-out')
+                    button.no-border
+                        i.fa-solid.fa-arrow-right-from-bracket.fa-2x
         main
             block main-content
-        block script-content
+        script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+        script(src='/scripts/authenticate.js' type='module')
+        script(src='/scripts/layout.js' type='module')
+        block body-content
