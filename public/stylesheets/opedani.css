@@ -57,8 +57,6 @@ hr
 
 h1
 {
-    color: var(--color-primary);
-    font-size: 32px;
     line-height: 1.5;
 }
 
@@ -72,22 +70,74 @@ li
     line-height: 1.5;
 }
 
-form
-{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 label
 {
     color: var(--color-white-dark);
     line-height: 1.5;
 }
 
-input[type=text],
-input[type=email],
-input[type=password],
+a
+{
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+a:focus
+{
+    outline: none;
+}
+
+input[type=text]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+}
+
+input[type=text]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+input[type=email]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+}
+
+input[type=email]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+input[type=password]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+}
+
+input[type=password]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
 select
 {
     background-color: var(--color-black);
@@ -99,11 +149,7 @@ select
     padding: 10px;
 }
 
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus,
-select:focus,
-button:focus
+select:focus
 {
     border: 1px solid var(--color-gray);
     outline: none;
@@ -111,8 +157,8 @@ button:focus
 
 button
 {
-    background-color: var(--color-black);
-    border: 1px solid var(--color-gray-dark);
+    background-color: transparent;
+    border: none;
     border-radius: 0;
     color: var(--color-white);
     cursor: pointer;
@@ -122,20 +168,26 @@ button
     padding: 10px;
 }
 
-.container
+button:focus
 {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    outline: none;
+}
+
+.button
+{
+    color: var(--color-white);
+    display: block;
     padding: 10px;
 }
 
 .hidden
 {
-    display: none;
+    display: none !important;
 }
 
-.no-border
+.grow
 {
-    border: none !important;
+    flex-basis: max-content;
+    flex-grow: 1;
+    flex-shrink: 0;
 }

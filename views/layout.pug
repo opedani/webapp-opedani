@@ -10,28 +10,49 @@ html(lang='en')
         link(rel='stylesheet' href='/stylesheets/layout.css')
         block head-content
     body
-        nav.main-nav
-            div.main-nav-item
-                button.no-border#menu
+        nav.top-nav#main-nav
+            div.top-nav-item
+                button#menu
                     i.fa-solid.fa-bars.fa-2x
-            div.main-nav-item
-                a(href='/')
-                    button.no-border
-                        i.fa-solid.fa-home.fa-2x
-            div(data-unauth).main-nav-item.hidden
-                a(href='/sign-in')
-                    button.no-border
-                        i.fa-solid.fa-arrow-right-to-bracket.fa-2x
-            div(data-unauth).main-nav-item.hidden
-                a(href='/sign-up')
-                    button.no-border
-                        i.fa-solid.fa-user-plus.fa-2x
-            div(data-auth).main-nav-item.hidden
-                a(href='/sign-out')
-                    button.no-border
-                        i.fa-solid.fa-arrow-right-from-bracket.fa-2x
+            div.top-nav-item
+                a(href='/').button
+                    i.fa-solid.fa-home.fa-2x
+            div.top-nav-item
+                button#search
+                    i.fa-solid.fa-search.fa-2x
+            div(data-unauth).top-nav-item.hidden
+                a(href='/sign-in').button
+                    i.fa-solid.fa-arrow-right-to-bracket.fa-2x
+            div(data-unauth).top-nav-item.hidden
+                a(href='/sign-up').button
+                    i.fa-solid.fa-user-plus.fa-2x
+            div(data-auth).top-nav-item.hidden
+                a(href='/sign-out').button
+                    i.fa-solid.fa-arrow-right-from-bracket.fa-2x
+        nav.top-nav.hidden#search-nav
+            div.top-nav-item
+                button#exit-search-nav
+                    i.fa-solid.fa-arrow-left.fa-2x
+            div.top-nav-item.grow
+                form.top-nav-searchbar#search-form
+                    button(type='submit')
+                        i.fa-solid.fa-search.fa-2x
+                    input(type='text' placeholder='Search...' autocomplete='off' spellcheck=false).grow
+                    select
+                        option(value='anime' selected) Anime
+                        option(value='song') Song
+                        option(value='user') User
         main
             block main-content
+        footer.bottom-footer
+            div.bottom-footer-socials
+                div
+                    a(href='https://discord.gg/RGtp75F3k7' target='_blank').button
+                        i.fa-brands.fa-discord.fa-2x
+                div
+                    a(href='https://github.com/opedani/webapp-opedani' target='_blank').button
+                        i.fa-brands.fa-github.fa-2x
+            p Copyright &copy #{new Date().getFullYear()} OpEdAni Team
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
         script(src='/scripts/authenticate.js' type='module')

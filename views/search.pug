@@ -1,20 +1,12 @@
 extends layout
 
 block head-content
+    title OpEdAni: Search
     link(rel='stylesheet' href='/stylesheets/search.css')
 
 block body-content
     script(src='/scripts/search.js' type='module')
 
 block main-content
-    div.container
-        h1 Search
-        form
-            label(for='query') Query
-            input(type='text' placeholder='Search...' spellcheck='false' autocomplete='off' required)#query
-            label(for='category') Category
-            select#category
-                option(value='anime' selected) Anime
-                option(value='song') Song
-                option(value='user') User
     hr
+    section
