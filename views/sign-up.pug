@@ -7,3 +7,16 @@ block body-content
     script(src='/scripts/sign-up.js' type='module')
 
 block main-content
+    div.center-frame
+        header.icon-text
+            i.fa-solid.fa-user-plus.fa-2x
+            h1 Sign Up
+        form.column#form
+            label(for='email') Email
+            input(type='email' autocomplete='off' spellcheck='false' required)#email
+            label(for='password') Password
+            input(type='password' autocomplete='off' spellcheck='false' required)#password
+            label(for='password') Retype Password
+            input(type='password' autocomplete='off' spellcheck='false' required)#password-retype
+            button(type='submit').button-box Sign Up
+        a(href='/sign-in') Already have an account? Sign in instead.

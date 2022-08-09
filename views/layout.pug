@@ -12,29 +12,29 @@ html(lang='en')
     body
         nav.top-nav#main-nav
             div.top-nav-item
-                button#menu
+                button#main-nav-menu
                     i.fa-solid.fa-bars.fa-2x
             div.top-nav-item
-                a(href='/').button
+                a(href='/').button-link
                     i.fa-solid.fa-home.fa-2x
             div.top-nav-item
-                button#search
+                button#main-nav-search
                     i.fa-solid.fa-search.fa-2x
             div(data-unauth).top-nav-item.hidden
-                a(href='/sign-in').button
+                a(href='/sign-in').button-link
                     i.fa-solid.fa-arrow-right-to-bracket.fa-2x
             div(data-unauth).top-nav-item.hidden
-                a(href='/sign-up').button
+                a(href='/sign-up').button-link
                     i.fa-solid.fa-user-plus.fa-2x
             div(data-auth).top-nav-item.hidden
-                a(href='/sign-out').button
+                a(href='/sign-out').button-link
                     i.fa-solid.fa-arrow-right-from-bracket.fa-2x
         nav.top-nav.hidden#search-nav
             div.top-nav-item
-                button#exit-search-nav
+                button#search-nav-exit
                     i.fa-solid.fa-arrow-left.fa-2x
             div.top-nav-item.grow
-                form.top-nav-searchbar#search-form
+                form.top-nav-searchbar#search-nav-form
                     button(type='submit')
                         i.fa-solid.fa-search.fa-2x
                     input(type='text' placeholder='Search...' autocomplete='off' spellcheck=false).grow
@@ -45,12 +45,12 @@ html(lang='en')
         main
             block main-content
         footer.bottom-footer
-            div.bottom-footer-socials
+            div.row
                 div
-                    a(href='https://discord.gg/RGtp75F3k7' target='_blank').button
+                    a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-link
                         i.fa-brands.fa-discord.fa-2x
                 div
-                    a(href='https://github.com/opedani/webapp-opedani' target='_blank').button
+                    a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-link
                         i.fa-brands.fa-github.fa-2x
             p Copyright &copy #{new Date().getFullYear()} OpEdAni Team
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')

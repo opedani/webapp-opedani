@@ -1,17 +1,17 @@
-const jMainNav = $('#main-nav')
-const jSearch = $('#search')
+const mainNav = $('#main-nav')
+const mainNavSearch = $('#main-nav-search')
 
-const jSearchNav = $('#search-nav')
-const jExitSearchNav = $('#exit-search-nav')
+const searchNav = $('#search-nav')
+const searchNavExit = $('#search-nav-exit')
 
-jSearch.on('click', () =>
+mainNavSearch.on('click', () =>
 {
-    jMainNav.addClass('hidden')
-    jSearchNav.removeClass('hidden')
+    mainNav.addClass('hidden')
+    searchNav.removeClass('hidden')
 })
 
-jExitSearchNav.on('click', () =>
+searchNavExit.on('click', () =>
 {
-    jMainNav.removeClass('hidden')
-    jSearchNav.addClass('hidden')
+    mainNav.removeClass('hidden')
+    searchNav.addClass('hidden')
 })
