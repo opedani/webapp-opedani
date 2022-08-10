@@ -37,8 +37,12 @@ html(lang='en')
                 form.top-nav-searchbar#search-nav-form
                     button(type='submit')
                         i.fa-solid.fa-search.fa-2x
-                    input(type='text' placeholder='Search...' autocomplete='off' spellcheck=false).grow
-                    select
+                    div.top-nav-searchbar-middle
+                        input(type='text' placeholder='Search...' autocomplete='off' spellcheck='false' minlength='3').grow#search-nav-query
+                        div.top-nav-result-container#search-nav-result-container
+                            a(href='/anime/steins;gate').top-nav-result
+                                - // TODO
+                    select#search-nav-category
                         option(value='anime' selected) Anime
                         option(value='song') Song
                         option(value='user') User

@@ -28,13 +28,13 @@ function parseMyAnimeList(node)
     const id = node.id
     const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
     const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
-    const myanimelist =
+    const anime =
     {
         id: id,
         titles: titles,
         thumbnail: thumbnail
     }
-    return myanimelist
+    return anime
 }
 
 function fetchMyAnimeList(offset, result)
@@ -62,8 +62,8 @@ function fetchMyAnimeList(offset, result)
             {
                 for (const data of object.data)
                 {
-                    const myanimelist = parseMyAnimeList(data.node)
-                    result.push(myanimelist)
+                    const anime = parseMyAnimeList(data.node)
+                    result.push(anime)
                 }
                 fetchMyAnimeList(offset + 500, result)
             }
@@ -105,6 +105,40 @@ function getSignOutPage(request, response)
     response.render('sign-out')
 }
 
+//////////////////////////////////////////////////////////////////////
+// API FUNCTIONS
+//////////////////////////////////////////////////////////////////////
+
+function filterSearchResults(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    const query = arguments.query.toLowerCase().trim()
+    let searchResults = []
+    if (arguments.category == 'anime')
+    {
+        for (const anime of apiMyAnimeList)
+        {
+            for (const title of anime.titles)
+            {
+                if (title.toLowerCase().includes(query))
+                {
+                    searchResults.push(anime)
+                    break;
+                }
+            }
+        }
+    }
+    else if (arguments.category == 'song')
+    {
+
+    }
+    else if (arguments.category == 'user')
+    {
+
+    }
+    response.json(searchResults)
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURATION
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +155,8 @@ app.get('/search', getSearchPage)
 app.get('/sign-in', getSignInPage)
 app.get('/sign-up', getSignUpPage)
 app.get('/sign-out', getSignOutPage)
+
+app.get('/api/filter-search-results', filterSearchResults)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:8080 }`))
