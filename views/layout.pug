@@ -10,52 +10,18 @@ html(lang='en')
         link(rel='stylesheet' href='/stylesheets/layout.css')
         block head-content
     body
-        nav.top-nav#main-nav
-            div.top-nav-item
-                button#main-nav-menu
-                    i.fa-solid.fa-bars.fa-2x
-            div.top-nav-item
-                a(href='/').button-link
-                    i.fa-solid.fa-home.fa-2x
-            div.top-nav-item
-                button#main-nav-search
-                    i.fa-solid.fa-search.fa-2x
-            div(data-unauth).top-nav-item.hidden
-                a(href='/sign-in').button-link
-                    i.fa-solid.fa-arrow-right-to-bracket.fa-2x
-            div(data-unauth).top-nav-item.hidden
-                a(href='/sign-up').button-link
-                    i.fa-solid.fa-user-plus.fa-2x
-            div(data-auth).top-nav-item.hidden
-                a(href='/sign-out').button-link
-                    i.fa-solid.fa-arrow-right-from-bracket.fa-2x
-        nav.top-nav.hidden#search-nav
-            div.top-nav-item
-                button#search-nav-exit
-                    i.fa-solid.fa-arrow-left.fa-2x
-            div.top-nav-item.grow
-                form.top-nav-searchbar#search-nav-form
-                    button(type='submit')
-                        i.fa-solid.fa-search.fa-2x
-                    div.top-nav-searchbar-middle
-                        input(type='text' placeholder='Search...' autocomplete='off' spellcheck='false' minlength='3').grow#search-nav-query
-                        div.top-nav-result-container#search-nav-result-container
-                            a(href='/anime/steins;gate').top-nav-result
-                                - // TODO
-                    select#search-nav-category
-                        option(value='anime' selected) Anime
-                        option(value='song') Song
-                        option(value='user') User
+        nav.nav-layout
+
         main
             block main-content
-        footer.bottom-footer
-            div.row
-                div
-                    a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-link
-                        i.fa-brands.fa-discord.fa-2x
-                div
-                    a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-link
-                        i.fa-brands.fa-github.fa-2x
+        footer.footer-layout
+            div.flex-row
+                a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-link
+                    i.fa-brands.fa-discord.fa-2x
+                    p.button-link-label Discord
+                a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-link
+                    i.fa-brands.fa-github.fa-2x
+                    p.button-link-label Github
             p Copyright &copy #{new Date().getFullYear()} OpEdAni Team
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
