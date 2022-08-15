@@ -85,26 +85,6 @@ function getIndexPage(request, response)
     response.render('index')
 }
 
-function getSearchPage(request, response)
-{
-    response.render('search', { anime: apiMyAnimeList })
-}
-
-function getSignInPage(request, response)
-{
-    response.render('sign-in')
-}
-
-function getSignUpPage(request, response)
-{
-    response.render('sign-up')
-}
-
-function getSignOutPage(request, response)
-{
-    response.render('sign-out')
-}
-
 //////////////////////////////////////////////////////////////////////
 // API FUNCTIONS
 //////////////////////////////////////////////////////////////////////
@@ -114,27 +94,16 @@ function filterSearchResults(request, response)
     const arguments = url.parse(request.url, true).query
     const query = arguments.query.toLowerCase().trim()
     let searchResults = []
-    if (arguments.category == 'anime')
+    for (const anime of apiMyAnimeList)
     {
-        for (const anime of apiMyAnimeList)
+        for (const title of anime.titles)
         {
-            for (const title of anime.titles)
+            if (title.toLowerCase().includes(query))
             {
-                if (title.toLowerCase().includes(query))
-                {
-                    searchResults.push(anime)
-                    break;
-                }
+                searchResults.push(anime)
+                break;
             }
         }
-    }
-    else if (arguments.category == 'song')
-    {
-
-    }
-    else if (arguments.category == 'user')
-    {
-
     }
     response.json(searchResults)
 }
@@ -151,10 +120,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
-app.get('/search', getSearchPage)
-app.get('/sign-in', getSignInPage)
-app.get('/sign-up', getSignUpPage)
-app.get('/sign-out', getSignOutPage)
 
 app.get('/api/filter-search-results', filterSearchResults)
 

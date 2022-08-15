@@ -6,22 +6,43 @@ html(lang='en')
         meta(name='description' content='OpEdAni is the best place to rate and discuss anime openings and endings.')
         meta(name='keywords' content='anime, rate, rank, opening, ending, op, ed')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        link(rel='stylesheet' href='/stylesheets/opedani.css')
+        link(rel='stylesheet' href='/stylesheets/prefix.css')
         link(rel='stylesheet' href='/stylesheets/layout.css')
         block head-content
+        link(rel='stylesheet' href='/stylesheets/postfix.css')
     body
-        nav.nav-layout
-
+        nav.layout-nav
+            div.layout-nav-item
+                button.button-icon
+                    i.fa-solid.fa-bars.fa-2x
+                    p(data-breakpoint='gt-medium') Menu
+            div#layout-search-container(data-breakpoint='').layout-nav-item
+                form#layout-search-form.flex-row.flex-grow.gap-large
+                    button(type='submit').button-icon
+                        i.fa-solid.fa-search.fa-2x
+                    input#layout-search-query(type='text' placeholder='Search...' autocomplete='false' spellcheck='off' minlength='3' required)
+            div(data-unauth).layout-nav-item
+                button.button-icon
+                    i.fa-solid.fa-arrow-right-to-bracket.fa-2x
+                    p(data-breakpoint='gt-medium') Sign In
+            div(data-unauth).layout-nav-item
+                button.button-icon
+                    i.fa-solid.fa-user-plus.fa-2x
+                    p(data-breakpoint='gt-medium') Sign Up
+            div(data-auth).layout-nav-item
+                button.button-icon
+                    i.fa-solid.fa-arrow-right-from-bracket.fa-2x
+                    p(data-breakpoint='gt-medium') Sign Out
         main
             block main-content
-        footer.footer-layout
-            div.flex-row
-                a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-link
+        footer.layout-footer
+            div.flex-row.gap-large
+                a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-icon
                     i.fa-brands.fa-discord.fa-2x
-                    p.button-link-label Discord
-                a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-link
+                    p(data-breakpoint='gt-small') Discord
+                a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-icon
                     i.fa-brands.fa-github.fa-2x
-                    p.button-link-label Github
+                    p(data-breakpoint='gt-small') Github
             p Copyright &copy #{new Date().getFullYear()} OpEdAni Team
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')

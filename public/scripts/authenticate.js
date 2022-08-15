@@ -4,14 +4,16 @@ function handleAuthState()
     const authState = sessionStorage.getItem('authState')
     if (authState == 'signedIn')
     {
-        $('[data-auth]').removeClass('hidden')
-        $('[data-noauth]').addClass('hidden')
+        $('[data-auth]').removeAttr('data-auth')
+        $('[data-unauth]').remove()
+        $('[data-noauth]').remove()
     }
     else if (authState == 'signedOut')
     {
-        $('[data-unauth]').removeClass('hidden')
-        $('[data-noauth]').addClass('hidden')
+        $('[data-auth]').remove()
+        $('[data-unauth]').removeAttr('data-unauth')
+        $('[data-noauth]').remove()
     }
 }
 
-setTimeout(handleAuthState, 1000)
+handleAuthState()

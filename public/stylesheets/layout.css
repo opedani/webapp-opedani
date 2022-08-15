@@ -1,4 +1,25 @@
-.footer-layout
+.layout-nav
+{
+    align-items: center;
+    background-color: var(--color-black);
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+}
+
+.layout-nav-item
+{
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.layout-nav-item:nth-child(2)
+{
+    flex: 1 1 100%;
+}
+
+.layout-footer
 {
     background-color: var(--color-black);
     align-items: center;

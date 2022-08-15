@@ -1,43 +1,24 @@
-const mainNav = $('#main-nav')
-const mainNavSearch = $('#main-nav-search')
+const searchForm = $('#layout-search-form')
+const searchQuery = $('#layout-search-query')
 
-const searchNav = $('#search-nav')
-const searchNavExit = $('#search-nav-exit')
-const searchNavForm = $('#search-nav-form')
-const searchNavQuery = $('#search-nav-query')
-const searchNavCategory = $('#search-nav-category')
+let searchFormTimeout
 
-let searchNavFormTimeout
-
-mainNavSearch.on('click', () =>
+searchForm.on('input', () =>
 {
-    mainNav.addClass('hidden')
-    searchNav.removeClass('hidden')
-})
-
-searchNavExit.on('click', () =>
-{
-    mainNav.removeClass('hidden')
-    searchNav.addClass('hidden')
-})
-
-searchNavForm.on('input', () =>
-{
-    if (searchNavQuery.val().length >= 3)
+    if (searchQuery.val().length >= 3)
     {
-        if (searchNavFormTimeout)
+        if (searchFormTimeout)
         {
-            clearTimeout(searchNavFormTimeout)
+            clearTimeout(searchFormTimeout)
         }
-        searchNavFormTimeout = setTimeout(() =>
+        searchFormTimeout = setTimeout(() =>
         {
             const request =
             {
                 url: `${location.origin}/api/filter-search-results`,
                 data:
                 {
-                    query: searchNavQuery.val(),
-                    category: searchNavCategory.val()
+                    query: searchQuery.val()
                 },
                 success: response =>
                 {
@@ -50,8 +31,11 @@ searchNavForm.on('input', () =>
     }
 })
 
-searchNavForm.on('submit', event =>
+searchForm.on('submit', event =>
 {
     event.preventDefault()
-    location.href = `${location.origin}/search?query=${searchNavQuery.val()}&category=${searchNavCategory.val()}`
+    if (searchQuery.val().length >= 3)
+    {
+        location.href = `${location.origin}/search?query=${searchQuery.val()}`
+    }
 })
