@@ -2,6 +2,7 @@
 {
     align-items: center;
     background-color: var(--color-black);
+    box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
     gap: 20px;
     padding: 10px;
@@ -17,6 +18,46 @@
 .layout-nav-item:nth-child(2)
 {
     flex: 1 1 100%;
+}
+
+.layout-result-container
+{
+    background-color: var(--color-black);
+    box-shadow: 0 0 20px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    max-height: 50vh;
+    position: absolute;
+    top: calc(100% + 10px);
+    width: 100%;
+}
+
+@media screen and (max-width: 575px)
+{
+    .layout-result-thumbnail
+    {
+        max-width: 60px;
+        min-height: 80px;
+    }
+}
+
+.layout-result-body
+{
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.layout-result-statistics
+{
+    border-bottom: 1px solid var(--color-gray-dark);
+    border-top: 1px solid var(--color-gray-dark);
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    padding: 10px;
 }
 
 .layout-footer

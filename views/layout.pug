@@ -13,34 +13,35 @@ html(lang='en')
     body
         nav.layout-nav
             div.layout-nav-item
-                button.button-icon
+                button.icon-link
                     i.fa-solid.fa-bars.fa-2x
                     p(data-breakpoint='gt-medium') Menu
             div#layout-search-container(data-breakpoint='').layout-nav-item
-                form#layout-search-form.flex-row.flex-grow.gap-large
-                    button(type='submit').button-icon
+                form#layout-search-form.relative.flex-row.flex-grow.gap-large
+                    button(type='submit').icon-link
                         i.fa-solid.fa-search.fa-2x
-                    input#layout-search-query(type='text' placeholder='Search...' autocomplete='false' spellcheck='off' minlength='3' required)
+                    input#layout-search-query(type='text' placeholder='Search...' autocomplete='off' spellcheck='false' minlength='3' required)
+                    div#layout-result-container.layout-result-container.hidden
             div(data-unauth).layout-nav-item
-                button.button-icon
+                button.icon-link
                     i.fa-solid.fa-arrow-right-to-bracket.fa-2x
                     p(data-breakpoint='gt-medium') Sign In
             div(data-unauth).layout-nav-item
-                button.button-icon
+                button.icon-link
                     i.fa-solid.fa-user-plus.fa-2x
                     p(data-breakpoint='gt-medium') Sign Up
             div(data-auth).layout-nav-item
-                button.button-icon
+                button.icon-link
                     i.fa-solid.fa-arrow-right-from-bracket.fa-2x
                     p(data-breakpoint='gt-medium') Sign Out
         main
             block main-content
         footer.layout-footer
             div.flex-row.gap-large
-                a(href='https://discord.gg/RGtp75F3k7' target='_blank').button-icon
+                a(href='https://discord.gg/RGtp75F3k7' target='_blank').icon-link
                     i.fa-brands.fa-discord.fa-2x
                     p(data-breakpoint='gt-small') Discord
-                a(href='https://github.com/opedani/webapp-opedani' target='_blank').button-icon
+                a(href='https://github.com/opedani/webapp-opedani' target='_blank').icon-link
                     i.fa-brands.fa-github.fa-2x
                     p(data-breakpoint='gt-small') Github
             p Copyright &copy #{new Date().getFullYear()} OpEdAni Team

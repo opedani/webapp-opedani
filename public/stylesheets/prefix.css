@@ -58,8 +58,8 @@ main
 hr
 {
     background-color: var(--color-gray);
-    height: 1px;
     border: none;
+    min-height: 1px;
 }
 
 h1
@@ -102,6 +102,12 @@ input[type=text]
     width: 100%;
 }
 
+input[type=text]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
 input[type=email]
 {
     background-color: var(--color-black);
@@ -112,6 +118,12 @@ input[type=email]
     font-size: 16px;
     padding: 10px;
     width: 100%;
+}
+
+input[type=email]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
 }
 
 input[type=password]
@@ -126,6 +138,12 @@ input[type=password]
     width: 100%;
 }
 
+input[type=password]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
 select
 {
     background-color: var(--color-black);
@@ -135,6 +153,12 @@ select
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     padding: 10px;
+}
+
+select:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
 }
 
 button
@@ -149,13 +173,40 @@ button
     font-weight: normal;
 }
 
-.button-icon
+.block-link
+{
+    color: var(--color-white);
+    display: block;
+}
+
+.block-link:focus
+{
+    color: var(--color-gray);
+    outline: none;
+}
+
+.icon-link
 {
     align-items: center;
     color: var(--color-white);
     display: flex;
     gap: 10px;
     min-height: 32px;
+    min-width: max-content;
+}
+
+.icon-link:focus
+{
+    color: var(--color-gray);
+    outline: none;
+}
+
+.icon-text
+{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    min-height: 16px;
     min-width: max-content;
 }
 
@@ -208,8 +259,7 @@ button
 {
     object-fit: cover;
     object-position: center;
-    height: 100%;
     max-width: 120px;
-    max-height: 160px;
+    min-height: 160px;
     width: 100%;
 }
