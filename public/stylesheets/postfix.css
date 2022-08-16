@@ -44,7 +44,7 @@
     display: none;
 }
 
-@media screen and (max-width: 575px)
+@media screen and (max-width: 599px)
 {
     [data-breakpoint=gt-small]
     {
@@ -52,7 +52,7 @@
     }
 }
 
-@media screen and (max-width: 991px)
+@media screen and (max-width: 999px)
 {
     [data-breakpoint=gt-medium]
     {
@@ -68,7 +68,7 @@
     }
 }
 
-@media screen and (min-width: 576px)
+@media screen and (min-width: 600px)
 {
     [data-breakpoint=lt-small]
     {
@@ -76,7 +76,7 @@
     }
 }
 
-@media screen and (min-width: 992px)
+@media screen and (min-width: 1000px)
 {
     [data-breakpoint=lt-medium]
     {

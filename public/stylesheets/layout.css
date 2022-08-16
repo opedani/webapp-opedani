@@ -5,7 +5,8 @@
     box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
     gap: 20px;
-    padding: 10px;
+    padding: 10px 20px;
+    position: relative;
 }
 
 .layout-nav-item
@@ -17,7 +18,24 @@
 
 .layout-nav-item:nth-child(2)
 {
-    flex: 1 1 100%;
+    flex-basis: 800px;
+    margin: 0 auto;
+}
+
+.layout-search-form
+{
+    display: flex;
+    flex: 1 1 max-content;
+    gap: 20px;
+    position: relative;
+}
+
+@media screen and (max-width: 599px)
+{
+    .layout-search-form
+    {
+        position: initial;
+    }
 }
 
 .layout-result-container
@@ -26,14 +44,23 @@
     box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    left: 0;
     max-height: 50vh;
+    overflow: auto;
     position: absolute;
     top: calc(100% + 10px);
     width: 100%;
 }
 
-@media screen and (max-width: 575px)
+@media screen and (max-width: 599px)
+{
+    .layout-result-container
+    {
+        top: 100%;
+    }
+}
+
+@media screen and (max-width: 599px)
 {
     .layout-result-thumbnail
     {
