@@ -39,12 +39,12 @@
     box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     left: 0;
     padding: 10px;
     position: absolute;
     top: calc(100% + 10px);
-    width: 200px;
+    width: max-content;
 }
 
 @media screen and (max-width: 599px)

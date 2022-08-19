@@ -16,7 +16,13 @@ html(lang='en')
                 button#layout-menu-toggle.icon-link
                     i.fa-solid.fa-bars.fa-2x
                     p(data-breakpoint='gt-medium') Menu
-                div#layout-menu-container.layout-menu-container
+                div#layout-menu-container.layout-menu-container.hidden
+                    a(href='/').icon-link
+                        i.fa-solid.fa-home.fa-2x
+                        p Home
+                    a(href='/search').icon-link
+                        i.fa-solid.fa-search.fa-2x
+                        p Search
             div#layout-search-item(data-breakpoint='').layout-nav-item
                 form#layout-search-form.layout-search-form
                     button(type='submit').icon-link
