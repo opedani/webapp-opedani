@@ -1,10 +1,36 @@
+//////////////////////////////////////////////////////////////////////
+// ELEMENTS
+//////////////////////////////////////////////////////////////////////
+
+const menuItem = $('#layout-menu-item')
+const menuToggle = $('#layout-menu-toggle')
+const menuContainer = $('#layout-menu-container')
 const searchForm = $('#layout-search-form')
 const searchQuery = $('#layout-search-query')
 const searchResultContainer = $('#layout-result-container')
+const signInItem = $('#layout-sign-in-item')
+const signInToggle = $('#layout-sign-in-toggle')
+const signInForm = $('#layout-sign-in-form')
+const signUpItem = $('#layout-sign-up-item')
+const signUpToggle = $('#layout-sign-up-toggle')
+const signUpForm = $('#layout-sign-up-form')
+
+//////////////////////////////////////////////////////////////////////
+// PROPERTIES
+//////////////////////////////////////////////////////////////////////
 
 let searchFormTimeout
 
-function searchForm_onInput()
+//////////////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS
+//////////////////////////////////////////////////////////////////////
+
+function checkResultContainer()
+{
+    return !searchResultContainer.hasClass('hidden')
+}
+
+function updateResultContainer(delay)
 {
     if (searchFormTimeout)
     {
@@ -50,7 +76,7 @@ function searchForm_onInput()
             }
             $.ajax(request)
         },
-        500)
+        delay ? 500 : 0)
     }
     else
     {
@@ -59,14 +85,96 @@ function searchForm_onInput()
     }
 }
 
+//////////////////////////////////////////////////////////////////////
+// CALLBACK FUNCTIONS
+//////////////////////////////////////////////////////////////////////
+
+function document_onClick(event)
+{
+    if (!menuContainer.hasClass('hidden'))
+    {
+        if (!$.contains(menuItem[0], event.target))
+        {
+            menuContainer.toggleClass('hidden', true)
+        }
+    }
+    if (checkResultContainer())
+    {
+        if (!$.contains(searchForm[0], event.target))
+        {
+            searchResultContainer.toggleClass('hidden', true)
+        }
+    }
+    if (!signInForm.hasClass('hidden'))
+    {
+        if (!$.contains(signInItem[0], event.target))
+        {
+            signInForm.toggleClass('hidden', true)
+        }
+    }
+    if (!signUpForm.hasClass('hidden'))
+    {
+        if (!$.contains(signUpItem[0], event.target))
+        {
+            signUpForm.toggleClass('hidden', true)
+        }
+    }
+}
+
+function menuToggle_onClick()
+{
+    menuContainer.toggleClass('hidden')
+}
+
+function searchForm_onInput()
+{
+    updateResultContainer(true)
+}
+
 function searchForm_onSubmit(event)
 {
     event.preventDefault()
     if (searchQuery.val().length >= 3)
     {
-        location.href = `${location.origin}/search?query=${searchQuery.val()}`
+        const results = searchResultContainer.children()
+        if (results.length == 1)
+        {
+            const hrefSuffix = $(results[0]).attr('href')
+            location.href = location.origin + hrefSuffix
+        }
+        else
+        {
+            location.href = `${location.origin}/search?query=${searchQuery.val()}`
+        }
     }
 }
 
+function searchQuery_onFocus()
+{
+    if (!checkResultContainer())
+    {
+        updateResultContainer(false)
+    }
+}
+
+function signInToggle_onClick()
+{
+    signInForm.toggleClass('hidden')
+}
+
+function signUpToggle_onClick()
+{
+    signUpForm.toggleClass('hidden')
+}
+
+//////////////////////////////////////////////////////////////////////
+// CONFIGURATION
+//////////////////////////////////////////////////////////////////////
+
+$(document).on('click', document_onClick)
+menuToggle.on('click', menuToggle_onClick)
 searchForm.on('input', searchForm_onInput)
 searchForm.on('submit', searchForm_onSubmit)
+searchQuery.on('focus', searchQuery_onFocus)
+signInToggle.on('click', signInToggle_onClick)
+signUpToggle.on('click', signUpToggle_onClick)

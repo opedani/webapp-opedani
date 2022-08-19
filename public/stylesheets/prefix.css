@@ -22,6 +22,22 @@
     background: var(--color-selection);
 }
 
+@keyframes fade-in
+{
+    0%
+    {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out
+{
+    100%
+    {
+        opacity: 0;
+    }
+}
+
 *
 {
     box-sizing: border-box;
@@ -181,7 +197,7 @@ button
 
 .block-link:focus
 {
-    color: var(--color-gray);
+    color: var(--color-white-dark);
     outline: none;
 }
 
@@ -197,7 +213,7 @@ button
 
 .icon-link:focus
 {
-    color: var(--color-gray);
+    color: var(--color-white-dark);
     outline: none;
 }
 
@@ -212,13 +228,14 @@ button
 
 .button-box
 {
-    border: 1px solid var(--color-gray-dark);
+    background-color: var(--color-gray-dark);
     padding: 10px;
 }
 
 .button-box:focus
 {
-    border: 1px solid var(--color-gray);
+    background-color: var(--color-gray);
+    outline: none;
 }
 
 .icon-small

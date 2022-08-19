@@ -85,6 +85,11 @@ function getIndexPage(request, response)
     response.render('index')
 }
 
+function getSearchPage(request, response)
+{
+    response.render('search')
+}
+
 //////////////////////////////////////////////////////////////////////
 // API FUNCTIONS
 //////////////////////////////////////////////////////////////////////
@@ -101,7 +106,12 @@ function filterSearchResults(request, response)
             if (title.toLowerCase().includes(query))
             {
                 searchResults.push(anime)
-                break;
+                if (searchResults.length == 20)
+                {
+                    response.json(searchResults)
+                    return
+                }
+                break
             }
         }
     }
@@ -120,6 +130,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
+app.get('/search', getSearchPage)
 
 app.get('/api/filter-search-results', filterSearchResults)
 

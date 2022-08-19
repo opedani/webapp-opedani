@@ -12,24 +12,39 @@ html(lang='en')
         link(rel='stylesheet' href='/stylesheets/postfix.css')
     body
         nav.layout-nav
-            div.layout-nav-item
-                button.icon-link
+            div#layout-menu-item.layout-nav-item
+                button#layout-menu-toggle.icon-link
                     i.fa-solid.fa-bars.fa-2x
                     p(data-breakpoint='gt-medium') Menu
-            div#layout-search-container(data-breakpoint='').layout-nav-item
+                div#layout-menu-container.layout-menu-container
+            div#layout-search-item(data-breakpoint='').layout-nav-item
                 form#layout-search-form.layout-search-form
                     button(type='submit').icon-link
                         i.fa-solid.fa-search.fa-2x
                     input#layout-search-query(type='text' placeholder='Search...' autocomplete='off' spellcheck='false' minlength='3' required)
                     div#layout-result-container.layout-result-container.hidden
-            div(data-unauth).layout-nav-item
-                button.icon-link
+            div#layout-sign-in-item(data-unauth).layout-nav-item
+                button#layout-sign-in-toggle.icon-link
                     i.fa-solid.fa-arrow-right-to-bracket.fa-2x
                     p(data-breakpoint='gt-medium') Sign In
-            div(data-unauth).layout-nav-item
-                button.icon-link
+                form#layout-sign-in-form.layout-sign-container.hidden
+                    label(for='layout-sign-in-email') Email
+                    input#layout-sign-in-email(type='email' autocomplete='off' spellcheck='false' required)
+                    label(for='layout-sign-in-password') Password
+                    input#layout-sign-in-password(type='password' autocomplete='off' spellcheck='false' required)
+                    button(type='submit').button-box Sign In
+            div#layout-sign-up-item(data-unauth).layout-nav-item
+                button#layout-sign-up-toggle.icon-link
                     i.fa-solid.fa-user-plus.fa-2x
                     p(data-breakpoint='gt-medium') Sign Up
+                form#layout-sign-up-form.layout-sign-container.hidden
+                    label(for='layout-sign-up-email') Email
+                    input#layout-sign-up-email(type='email' autocomplete='off' spellcheck='false' required)
+                    label(for='layout-sign-up-password') Password
+                    input#layout-sign-up-password(type='password' autocomplete='off' spellcheck='false' required)
+                    label(for='layout-sign-up-retype-password') Retype Password
+                    input#layout-sign-up-retype-password(type='password' autocomplete='off' spellcheck='false' required)
+                    button(type='submit').button-box Sign Up
             div(data-auth).layout-nav-item
                 button.icon-link
                     i.fa-solid.fa-arrow-right-from-bracket.fa-2x

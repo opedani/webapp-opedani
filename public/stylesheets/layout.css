@@ -14,6 +14,7 @@
     align-items: center;
     display: flex;
     gap: 20px;
+    position: relative;
 }
 
 .layout-nav-item:nth-child(2)
@@ -22,24 +23,50 @@
     margin: 0 auto;
 }
 
-.layout-search-form
-{
-    display: flex;
-    flex: 1 1 max-content;
-    gap: 20px;
-    position: relative;
-}
-
 @media screen and (max-width: 599px)
 {
-    .layout-search-form
+    .layout-nav-item
     {
         position: initial;
     }
 }
 
+.layout-menu-container
+{
+    animation-duration: 500ms;
+    animation-name: fade-in;
+    background-color: var(--color-black);
+    box-shadow: 0 0 20px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    left: 0;
+    padding: 10px;
+    position: absolute;
+    top: calc(100% + 10px);
+    width: 200px;
+}
+
+@media screen and (max-width: 599px)
+{
+    .layout-menu-container
+    {
+        top: 100%;
+        width: 100%;
+    }
+}
+
+.layout-search-form
+{
+    display: flex;
+    flex: 1 1 max-content;
+    gap: 20px;
+}
+
 .layout-result-container
 {
+    animation-duration: 500ms;
+    animation-name: fade-in;
     background-color: var(--color-black);
     box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
@@ -85,6 +112,39 @@
     gap: 10px;
     justify-content: space-evenly;
     padding: 10px;
+}
+
+.layout-sign-container
+{
+    animation-duration: 500ms;
+    animation-name: fade-in;
+    background-color: var(--color-black);
+    box-shadow: 0 0 20px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    width: 400px;
+}
+
+@media screen and (max-width: 599px)
+{
+    .layout-sign-container
+    {
+        top: 100%;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 599px)
+{
+    .layout-menu-container
+    {
+        width: 100%;
+    }
 }
 
 .layout-footer
