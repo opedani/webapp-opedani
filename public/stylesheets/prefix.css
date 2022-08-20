@@ -60,7 +60,6 @@ body
     background-image: url('/assets/images/background.png');
     display: flex;
     flex-direction: column;
-    gap: 10px;
     min-height: 100%;
 }
 
@@ -169,6 +168,7 @@ select
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     padding: 10px;
+    width: 100%;
 }
 
 select:focus
@@ -262,7 +262,7 @@ button
 .center-frame
 {
     background-color: var(--color-black);
-    box-shadow: 0 10px 10px var(--color-shadow);
+    box-shadow: 0 0 20px var(--color-shadow);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -279,4 +279,11 @@ button
     max-width: 120px;
     min-height: 160px;
     width: 100%;
+}
+
+.constrict
+{
+    max-width: var(--breakpoint-large);
+    min-width: min(100%, var(--breakpoint-large));
+    margin: 0 auto;
 }

@@ -1,0 +1,14 @@
+.search-form
+{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 600px)
+{
+    .search-form
+    {
+        grid-template-columns: 1fr 1fr;
+    }
+}

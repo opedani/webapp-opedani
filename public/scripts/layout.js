@@ -45,7 +45,8 @@ function updateResultContainer(delay)
                 url: `${location.origin}/api/filter-search-results`,
                 data:
                 {
-                    query: searchQuery.val()
+                    query: searchQuery.val(),
+                    capacity: 20
                 },
                 success: response =>
                 {
@@ -134,18 +135,15 @@ function searchForm_onInput()
 function searchForm_onSubmit(event)
 {
     event.preventDefault()
-    if (searchQuery.val().length >= 3)
+    const results = searchResultContainer.children()
+    if (results.length == 1)
     {
-        const results = searchResultContainer.children()
-        if (results.length == 1)
-        {
-            const hrefSuffix = $(results[0]).attr('href')
-            location.href = location.origin + hrefSuffix
-        }
-        else
-        {
-            location.href = `${location.origin}/search?query=${searchQuery.val()}`
-        }
+        const hrefSuffix = $(results[0]).attr('href')
+        location.href = location.origin + hrefSuffix
+    }
+    else
+    {
+        location.href = `${location.origin}/search?query=${searchQuery.val()}`
     }
 }
 

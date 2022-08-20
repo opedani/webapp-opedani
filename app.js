@@ -76,6 +76,28 @@ function fetchMyAnimeList(offset, result)
     })
 }
 
+function filterSearchResults(query, category, capacity)
+{
+    const formattedQuery = query.toLowerCase().trim()
+    let searchResults = []
+    for (const anime of apiMyAnimeList)
+    {
+        for (const title of anime.titles)
+        {
+            if (title.toLowerCase().includes(formattedQuery))
+            {
+                searchResults.push(anime)
+                if (capacity && searchResults.length >= capacity)
+                {
+                    return searchResults
+                }
+                break
+            }
+        }
+    }
+    return searchResults
+}
+
 //////////////////////////////////////////////////////////////////////
 // ROUTER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
@@ -87,34 +109,18 @@ function getIndexPage(request, response)
 
 function getSearchPage(request, response)
 {
-    response.render('search')
+    const arguments = url.parse(request.url, true).query
+    const searchResults = filterSearchResults(arguments.query, arguments.category, arguments.capacity)
+    response.render('search',
+    {
+        results: searchResults
+    })
 }
 
-//////////////////////////////////////////////////////////////////////
-// API FUNCTIONS
-//////////////////////////////////////////////////////////////////////
-
-function filterSearchResults(request, response)
+function apiFilterSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const query = arguments.query.toLowerCase().trim()
-    let searchResults = []
-    for (const anime of apiMyAnimeList)
-    {
-        for (const title of anime.titles)
-        {
-            if (title.toLowerCase().includes(query))
-            {
-                searchResults.push(anime)
-                if (searchResults.length == 20)
-                {
-                    response.json(searchResults)
-                    return
-                }
-                break
-            }
-        }
-    }
+    const searchResults = filterSearchResults(arguments.query, arguments.category, arguments.capacity)
     response.json(searchResults)
 }
 
@@ -132,7 +138,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
 
-app.get('/api/filter-search-results', filterSearchResults)
+app.get('/api/filter-search-results', apiFilterSearchResults)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:8080 }`))
