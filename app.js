@@ -100,6 +100,11 @@ function filterSearchResults(query, limit, category)
     return searchResults
 }
 
+function getAnime(id)
+{
+    return apiMyAnimeList.find(anime => anime.id == id)
+}
+
 //////////////////////////////////////////////////////////////////////
 // ROUTER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
@@ -114,11 +119,33 @@ function getSearchPage(request, response)
     response.render('search')
 }
 
+function getAnimePage(request, response)
+{
+    const id = request.params[0]
+    const anime = getAnime(id)
+    if (anime)
+    {
+        response.render('anime',
+        {
+            anime: anime
+        })
+    }
+    else
+    {
+        response.render('404')
+    }
+}
+
 function apiFilterSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
     const searchResults = filterSearchResults(arguments.query, arguments.limit, arguments.category)
     response.json(searchResults)
+}
+
+function get404Page(request, response)
+{
+    response.render('404')
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,8 +161,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
-
+app.get(/^\/anime\/(\d+)$/, getAnimePage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
+app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:8080 }`))

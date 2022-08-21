@@ -1,0 +1,27 @@
+.anime-banner
+{
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.anime-banner-background
+{
+    background-color: var(--color-black-dark);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.anime-banner-thumbnail
+{
+    max-width: 320px;
+    min-height: 480px;
+    position: relative;
+    width: 100%;
+}
