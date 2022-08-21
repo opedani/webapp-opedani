@@ -4,6 +4,7 @@
 
 const searchForm = $('#search-form')
 const searchQuery = $('#search-query')
+const searchLimit = $('#search-limit')
 const searchCategory = $('#search-category')
 const searchResultCount = $('#search-result-count')
 const searchResultContainer = $('#search-result-container')
@@ -18,7 +19,7 @@ let searchFormTimeout
 // HELPER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
 
-function updateSearchResultContainer()
+function updateSearchResultContainer(delay)
 {
     if (searchFormTimeout)
     {
@@ -32,8 +33,8 @@ function updateSearchResultContainer()
             data:
             {
                 query: searchQuery.val(),
-                category: searchCategory.val(),
-                capacity: 100
+                limit: searchLimit.val(),
+                category: searchCategory.val()
             },
             success: response =>
             {
@@ -43,7 +44,7 @@ function updateSearchResultContainer()
                 for (const anime of response)
                 {
                     searchResultContainer.append(`
-                        <a class="flex-row block-link" href="/anime/${anime.id}">
+                        <a class="block-link flex-row fade-in-slow" href="/anime/${anime.id}">
                             <img class="thumbnail" src="${anime.thumbnail}" alt="<Thumbnail>">
                             <div class="search-result-body">
                                 <div class="padding">${anime.titles[0]}</div>
@@ -65,7 +66,7 @@ function updateSearchResultContainer()
         }
         $.ajax(request)
     },
-    500)
+    delay ? 750 : 0)
 }
 
 function parseArguments()
@@ -75,6 +76,10 @@ function parseArguments()
     {
         searchQuery.val(params.get('query'))
     }
+    if (params.has('limit'))
+    {
+        searchLimit.val(params.get('limit'))
+    }
     if (params.has('category'))
     {
         if (searchCategory.find(`[value=${params.get('category')}]`).length > 0)
@@ -82,7 +87,7 @@ function parseArguments()
             searchCategory.val(params.get('category'))
         }
     }
-    updateSearchResultContainer()
+    updateSearchResultContainer(false)
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -94,9 +99,19 @@ function searchForm_onSubmit(event)
     event.preventDefault()
 }
 
-function searchQuery_onChange()
+function searchQuery_onInput()
 {
-    updateSearchResultContainer()
+    updateSearchResultContainer(true)
+}
+
+function searchLimit_onInput()
+{
+    updateSearchResultContainer(true)
+}
+
+function searchCategory_onInput()
+{
+    updateSearchResultContainer(false)
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -104,6 +119,8 @@ function searchQuery_onChange()
 //////////////////////////////////////////////////////////////////////
 
 searchForm.on('submit', searchForm_onSubmit)
-searchQuery.on('input', searchQuery_onChange)
+searchQuery.on('input', searchQuery_onInput)
+searchLimit.on('input', searchLimit_onInput)
+searchCategory.on('input', searchCategory_onInput)
 
 parseArguments()

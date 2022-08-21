@@ -76,18 +76,20 @@ function fetchMyAnimeList(offset, result)
     })
 }
 
-function filterSearchResults(query, category, capacity)
+function filterSearchResults(query, limit, category)
 {
-    const formattedQuery = query.toLowerCase().trim()
+    query = query.toLowerCase().trim()
+    limit = parseInt(limit)
+    limit = isNaN(limit) ? 20 : Math.min(100, Math.max(1, limit))
     let searchResults = []
     for (const anime of apiMyAnimeList)
     {
         for (const title of anime.titles)
         {
-            if (title.toLowerCase().includes(formattedQuery))
+            if (title.toLowerCase().includes(query))
             {
                 searchResults.push(anime)
-                if (capacity && searchResults.length >= capacity)
+                if (searchResults.length >= limit)
                 {
                     return searchResults
                 }
@@ -115,7 +117,7 @@ function getSearchPage(request, response)
 function apiFilterSearchResults(request, response)
 {
     const arguments = url.parse(request.url, true).query
-    const searchResults = filterSearchResults(arguments.query, arguments.category, arguments.capacity)
+    const searchResults = filterSearchResults(arguments.query, arguments.limit, arguments.category)
     response.json(searchResults)
 }
 

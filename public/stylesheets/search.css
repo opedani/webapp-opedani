@@ -13,16 +13,27 @@
     }
 }
 
+@media screen and (min-width: 1000px)
+{
+    .search-form
+    {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
 .search-result-container
 {
     display: grid;
-    column-gap: 10px;
+    gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    padding: 20px 0;
     width: 100%;
 }
 
 .search-result-body
 {
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -30,14 +30,6 @@
     }
 }
 
-@keyframes fade-out
-{
-    100%
-    {
-        opacity: 0;
-    }
-}
-
 *
 {
     box-sizing: border-box;
@@ -79,7 +71,6 @@ hr
 
 h1
 {
-    color: var(--color-primary);
     font-size: 32px;
     font-weight: normal;
     line-height: 1.5;
@@ -272,7 +263,7 @@ button
 .center-frame
 {
     background-color: var(--color-black);
-    box-shadow: 0 0 20px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -305,4 +296,11 @@ button
     max-width: var(--breakpoint-large);
     min-width: min(100%, var(--breakpoint-large));
     margin: 0 auto;
+}
+
+.main-heading
+{
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-dark);
+    padding: 20px;
 }

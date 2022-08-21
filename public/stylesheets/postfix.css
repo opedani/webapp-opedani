@@ -44,6 +44,16 @@
     padding: 10px;
 }
 
+.fade-in-slow
+{
+    animation: fade-in 1s;
+}
+
+.fade-in-fast
+{
+    animation: fade-in 0.5s;
+}
+
 [data-auth]
 {
     display: none;

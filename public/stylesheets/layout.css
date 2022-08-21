@@ -2,11 +2,12 @@
 {
     align-items: center;
     background-color: var(--color-black);
-    box-shadow: 0 0 20px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     gap: 20px;
     padding: 10px 20px;
-    position: relative;
+    position: sticky;
+    top: 0;
 }
 
 .layout-nav-item
@@ -32,10 +33,9 @@
 
 .layout-menu-container
 {
-    animation-duration: 500ms;
-    animation-name: fade-in;
+    animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 20px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -64,10 +64,9 @@
 
 .layout-result-container
 {
-    animation-duration: 500ms;
-    animation-name: fade-in;
+    animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 20px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     flex-direction: column;
     left: 0;
@@ -96,10 +95,9 @@
 
 .layout-sign-container
 {
-    animation-duration: 500ms;
-    animation-name: fade-in;
+    animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 20px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-shadow);
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -41,7 +41,7 @@ function updateLayoutResultContainer(delay)
                 data:
                 {
                     query: layoutSearchQuery.val(),
-                    capacity: 10
+                    limit: 10
                 },
                 success: response =>
                 {
@@ -72,7 +72,7 @@ function updateLayoutResultContainer(delay)
             }
             $.ajax(request)
         },
-        delay ? 500 : 0)
+        delay ? 750 : 0)
     }
     else
     {
