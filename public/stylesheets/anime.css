@@ -20,8 +20,16 @@
 
 .anime-banner-thumbnail
 {
-    max-width: 320px;
-    min-height: 480px;
+    max-width: 180px;
+    min-height: 240px;
     position: relative;
-    width: 100%;
+}
+
+@media screen and (min-width: 600px)
+{
+    .anime-banner-thumbnail
+    {
+        max-width: 300px;
+        min-height: 400px;
+    }
 }

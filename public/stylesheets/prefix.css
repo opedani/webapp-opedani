@@ -101,8 +101,14 @@ label
 
 a
 {
-    color: var(--color-accent);
+    color: var(--color-white);
     text-decoration: none;
+}
+
+a:focus
+{
+    color: var(--color-white-dark);
+    outline: none;
 }
 
 input[type=text]
@@ -190,40 +196,11 @@ button
     font-weight: normal;
 }
 
-.block-link
-{
-    color: var(--color-white);
-    display: block;
-}
-
-.block-link:focus
-{
-    color: var(--color-white-dark);
-    outline: none;
-}
-
-.icon-link
-{
-    align-items: center;
-    color: var(--color-white);
-    display: flex;
-    gap: 10px;
-    min-height: 32px;
-    min-width: max-content;
-}
-
-.icon-link:focus
-{
-    color: var(--color-white-dark);
-    outline: none;
-}
-
-.icon-text
+.aligned-content
 {
     align-items: center;
     display: flex;
     gap: 10px;
-    min-height: 16px;
     min-width: max-content;
 }
 
@@ -251,13 +228,6 @@ button
     font-size: 32px;
     height: 32px;
     width: 32px;
-}
-
-.icon-text
-{
-    align-items: center;
-    display: flex;
-    gap: 10px;
 }
 
 .center-frame
@@ -291,16 +261,11 @@ button
     }
 }
 
-.constrict
-{
-    max-width: var(--breakpoint-large);
-    min-width: min(100%, var(--breakpoint-large));
-    margin: 0 auto;
-}
-
-.main-heading
+.primary-header
 {
     background-color: var(--color-primary);
     border-bottom: 1px solid var(--color-primary-dark);
+    display: flex;
+    justify-content: center;
     padding: 20px;
 }

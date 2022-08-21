@@ -81,23 +81,28 @@ function filterSearchResults(query, limit, category)
     query = query.toLowerCase().trim()
     limit = parseInt(limit)
     limit = isNaN(limit) ? 20 : Math.min(100, Math.max(1, limit))
-    let searchResults = []
+    const result =
+    {
+        searchResults: [],
+        reachedLimit: false
+    }
     for (const anime of apiMyAnimeList)
     {
         for (const title of anime.titles)
         {
             if (title.toLowerCase().includes(query))
             {
-                searchResults.push(anime)
-                if (searchResults.length >= limit)
+                result.searchResults.push(anime)
+                if (result.searchResults.length >= limit)
                 {
-                    return searchResults
+                    result.reachedLimit = true
+                    return result
                 }
                 break
             }
         }
     }
-    return searchResults
+    return result
 }
 
 function getAnime(id)
@@ -132,7 +137,7 @@ function getAnimePage(request, response)
     }
     else
     {
-        response.render('404')
+        response.status(404).render('404')
     }
 }
 
@@ -145,7 +150,7 @@ function apiFilterSearchResults(request, response)
 
 function get404Page(request, response)
 {
-    response.render('404')
+    response.status(404).render('404')
 }
 
 ////////////////////////////////////////////////////////////////////////////////

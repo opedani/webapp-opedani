@@ -50,16 +50,16 @@ function updateLayoutResultContainer(delay)
                     for (const anime of response)
                     {
                         layoutSearchResultContainer.append(`
-                            <a class="flex-row block-link" href="/anime/${anime.id}">
+                            <a class="flex-row" href="/anime/${anime.id}">
                                 <img class="thumbnail" src="${anime.thumbnail}" alt="<Thumbnail>">
                                 <div class="layout-result-body">
                                     <div class="padding">${anime.titles[0]}</div>
                                     <div class="flex-row gap-large padding soft">
-                                        <div class="icon-text">
+                                        <div class="aligned-content">
                                             <i class="fa-solid fa-star"></i>
                                             <p>0.00</p>
                                         </div>
-                                        <div class="icon-text">
+                                        <div class="aligned-content">
                                             <i class="fa-solid fa-ranking-star"></i>
                                             <p>#1000</p>
                                         </div>

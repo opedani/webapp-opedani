@@ -38,22 +38,24 @@ function updateSearchResultContainer(delay)
             },
             success: response =>
             {
-                searchResultCount.text(response.length)
+                const searchResults = response.searchResults
+                if (response.reachedLimit) searchResultCount.text(`${searchResults.length} (Reached Limit)`)
+                else searchResultCount.text(searchResults.length)
                 searchResultContainer.empty()
-                searchResultContainer.toggleClass('hidden', response.length == 0)
-                for (const anime of response)
+                searchResultContainer.toggleClass('hidden', searchResults.length == 0)
+                for (const anime of searchResults)
                 {
                     searchResultContainer.append(`
-                        <a class="block-link flex-row fade-in-slow" href="/anime/${anime.id}">
+                        <a class="flex-row fade-in-slow" href="/anime/${anime.id}">
                             <img class="thumbnail" src="${anime.thumbnail}" alt="<Thumbnail>">
                             <div class="search-result-body">
                                 <div class="padding">${anime.titles[0]}</div>
                                 <div class="flex-row gap-large padding soft">
-                                    <div class="icon-text">
+                                    <div class="aligned-content">
                                         <i class="fa-solid fa-star"></i>
                                         <p>0.00</p>
                                     </div>
-                                    <div class="icon-text">
+                                    <div class="aligned-content">
                                         <i class="fa-solid fa-ranking-star"></i>
                                         <p>#1000</p>
                                     </div>
