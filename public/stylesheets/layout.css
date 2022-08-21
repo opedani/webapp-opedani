@@ -14,7 +14,6 @@
     align-items: center;
     display: flex;
     gap: 20px;
-    position: relative;
 }
 
 .layout-nav-item:nth-child(2)
@@ -23,11 +22,11 @@
     margin: 0 auto;
 }
 
-@media screen and (max-width: 599px)
+@media screen and (min-width: 600px)
 {
     .layout-nav-item
     {
-        position: initial;
+        position: relative;
     }
 }
 
@@ -43,24 +42,24 @@
     left: 0;
     padding: 10px;
     position: absolute;
-    top: calc(100% + 10px);
-    width: max-content;
+    top: 100%;
+    width: 100%;
 }
 
-@media screen and (max-width: 599px)
+@media screen and (min-width: 600px)
 {
     .layout-menu-container
     {
-        top: 100%;
-        width: 100%;
+        top: calc(100% + 10px);
+        width: max-content;
     }
 }
 
 .layout-search-form
 {
     display: flex;
-    flex: 1 1 max-content;
     gap: 20px;
+    width: 100%;
 }
 
 .layout-result-container
@@ -75,43 +74,24 @@
     max-height: 50vh;
     overflow: auto;
     position: absolute;
-    top: calc(100% + 10px);
+    top: 100%;
     width: 100%;
 }
 
-@media screen and (max-width: 599px)
+@media screen and (min-width: 600px)
 {
     .layout-result-container
     {
-        top: 100%;
-    }
-}
-
-@media screen and (max-width: 599px)
-{
-    .layout-result-thumbnail
-    {
-        max-width: 60px;
-        min-height: 80px;
+        top: calc(100% + 10px);
     }
 }
 
 .layout-result-body
 {
     display: flex;
-    flex: 1 1 100%;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.layout-result-statistics
-{
-    border-bottom: 1px solid var(--color-gray-dark);
-    border-top: 1px solid var(--color-gray-dark);
-    display: flex;
-    gap: 10px;
-    justify-content: space-evenly;
-    padding: 10px;
+    width: 100%;
 }
 
 .layout-sign-container
@@ -126,24 +106,16 @@
     padding: 10px;
     position: absolute;
     right: 0;
-    top: calc(100% + 10px);
-    width: 400px;
+    top: 100%;
+    width: 100%;
 }
 
-@media screen and (max-width: 599px)
+@media screen and (min-width: 600px)
 {
     .layout-sign-container
     {
-        top: 100%;
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 599px)
-{
-    .layout-menu-container
-    {
-        width: 100%;
+        top: calc(100% + 10px);
+        width: 350px;
     }
 }
 

@@ -109,12 +109,7 @@ function getIndexPage(request, response)
 
 function getSearchPage(request, response)
 {
-    const arguments = url.parse(request.url, true).query
-    const searchResults = filterSearchResults(arguments.query, arguments.category, arguments.capacity)
-    response.render('search',
-    {
-        results: searchResults
-    })
+    response.render('search')
 }
 
 function apiFilterSearchResults(request, response)
