@@ -3,11 +3,12 @@
 
 # Node app server
 resource "aws_instance" "node1_ec2" {
-  ami             = data.aws_ami.amazon_linux_2_ami.id
-  instance_type   = "t2.micro"
-  user_data       = "data/node_init.sh"
-  security_groups = [aws_security_group.node1_sg.name]
-  key_name        = aws_key_pair.ansible_ssh_key.key_name
+  ami                         = data.aws_ami.amazon_linux_2_ami.id
+  instance_type               = "t2.micro"
+  user_data                   = file("data/node_init.sh")
+  user_data_replace_on_change = true
+  security_groups             = [aws_security_group.node1_sg.name]
+  key_name                    = aws_key_pair.ansible_ssh_key.key_name
 }
 
 
