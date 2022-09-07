@@ -8,7 +8,7 @@ sudo yum update -y
 
 # Install node.js (LTS), dev tools recommended by node installation, git, and pm2
 curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
-sudo yum install -y nodejs git gcc-c++ make
+sudo yum install -y nodejs-16.16.0-1nodesource git gcc-c++ make
 sudo npm install pm2@latest -g
 
 
