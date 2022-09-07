@@ -61,3 +61,4 @@ jobs:
           key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
           options: |
             --inventory .inventory
+            --diff
