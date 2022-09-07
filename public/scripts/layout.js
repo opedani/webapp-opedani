@@ -45,9 +45,10 @@ function updateLayoutResultContainer(delay)
                 },
                 success: response =>
                 {
+                    const searchResults = response.searchResults
                     layoutSearchResultContainer.empty()
-                    layoutSearchResultContainer.toggleClass('hidden', response.length == 0)
-                    for (const anime of response)
+                    layoutSearchResultContainer.toggleClass('hidden', searchResults.length == 0)
+                    for (const anime of searchResults)
                     {
                         layoutSearchResultContainer.append(`
                             <a class="flex-row" href="/anime/${anime.id}">
