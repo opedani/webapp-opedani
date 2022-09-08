@@ -13,7 +13,7 @@ sudo npm install pm2@latest -g
 
 
 # Setup node app with pm2
-git clone https://github.com/opedani/webapp-opedani.git
+git clone --branch development --single-branch https://github.com/opedani/webapp-opedani.git
 cd webapp-opedani/
 npm install
 cd ..

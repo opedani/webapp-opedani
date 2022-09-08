@@ -13,7 +13,7 @@ sudo npm install pm2@latest -g
 
 
 # Setup node app with pm2
-git clone https://github.com/opedani/webapp-opedani.git
+git clone --branch production --single-branch https://github.com/opedani/webapp-opedani.git
 cd webapp-opedani/
 npm install
 cd ..
@@ -27,7 +27,7 @@ module.exports = {
     name               : 'webapp-opedani',
     script             : 'webapp-opedani/app.js',
     watch              : ['webapp-opedani'],
-    watch_delay        : 60,
+    watch_delay        : 1000,
     instances          : 'max',
     max_memory_restart : '256M'
   }]
