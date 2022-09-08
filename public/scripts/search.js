@@ -27,6 +27,7 @@ function updateSearchResultContainer(delay)
     }
     searchFormTimeout = setTimeout(() =>
     {
+        const category = searchCategory.val()
         const request =
         {
             url: `${location.origin}/api/filter-search-results`,
@@ -34,7 +35,7 @@ function updateSearchResultContainer(delay)
             {
                 query: searchQuery.val(),
                 limit: searchLimit.val(),
-                category: searchCategory.val()
+                category: category
             },
             success: response =>
             {
@@ -43,26 +44,57 @@ function updateSearchResultContainer(delay)
                 else searchResultCount.text(searchResults.length)
                 searchResultContainer.empty()
                 searchResultContainer.toggleClass('hidden', searchResults.length == 0)
-                for (const anime of searchResults)
+                if (category == 'anime')
                 {
-                    searchResultContainer.append(`
-                        <a class="flex-row fade-in-slow" href="/anime/${anime.id}">
-                            <img class="thumbnail" src="${anime.thumbnail}" alt="<Thumbnail>">
-                            <div class="search-result-body">
-                                <div class="padding">${anime.titles[0]}</div>
-                                <div class="flex-row gap-large padding soft">
-                                    <div class="aligned-content">
-                                        <i class="fa-solid fa-star"></i>
-                                        <p>0.00</p>
-                                    </div>
-                                    <div class="aligned-content">
-                                        <i class="fa-solid fa-ranking-star"></i>
-                                        <p>#1000</p>
+                    for (const anime of searchResults)
+                    {
+                        searchResultContainer.append(`
+                            <a class="flex-row fade-in-slow" href="/anime/${anime.id}">
+                                <img class="thumbnail" src="${anime.thumbnail}" alt="Thumbnail">
+                                <div class="search-result-body">
+                                    <div class="padding">${anime.titles[0]}</div>
+                                    <div class="flex-row gap-large padding soft">
+                                        <div class="aligned-content">
+                                            <i class="fa-solid fa-o"></i>
+                                            <p>10</p>
+                                        </div>
+                                        <div class="aligned-content">
+                                            <i class="fa-solid fa-e"></i>
+                                            <p>10</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    `)
+                            </a>
+                        `)
+                    }
+                }
+                else if (category == 'oped')
+                {
+                    for (const oped of searchResults)
+                    {
+                        searchResultContainer.append(`
+                            <a class="flex-row fade-in-slow" href="/oped/${oped.id}">
+                                <img class="thumbnail" src="${oped.thumbnail}" alt="Thumbnail">
+                                <div class="search-result-body">
+                                    <div class="padding">${oped.title}</div>
+                                    <div class="flex-row gap-large padding soft">
+                                        <div class="aligned-content">
+                                            <i class="fa-solid fa-star"></i>
+                                            <p>${oped.rating.toFixed(2)}</p>
+                                        </div>
+                                        <div class="aligned-content">
+                                            <i class="fa-solid fa-ranking-star"></i>
+                                            <p>#${oped.rank}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        `)
+                    }
+                }
+                else if (category == 'user')
+                {
+
                 }
             }
         }

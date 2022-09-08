@@ -17,7 +17,20 @@ const moment = require('moment')
 const app = express()
 const port = 8080
 
-let apiMyAnimeList = []
+let opedani =
+[
+    {
+        id: 1,
+        animeId: 9253,
+        rating: 0,
+        rank: 1000,
+        contributors: 1000,
+        title: 'Hacking to the Gate',
+        artist: 'Kanako Itou'
+    }
+]
+
+let myanimelist = []
 
 //////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
@@ -69,11 +82,16 @@ function fetchMyAnimeList(offset, result)
             }
             else
             {
-                apiMyAnimeList = result
-                console.log(`Fetched data. { hostname: api.myanimelist.net, count: ${apiMyAnimeList.length} }`)
+                myanimelist = result
+                console.log(`Fetched data. { hostname: api.myanimelist.net, count: ${myanimelist.length} }`)
             }
         })
     })
+}
+
+function getAnime(id)
+{
+    return myanimelist.find(anime => anime.id == id)
 }
 
 function filterSearchResults(query, limit, category)
@@ -86,13 +104,38 @@ function filterSearchResults(query, limit, category)
         searchResults: [],
         reachedLimit: false
     }
-    for (const anime of apiMyAnimeList)
+    if (category == 'anime')
     {
-        for (const title of anime.titles)
+        for (const anime of myanimelist)
         {
-            if (title.toLowerCase().includes(query))
+            for (const title of anime.titles)
             {
-                result.searchResults.push(anime)
+                if (title.toLowerCase().includes(query))
+                {
+                    result.searchResults.push(anime)
+                    if (result.searchResults.length >= limit)
+                    {
+                        result.reachedLimit = true
+                        return result
+                    }
+                    break
+                }
+            }
+        }
+    }
+    else if (category == 'oped')
+    {
+        for (const oped of opedani)
+        {
+            if (oped.title.toLowerCase().includes(query))
+            {
+                const anime = getAnime(oped.animeId)
+                const opedExtended =
+                {
+                    ...oped,
+                    thumbnail: anime.thumbnail
+                }
+                result.searchResults.push(opedExtended)
                 if (result.searchResults.length >= limit)
                 {
                     result.reachedLimit = true
@@ -102,12 +145,11 @@ function filterSearchResults(query, limit, category)
             }
         }
     }
-    return result
-}
+    else if (category == 'user')
+    {
 
-function getAnime(id)
-{
-    return apiMyAnimeList.find(anime => anime.id == id)
+    }
+    return result
 }
 
 //////////////////////////////////////////////////////////////////////
