@@ -84,7 +84,7 @@ resource "aws_security_group_rule" "node1_sg_3000_in" {
   from_port         = 3000
   to_port           = 3000
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = ["${aws_eip.apache_eip.public_ip}/32"]
   security_group_id = aws_security_group.node1_sg.id
 }
 resource "aws_security_group_rule" "node1_sg_3000_out" {
@@ -93,6 +93,6 @@ resource "aws_security_group_rule" "node1_sg_3000_out" {
   from_port         = 3000
   to_port           = 3000
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = ["${aws_eip.apache_eip.public_ip}/32"]
   security_group_id = aws_security_group.node1_sg.id
 }
