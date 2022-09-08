@@ -15,7 +15,7 @@ const moment = require('moment')
 //////////////////////////////////////////////////////////////////////
 
 const app = express()
-const port = 8080
+const port = 3000
 
 let apiMyAnimeList = []
 
@@ -171,7 +171,7 @@ app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
-app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:8080 }`))
+app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:3000 }`))
 
 fetchMyAnimeList()
 setInterval(fetchMyAnimeList, 1000 * 60 * 60 * 24)
