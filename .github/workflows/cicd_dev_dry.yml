@@ -35,7 +35,7 @@ jobs:
 
     # Run "terraform fmt -check -diff"
     - name: Terraform Format
-      run: terraform fmt -check -diff
+      run: terraform fmt -check -diff -recursive
 
     # Run "terraform plan"
     - name: Terraform Plan
