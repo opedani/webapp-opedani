@@ -67,12 +67,13 @@
         chdir: /home/ec2-user
       become: true
 
-    - name: Start pm2
+    - name: pm2 startup
+      ignore_errors: yes
       ansible.builtin.shell:
         cmd: pm2 startup
         chdir: /home/ec2-user
 
-    - name: Set pm2 path
+    - name: pm2 startup necessary followup command
       ansible.builtin.shell:
         cmd: env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
         chdir: /home/ec2-user
