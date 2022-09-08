@@ -47,6 +47,38 @@
         state: latest
       become: true
 
+    - name: Add NodeSource to system
+      ansible.builtin.shell:
+        cmd: curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
+        chdir: /home/ec2-user
+
+    - name: Install necessary software
+      yum:
+        name:
+          - nodejs-16.16.0-1nodesource
+          - git
+          - gcc-c++
+          - make
+      become: true
+
+    - name: Install pm2
+      ansible.builtin.shell:
+        cmd: npm install pm2@latest -g
+        chdir: /home/ec2-user
+      become: true
+
+    - name: pm2 startup
+      ignore_errors: yes
+      ansible.builtin.shell:
+        cmd: pm2 startup
+        chdir: /home/ec2-user
+
+    - name: pm2 startup necessary followup command
+      ansible.builtin.shell:
+        cmd: env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
+        chdir: /home/ec2-user
+      become: true
+
     - name: git clone / pull
       ignore_errors: yes
       git:
