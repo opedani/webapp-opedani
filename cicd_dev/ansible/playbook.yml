@@ -10,19 +10,18 @@
         name: '*'
         state: latest
 
-    - name: Install Apache (httpd)
+    - name: Install and upgrade Apache (httpd) to latest version
       ansible.builtin.yum:
         name: httpd
         state: latest
 
     - name: Stop Apache (httpd), if started
-      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: stopped
 
-    - name: Configure Apache reverse proxy
-      copy:
+    - name: Copy Apache reverse proxy configuration file
+      ansible.builtin.copy:
         src: data/httpd.conf
         dest: /etc/httpd/conf/httpd.conf
         owner: root
@@ -30,7 +29,6 @@
         mode: 0644
 
     - name: Restart and enable Apache (httpd)
-      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: restarted
@@ -47,10 +45,17 @@
         state: latest
       become: true
 
-    - name: Add NodeSource to system
-      ansible.builtin.shell:
-        cmd: curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -
+    - name: Download Node setup script
+      ansible.builtin.get_url:
+        url: https://rpm.nodesource.com/setup_16.x
+        dest: /home/ec2-user/nodesetup.sh
+        mode: 0755
+
+    - name: Execute Node setup script
+      ansible.builtin.shell: nodesetup.sh
+      args:
         chdir: /home/ec2-user
+      become: true
 
     - name: Install necessary software
       ansible.builtin.yum:
