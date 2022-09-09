@@ -6,12 +6,12 @@
 
   tasks:
     - name: Upgrade all packages
-      yum:
+      ansible.builtin.yum:
         name: '*'
         state: latest
 
     - name: Install Apache (httpd)
-      yum:
+      ansible.builtin.yum:
         name: httpd
         state: latest
 
@@ -42,7 +42,7 @@
 
   tasks:
     - name: Upgrade all packages
-      yum:
+      ansible.builtin.yum:
         name: '*'
         state: latest
       become: true
@@ -53,7 +53,7 @@
         chdir: /home/ec2-user
 
     - name: Install necessary software
-      yum:
+      ansible.builtin.yum:
         name:
           - nodejs-16.16.0-1nodesource
           - git
