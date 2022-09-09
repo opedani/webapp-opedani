@@ -58,7 +58,7 @@
         chdir: /home/ec2-user
       become: true
 
-    - name: Install necessary software
+    - name: Install and upgrade necessary software
       ansible.builtin.yum:
         name:
           - nodejs-16.16.0-1nodesource
