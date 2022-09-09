@@ -213,7 +213,7 @@ app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
-app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:3000 }`))
+app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:${port} }`))
 
 fetchMyAnimeList()
 setInterval(fetchMyAnimeList, 1000 * 60 * 60 * 24)

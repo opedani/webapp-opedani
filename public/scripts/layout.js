@@ -41,6 +41,7 @@ function updateLayoutResultContainer(delay)
                 data:
                 {
                     query: layoutSearchQuery.val(),
+                    category: 'anime',
                     limit: 10
                 },
                 success: response =>
