@@ -55,8 +55,8 @@
         force: yes
 
     - name: Execute Node setup script
-      ansible.builtin.shell:
-        cmd: nodesetup.sh
+      ansible.builtin.shell: nodesetup.sh
+      args:
         chdir: /home/ec2-user
       become: true
 
