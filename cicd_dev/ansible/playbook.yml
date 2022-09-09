@@ -55,9 +55,7 @@
         force: yes
 
     - name: Execute Node setup script
-      ansible.builtin.shell: nodesetup.sh
-      args:
-        chdir: /home/ec2-user
+      ansible.builtin.shell: /home/ec2-user/nodesetup.sh
       become: true
 
     - name: Install and upgrade necessary software
