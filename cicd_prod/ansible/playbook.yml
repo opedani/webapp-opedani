@@ -49,11 +49,12 @@
       ansible.builtin.get_url:
         url: https://rpm.nodesource.com/setup_16.x
         dest: /home/ec2-user/nodesetup.sh
-        mode: 0755
+        mode: '0755'
+        force: yes
 
     - name: Execute Node setup script
-      ansible.builtin.shell: nodesetup.sh
-      args:
+      ansible.builtin.shell:
+        cmd: nodesetup.sh
         chdir: /home/ec2-user
       become: true
 
@@ -64,6 +65,7 @@
           - git
           - gcc-c++
           - make
+        state: latest
       become: true
 
     - name: Install pm2
@@ -72,6 +74,7 @@
         chdir: /home/ec2-user
       become: true
 
+    # This step must ignore errors because "pm2 startup" returns non-zero code due to needing a followup command
     - name: pm2 startup
       ignore_errors: yes
       ansible.builtin.shell:
@@ -85,7 +88,6 @@
       become: true
 
     - name: git clone / pull
-      ignore_errors: yes
       git:
         repo: https://github.com/opedani/webapp-opedani.git
         dest: /home/ec2-user/webapp-opedani
@@ -93,7 +95,6 @@
         version: production
 
     - name: npm install
-      ignore_errors: yes
       ansible.builtin.shell:
         cmd: npm install
         chdir: /home/ec2-user/webapp-opedani
