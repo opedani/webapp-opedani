@@ -1,6 +1,7 @@
 ---
 - name: Apache Playbook
   hosts: apache
+  ignore_unreachable: yes
   remote_user: ec2-user
   become: yes
 
@@ -36,6 +37,7 @@
 
 - name: Node Playbook
   hosts: node
+  ignore_unreachable: yes
   remote_user: ec2-user
 
   tasks:
