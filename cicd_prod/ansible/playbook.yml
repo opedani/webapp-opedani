@@ -50,7 +50,7 @@
         url: https://rpm.nodesource.com/setup_16.x
         dest: /home/ec2-user/nodesetup.sh
         mode: '0755'
-      force: yes
+        force: yes
 
     - name: Execute Node setup script
       ansible.builtin.shell: /home/ec2-user/nodesetup.sh
