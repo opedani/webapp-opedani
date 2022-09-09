@@ -6,6 +6,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    target-branch: "development"
     assignees:
       - "KageKowalski"
 
@@ -14,5 +15,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    target-branch: "development"
     assignees:
       - "klaytonkowalski"
