@@ -40,7 +40,7 @@ resource "aws_eip" "nat_gateway_eip" {
 }
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat_gateway_eip.id
-  subnet_id     = aws_subnet.public_subnet
+  subnet_id     = aws_subnet.public_subnet.id
 }
 resource "aws_route_table" "private_subnet_route_table" {
   vpc_id = aws_vpc.vpc.id
