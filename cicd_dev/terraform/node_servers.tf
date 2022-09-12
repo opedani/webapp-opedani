@@ -3,10 +3,12 @@
 
 # Node app server
 resource "aws_instance" "node1_ec2" {
-  ami             = data.aws_ami.amazon_linux_2_ami.id
-  instance_type   = "t2.micro"
-  security_groups = [aws_security_group.node1_sg.name]
-  key_name        = aws_key_pair.ansible_ssh_key.key_name
+  ami                         = data.aws_ami.amazon_linux_2_ami.id
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.ansible_ssh_key.key_name
+  vpc_security_group_ids      = [aws_security_group.node1_sg.id]
+  subnet_id                   = aws_subnet.public_subnet.id
+  associate_public_ip_address = true
 }
 
 
@@ -19,6 +21,7 @@ resource "aws_eip" "node1_eip" {
 
 # Security Group and Rules for node1 server
 resource "aws_security_group" "node1_sg" {
+  vpc_id      = aws_vpc.vpc.id
   name        = "node1_sg"
   description = "Security Group for node1 server"
 }
