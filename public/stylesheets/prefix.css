@@ -1,0 +1,274 @@
+:root
+{
+    --color-white: #d9d9d9;
+    --color-white-dark: #a6a6a6;
+    --color-black: #1a1a1a;
+    --color-black-dark: #000000;
+    --color-primary: #4090bf;
+    --color-primary-dark: #265773;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #6b3399;
+    --color-gray: #494950;
+    --color-gray-dark: #303036;
+    --color-selection: #9e66cc88;
+    --color-shadow: #0d0d0d;
+    --breakpoint-small: 600px;
+    --breakpoint-medium: 1000px;
+    --breakpoint-large: 1400px;
+}
+
+::selection
+{
+    background: var(--color-selection);
+}
+
+@keyframes fade-in
+{
+    0%
+    {
+        opacity: 0;
+    }
+}
+
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
+    background-color: var(--color-black-dark);
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    height: 100%;
+}
+
+body
+{
+    background-color: var(--color-black);
+    background-image: url('/assets/images/background.png');
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+main
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+hr
+{
+    background-color: var(--color-gray);
+    border: none;
+    min-height: 1px;
+}
+
+h1
+{
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+}
+
+h2
+{
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+p
+{
+    line-height: 1.5;
+}
+
+li
+{
+    line-height: 1.5;
+}
+
+label
+{
+    color: var(--color-white-dark);
+    line-height: 1.5;
+}
+
+a
+{
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+a:focus
+{
+    color: var(--color-white-dark);
+    outline: none;
+}
+
+input[type=text]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+input[type=text]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+input[type=email]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+input[type=email]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+input[type=password]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+input[type=password]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+select
+{
+    appearance: none;
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+select:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+button
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    color: var(--color-white);
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.aligned-content
+{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    min-width: max-content;
+}
+
+.button-box
+{
+    background-color: var(--color-gray-dark);
+    padding: 10px;
+}
+
+.button-box:focus
+{
+    background-color: var(--color-gray);
+    outline: none;
+}
+
+.icon-small
+{
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+
+.icon-large
+{
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+}
+
+.center-frame
+{
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: auto;
+    max-width: 640px;
+    padding: 10px;
+    width: 100%;
+}
+
+.thumbnail
+{
+    object-fit: cover;
+    object-position: center;
+    max-width: 60px;
+    min-height: 80px;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px)
+{
+    .thumbnail
+    {
+        max-width: 120px;
+        min-height: 160px;
+    }
+}
+
+.primary-header
+{
+    align-items: center;
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-dark);
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}

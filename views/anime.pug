@@ -1,72 +1,15 @@
-extends layout.pug
+extends layout
 
 block head-content
+    title OpEdAni: #{anime.titles[0]}
+    link(rel='stylesheet' href='/stylesheets/anime.css')
+
+block body-content
     script(src='/scripts/anime.js' type='module')
 
 block main-content
-    div.util-banner
-        div(style=`background-image: url("${anime.thumbnail}")`).util-banner-background
-        img(src=`${anime.thumbnail}` alt='<Thumbnail>').util-banner-image
-    div.anime-wrapper
-        h1 #[cite #{anime.titles[0]}]
-        hr
-        div.anime-opeds#anime-opeds
-            if anime.ops.length == 0 && anime.eds.length == 0
-                div.util-no-results This anime does not have any openings or endings.
-            each op in anime.ops
-                article.anime-oped
-                    button(type='button' data-oped-id=`${op.id}` data-anime-id=`${anime.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
-                    div.anime-oped-body
-                        div.anime-oped-info
-                            div OP ##{op.sequence}
-                            div #[cite #{op.title}]
-                            if op.artists
-                                div
-                                    each artist, index in op.artists
-                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
-                                        if index < op.artists.length - 1
-                                            | , 
-                        div.anime-oped-stats
-                            div #[i.fa-solid.fa-star]
-                            div #[i.fa-solid.fa-ranking-star]
-            each ed in anime.eds
-                article.anime-oped
-                    button(type='button' data-oped-id=`${ed.id}` data-anime-id=`${anime.id}`).util-go #[i.fa-solid.fa-eye.fa-2x]
-                    div.anime-oped-body
-                        div.anime-oped-info
-                            div ED ##{ed.sequence}
-                            div #[cite #{ed.title}]
-                            if ed.artists
-                                div
-                                    each artist, index in ed.artists
-                                        a(href=`/artist?${new URLSearchParams([['name', artist]])}`) #{artist}
-                                        if index < ed.artists.length - 1
-                                            | , 
-                        div.anime-oped-stats
-                            div #[i.fa-solid.fa-star]
-                            div #[i.fa-solid.fa-ranking-star]
-        hr
-        div #[span.util-label Studios:] 
-            if anime.studios[0] == '<No Data>'
-                | #{anime.studios[0]}
-            else
-                each studio, index in anime.studios
-                    a(href=`/studio?${new URLSearchParams([['name', studio]])}`) #{studio}
-                    if index < anime.studios.length - 1
-                        | , 
-        div #[span.util-label Type:] #{anime.type}
-        div #[span.util-label Season:] #{anime.season}
-        div #[span.util-label Start Date:] #{anime.start}
-        div #[span.util-label End Date:] #{anime.end}
-        div #[span.util-label Broadcast:] #{anime.broadcast}
-        div #[span.util-label Status:] #{anime.status}
-        div #[span.util-label Genres:] #{anime.genres.join(', ')}
-        div #[span.util-label Episodes:] #{anime.episodes}
-        div #[span.util-label Rating:] #{anime.rating}
-        hr
-        div #[i.fa-solid.fa-external-link] #[a(href=`https://myanimelist.net/anime/${anime.id}`) Visit MyAnimeList]
-        div #[i.fa-solid.fa-star] #{anime.score}
-        div #[i.fa-solid.fa-ranking-star] #{anime.rank}
-        div #[i.fa-solid.fa-people-group] #{anime.popularity}
-        hr
-        p.util-paragraph #{anime.synopsis}
+    div.anime-banner
+        div(style=`background-image: url("${anime.thumbnail}")`).anime-banner-background
+        img(src=`${anime.thumbnail}`).anime-banner-thumbnail
+    header.primary-header
+        h1 #{anime.titles[0]}

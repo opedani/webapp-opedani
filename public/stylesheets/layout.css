@@ -1,0 +1,129 @@
+.layout-nav
+{
+    align-items: center;
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    gap: 20px;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.layout-nav-item
+{
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.layout-nav-item:nth-child(2)
+{
+    flex-basis: 800px;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 600px)
+{
+    .layout-nav-item
+    {
+        position: relative;
+    }
+}
+
+.layout-menu-container
+{
+    animation: fade-in 500ms;
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    left: 0;
+    padding: 10px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px)
+{
+    .layout-menu-container
+    {
+        top: calc(100% + 10px);
+        width: 350px;
+    }
+}
+
+.layout-search-form
+{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.layout-result-container
+{
+    animation: fade-in 500ms;
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    max-height: 50vh;
+    overflow: auto;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px)
+{
+    .layout-result-container
+    {
+        top: calc(100% + 10px);
+    }
+}
+
+.layout-result-body
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.layout-sign-container
+{
+    animation: fade-in 500ms;
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px)
+{
+    .layout-sign-container
+    {
+        top: calc(100% + 10px);
+        width: 350px;
+    }
+}
+
+.layout-footer
+{
+    background-color: var(--color-black);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}

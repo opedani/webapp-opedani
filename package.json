@@ -2,7 +2,6 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.18.1",
-    "googleapis": "^104.0.0",
     "moment": "^2.29.3",
     "pug": "^3.0.2"
   }

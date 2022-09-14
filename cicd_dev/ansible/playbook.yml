@@ -1,28 +1,28 @@
 ---
 - name: Apache Playbook
   hosts: apache
+  ignore_unreachable: yes
   remote_user: ec2-user
   become: yes
 
   tasks:
     - name: Upgrade all packages
-      yum:
+      ansible.builtin.yum:
         name: '*'
         state: latest
 
-    - name: Install Apache (httpd)
-      yum:
+    - name: Install and upgrade Apache (httpd) to latest version
+      ansible.builtin.yum:
         name: httpd
         state: latest
 
     - name: Stop Apache (httpd), if started
-      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: stopped
 
-    - name: Configure Apache reverse proxy
-      copy:
+    - name: Copy Apache reverse proxy configuration file
+      ansible.builtin.copy:
         src: data/httpd.conf
         dest: /etc/httpd/conf/httpd.conf
         owner: root
@@ -30,7 +30,6 @@
         mode: 0644
 
     - name: Restart and enable Apache (httpd)
-      ignore_errors: yes
       ansible.builtin.service:
         name: httpd
         state: restarted
@@ -38,17 +37,57 @@
 
 - name: Node Playbook
   hosts: node
+  ignore_unreachable: yes
   remote_user: ec2-user
 
   tasks:
     - name: Upgrade all packages
-      yum:
+      ansible.builtin.yum:
         name: '*'
         state: latest
       become: true
 
-    - name: git clone / pull
+    - name: Download Node setup script
+      ansible.builtin.get_url:
+        url: https://rpm.nodesource.com/setup_16.x
+        dest: /home/ec2-user/nodesetup.sh
+        mode: '0755'
+        force: yes
+
+    - name: Execute Node setup script
+      ansible.builtin.shell: /home/ec2-user/nodesetup.sh
+      become: true
+
+    - name: Install and upgrade necessary software
+      ansible.builtin.yum:
+        name:
+          - nodejs-16.16.0-1nodesource
+          - git
+          - gcc-c++
+          - make
+        state: latest
+      become: true
+
+    - name: Install pm2
+      ansible.builtin.shell:
+        cmd: npm install pm2@latest -g
+        chdir: /home/ec2-user
+      become: true
+
+    # This step must ignore errors because "pm2 startup" returns non-zero code due to needing a followup command
+    - name: pm2 startup
       ignore_errors: yes
+      ansible.builtin.shell:
+        cmd: pm2 startup
+        chdir: /home/ec2-user
+
+    - name: pm2 startup necessary followup command
+      ansible.builtin.shell:
+        cmd: env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
+        chdir: /home/ec2-user
+      become: true
+
+    - name: git clone / pull
       git:
         repo: https://github.com/opedani/webapp-opedani.git
         dest: /home/ec2-user/webapp-opedani
@@ -56,7 +95,6 @@
         version: development
 
     - name: npm install
-      ignore_errors: yes
       ansible.builtin.shell:
         cmd: npm install
         chdir: /home/ec2-user/webapp-opedani

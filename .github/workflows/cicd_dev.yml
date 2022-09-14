@@ -33,10 +33,6 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    # Run "terraform fmt -check -diff"
-    - name: Terraform Format
-      run: terraform fmt -check -diff
-
     # Run "terraform validate"
     - name: Terraform Validate
       run: terraform validate
@@ -65,3 +61,5 @@ jobs:
           key: ${{secrets.ANSIBLE_DEV_SSH_PRIVATE_KEY}}
           options: |
             --inventory .inventory
+            --verbose
+            --diff

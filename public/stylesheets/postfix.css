@@ -1,0 +1,128 @@
+.background
+{
+    background-color: var(--color-black);
+}
+
+.soft
+{
+    color: var(--color-white-dark);
+}
+
+.subtle
+{
+    color: var(--color-gray);
+}
+
+.relative
+{
+    position: relative;
+}
+
+.flex-row
+{
+    display: flex;
+}
+
+.flex-column
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.gap
+{
+    gap: 10px;
+}
+
+.gap-large
+{
+    gap: 20px;
+}
+
+.padding
+{
+    padding: 10px;
+}
+
+.fade-in-slow
+{
+    animation: fade-in 1s;
+}
+
+.fade-in-fast
+{
+    animation: fade-in 0.5s;
+}
+
+[data-auth]
+{
+    display: none;
+}
+
+[data-unauth]
+{
+    display: none;
+}
+
+@media screen and (max-width: 599px)
+{
+    [data-breakpoint=gt-small]
+    {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 999px)
+{
+    [data-breakpoint=gt-medium]
+    {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1399px)
+{
+    [data-breakpoint=gt-large]
+    {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 600px)
+{
+    [data-breakpoint=lt-small]
+    {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1000px)
+{
+    [data-breakpoint=lt-medium]
+    {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1400px)
+{
+    [data-breakpoint=lt-large]
+    {
+        display: none;
+    }
+}
+
+.hidden
+{
+    display: none;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.primary
+{
+    color: var(--color-primary);
+}

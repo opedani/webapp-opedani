@@ -3,25 +3,71 @@ html(lang='en')
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible' content='IE=edge')
-        meta(name='description' content='OpEdAni is an online community of anime enthusiasts to rank, discuss, watch, and listen to openings and endings.')
-        meta(name='keywords' content='anime')
+        meta(name='description' content='OpEdAni is the best place to rate and discuss anime openings and endings.')
+        meta(name='keywords' content='anime, rate, rank, opening, ending, op, ed')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        title OpEdAni: Anime Openings &amp Endings
-        link(rel='stylesheet' href='/stylesheet.css')
-        script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
-        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-        script(src='/scripts/layout.js' type='module')
+        link(rel='stylesheet' href='/stylesheets/prefix.css')
+        link(rel='stylesheet' href='/stylesheets/layout.css')
         block head-content
+        link(rel='stylesheet' href='/stylesheets/postfix.css')
     body
-        nav.layout-nav
-            button(type='button').layout-nav-button#home
-                i.fa-solid.fa-house.fa-2x
-            button(type='button').layout-nav-button#menu
-                i.fa-solid.fa-bars.fa-2x
+        //- nav.layout-nav
+        //-     div#layout-menu-item.layout-nav-item
+        //-         button#layout-menu-toggle.aligned-content
+        //-             i.fa-solid.fa-bars.fa-2x
+        //-             p(data-breakpoint='gt-medium') Menu
+        //-         div#layout-menu-container.layout-menu-container.hidden
+        //-             a(href='/').aligned-content
+        //-                 i.fa-solid.fa-home.fa-2x
+        //-                 p Home
+        //-             a(href='/search').aligned-content
+        //-                 i.fa-solid.fa-search.fa-2x
+        //-                 p Search
+        //-     div#layout-search-item(data-breakpoint='').layout-nav-item
+        //-         form#layout-search-form.layout-search-form
+        //-             button(type='submit').aligned-content
+        //-                 i.fa-solid.fa-search.fa-2x
+        //-             input#layout-search-query(type='text' placeholder='Search...' autocomplete='off' spellcheck='false')
+        //-             div#layout-result-container.layout-result-container.hidden
+        //-     div#layout-sign-in-item(data-unauth).layout-nav-item
+        //-         button#layout-sign-in-toggle.aligned-content
+        //-             i.fa-solid.fa-arrow-right-to-bracket.fa-2x
+        //-             p(data-breakpoint='gt-medium') Sign In
+        //-         form#layout-sign-in-form.layout-sign-container.hidden
+        //-             label(for='layout-sign-in-email') Email
+        //-             input#layout-sign-in-email(type='email' autocomplete='off' spellcheck='false' required)
+        //-             label(for='layout-sign-in-password') Password
+        //-             input#layout-sign-in-password(type='password' autocomplete='off' spellcheck='false' required)
+        //-             button(type='submit').button-box Sign In
+        //-     div#layout-sign-up-item(data-unauth).layout-nav-item
+        //-         button#layout-sign-up-toggle.aligned-content
+        //-             i.fa-solid.fa-user-plus.fa-2x
+        //-             p(data-breakpoint='gt-medium') Sign Up
+        //-         form#layout-sign-up-form.layout-sign-container.hidden
+        //-             label(for='layout-sign-up-email') Email
+        //-             input#layout-sign-up-email(type='email' autocomplete='off' spellcheck='false' required)
+        //-             label(for='layout-sign-up-password') Password
+        //-             input#layout-sign-up-password(type='password' autocomplete='off' spellcheck='false' required)
+        //-             label(for='layout-sign-up-retype-password') Retype Password
+        //-             input#layout-sign-up-retype-password(type='password' autocomplete='off' spellcheck='false' required)
+        //-             button(type='submit').button-box Sign Up
+        //-     div(data-auth).layout-nav-item
+        //-         button.aligned-content
+        //-             i.fa-solid.fa-arrow-right-from-bracket.fa-2x
+        //-             p(data-breakpoint='gt-medium') Sign Out
         main
             block main-content
-        footer
-            div #[a(href='/contact') Contact]
-            div #[a(href='/privacy-policy') Privacy Policy]
-            div #[a(href='/terms-and-conditions') Terms &amp Conditions]
-            div Copyright &copy #{new Date().getFullYear()} Kage &amp Klayton Kowalski
+        //- footer.layout-footer
+        //-     div.flex-row.gap-large
+        //-         a(href='https://discord.gg/RGtp75F3k7' target='_blank').aligned-content
+        //-             i.fa-brands.fa-discord.fa-2x
+        //-             p(data-breakpoint='gt-small') Discord
+        //-         a(href='https://github.com/opedani/webapp-opedani' target='_blank').aligned-content
+        //-             i.fa-brands.fa-github.fa-2x
+        //-             p(data-breakpoint='gt-small') Github
+        //-     p.soft Copyright &copy #{new Date().getFullYear()} OpEdAni Team
+        //- script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
+        //- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+        //- script(src='/scripts/authenticate.js' type='module')
+        //- script(src='/scripts/layout.js' type='module')
+        block body-content

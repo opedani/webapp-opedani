@@ -1,0 +1,50 @@
+.search-form-container
+{
+    background-color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 20px;
+}
+
+.search-form
+{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 600px)
+{
+    .search-form
+    {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1000px)
+{
+    .search-form
+    {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.search-result-container
+{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    padding: 20px;
+    width: 100%;
+}
+
+.search-result-body
+{
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}

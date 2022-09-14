@@ -1,0 +1,38 @@
+version: 2
+updates:
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "development"
+    assignees:
+      - "KageKowalski"
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "development"
+    assignees:
+      - "klaytonkowalski"
+
+    # Maintain dependencies for terraform for CICD Dev
+  - package-ecosystem: "terraform"
+    directory: "/cicd_dev/terraform"
+    schedule:
+      interval: "daily"
+    target-branch: "development"
+    assignees:
+      - "KageKowalski"
+
+    # Maintain dependencies for terraform for CICD Prod
+  - package-ecosystem: "terraform"
+    directory: "/cicd_prod/terraform"
+    schedule:
+      interval: "daily"
+    target-branch: "development"
+    assignees:
+      - "KageKowalski"
