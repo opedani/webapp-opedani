@@ -116,3 +116,13 @@
 {
     display: none;
 }
+
+.center
+{
+    text-align: center;
+}
+
+.primary
+{
+    color: var(--color-primary);
+}
