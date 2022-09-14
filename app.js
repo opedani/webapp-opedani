@@ -166,6 +166,11 @@ function getSearchPage(request, response)
     response.render('search')
 }
 
+function getContactPage(request, response)
+{
+    response.render('contact')
+}
+
 function getAnimePage(request, response)
 {
     const id = request.params[0]
@@ -208,6 +213,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
+app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('*', get404Page)
