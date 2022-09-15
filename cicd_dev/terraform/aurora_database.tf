@@ -10,8 +10,8 @@ data "aws_rds_engine_version" "postgresql" {
 
 # Aurora PostgreSQL Serverless v2 Module
 module "aurora_postgresql_v2" {
-  source  = "registry.terraform.io/terraform-aws-modules/rds-aurora/aws"
-  version = "7.5.1"
+  source            = "registry.terraform.io/terraform-aws-modules/rds-aurora/aws"
+  version           = "7.5.1"
 
   name              = "${var.name}-postgresqlv2"
   engine            = data.aws_rds_engine_version.postgresql.engine
