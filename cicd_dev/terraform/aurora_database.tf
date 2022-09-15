@@ -22,7 +22,7 @@ module "aurora_postgresql_v2" {
   vpc_id                = aws_vpc.vpc.id
   subnets               = aws_subnet.private_subnet.id
   create_security_group = true
-  allowed_cidr_blocks   = ["0.0.0.0/0"]
+  allowed_cidr_blocks   = "0.0.0.0/0"
 
   monitoring_interval = 60
 
