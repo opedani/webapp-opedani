@@ -207,13 +207,13 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', getIndexPage)
-// app.get('/search', getSearchPage)
-// app.get(/^\/anime\/(\d+)$/, getAnimePage)
-// app.get('/api/filter-search-results', apiFilterSearchResults)
+app.get('/search', getSearchPage)
+app.get(/^\/anime\/(\d+)$/, getAnimePage)
+app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:${port} }`))
 
-// fetchMyAnimeList()
-// setInterval(fetchMyAnimeList, 1000 * 60 * 60 * 24)
+fetchMyAnimeList()
+setInterval(fetchMyAnimeList, 1000 * 60 * 60 * 24)
