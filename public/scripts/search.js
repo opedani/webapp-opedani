@@ -4,7 +4,6 @@
 
 const searchForm = $('#search-form')
 const searchQuery = $('#search-query')
-const searchLimit = $('#search-limit')
 const searchCategory = $('#search-category')
 const searchResultCount = $('#search-result-count')
 const searchResultContainer = $('#search-result-container')
@@ -34,7 +33,7 @@ function updateSearchResultContainer(delay)
             data:
             {
                 query: searchQuery.val(),
-                limit: searchLimit.val(),
+                limit: 100,
                 category: category
             },
             success: response =>
@@ -110,10 +109,6 @@ function parseArguments()
     {
         searchQuery.val(params.get('query'))
     }
-    if (params.has('limit'))
-    {
-        searchLimit.val(params.get('limit'))
-    }
     if (params.has('category'))
     {
         if (searchCategory.find(`[value=${params.get('category')}]`).length > 0)
@@ -138,11 +133,6 @@ function searchQuery_onInput()
     updateSearchResultContainer(true)
 }
 
-function searchLimit_onInput()
-{
-    updateSearchResultContainer(true)
-}
-
 function searchCategory_onInput()
 {
     updateSearchResultContainer(false)
@@ -154,7 +144,6 @@ function searchCategory_onInput()
 
 searchForm.on('submit', searchForm_onSubmit)
 searchQuery.on('input', searchQuery_onInput)
-searchLimit.on('input', searchLimit_onInput)
 searchCategory.on('input', searchCategory_onInput)
 
 parseArguments()

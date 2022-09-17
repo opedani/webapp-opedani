@@ -58,12 +58,12 @@ function updateLayoutResultContainer(delay)
                                     <div class="padding">${anime.titles[0]}</div>
                                     <div class="flex-row gap-large padding soft">
                                         <div class="aligned-content">
-                                            <i class="fa-solid fa-star"></i>
-                                            <p>0.00</p>
+                                            <i class="fa-solid fa-o"></i>
+                                            <p>10</p>
                                         </div>
                                         <div class="aligned-content">
-                                            <i class="fa-solid fa-ranking-star"></i>
-                                            <p>#1000</p>
+                                            <i class="fa-solid fa-e"></i>
+                                            <p>10</p>
                                         </div>
                                     </div>
                                 </div>
