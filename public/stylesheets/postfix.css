@@ -1,3 +1,7 @@
+/********************************************************************/
+/* UTILITIES
+/********************************************************************/
+
 .background
 {
     background-color: var(--color-black);
@@ -16,6 +20,45 @@
 .relative
 {
     position: relative;
+}
+
+.grid
+{
+    display: grid;
+}
+
+.fluid-small, .fluid-medium, .fluid-large
+{
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 600px)
+{
+    .fluid-small, .fluid-medium, .fluid-large
+    {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1000px)
+{
+    .fluid-medium, .fluid-large
+    {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1400px)
+{
+    .fluid-large
+    {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+.span
+{
+    grid-column: 1 / -1;
 }
 
 .flex-row
@@ -44,6 +87,11 @@
     padding: 10px;
 }
 
+.padding-large
+{
+    padding: 20px;
+}
+
 .fade-in-slow
 {
     animation: fade-in 1s;
@@ -54,6 +102,15 @@
     animation: fade-in 0.5s;
 }
 
+.hidden
+{
+    display: none;
+}
+
+/********************************************************************/
+/* AUTHORIZATIONS (Hidden Content)
+/********************************************************************/
+
 [data-auth]
 {
     display: none;
@@ -63,6 +120,10 @@
 {
     display: none;
 }
+
+/********************************************************************/
+/* BREAKPOINTS (Hidden Content)
+/********************************************************************/
 
 @media screen and (max-width: 599px)
 {
@@ -110,9 +171,4 @@
     {
         display: none;
     }
-}
-
-.hidden
-{
-    display: none;
 }
