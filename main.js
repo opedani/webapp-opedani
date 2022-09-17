@@ -17,82 +17,9 @@ const moment = require('moment')
 const app = express()
 const port = 3000
 
-let opedani =
-[
-    {
-        id: 1,
-        animeId: 9253,
-        rating: 0,
-        rank: 1000,
-        contributors: 1000,
-        title: 'Hacking to the Gate',
-        artist: 'Kanako Itou'
-    }
-]
-
-let myanimelist = []
-
 //////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
-
-function parseMyAnimeList(node)
-{
-    const id = node.id
-    const titles = node.alternative_titles ? [ node.title, node.alternative_titles.en, ...node.alternative_titles.synonyms ].filter(title => title != '') : [ node.title ]
-    const thumbnail = node.main_picture ? node.main_picture.large : '/images/thumbnail.png'
-    const anime =
-    {
-        id: id,
-        titles: titles,
-        thumbnail: thumbnail
-    }
-    return anime
-}
-
-function fetchMyAnimeList(offset, result)
-{
-    if (!offset)
-    {
-        console.log(`Fetching data... { hostname: api.myanimelist.net }`)
-        offset = 0
-        result = []
-    }
-    const options =
-    {
-        hostname: 'api.myanimelist.net',
-        path: `/v2/anime/ranking?ranking_type=all&fields=id,title,main_picture,alternative_titles&limit=500&offset=${offset}`,
-        headers: { 'X-MAL-Client-ID': '6114d00ca681b7701d1e15fe11a4987e' }
-    }
-    https.get(options, response =>
-    {
-        let string = '';
-        response.on('data', stream => string += stream)
-        response.on('end', () =>
-        {
-            const object = JSON.parse(string)
-            if (object.data.length)
-            {
-                for (const data of object.data)
-                {
-                    const anime = parseMyAnimeList(data.node)
-                    result.push(anime)
-                }
-                fetchMyAnimeList(offset + 500, result)
-            }
-            else
-            {
-                myanimelist = result
-                console.log(`Fetched data. { hostname: api.myanimelist.net, count: ${myanimelist.length} }`)
-            }
-        })
-    })
-}
-
-function getAnime(id)
-{
-    return myanimelist.find(anime => anime.id == id)
-}
 
 function filterSearchResults(query, limit, category)
 {
@@ -106,22 +33,22 @@ function filterSearchResults(query, limit, category)
     }
     if (category == 'anime')
     {
-        for (const anime of myanimelist)
-        {
-            for (const title of anime.titles)
-            {
-                if (title.toLowerCase().includes(query))
-                {
-                    result.searchResults.push(anime)
-                    if (result.searchResults.length >= limit)
-                    {
-                        result.reachedLimit = true
-                        return result
-                    }
-                    break
-                }
-            }
-        }
+        // for (const anime of myanimelist)
+        // {
+        //     for (const title of anime.titles)
+        //     {
+        //         if (title.toLowerCase().includes(query))
+        //         {
+        //             result.searchResults.push(anime)
+        //             if (result.searchResults.length >= limit)
+        //             {
+        //                 result.reachedLimit = true
+        //                 return result
+        //             }
+        //             break
+        //         }
+        //     }
+        // }
     }
     else if (category == 'oped')
     {
@@ -174,7 +101,7 @@ function getContactPage(request, response)
 function getAnimePage(request, response)
 {
     const id = request.params[0]
-    const anime = getAnime(id)
+    // const anime = getAnime(id)
     if (anime)
     {
         response.render('anime',
@@ -220,6 +147,3 @@ app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:${port} }`))
-
-fetchMyAnimeList()
-setInterval(fetchMyAnimeList, 1000 * 60 * 60 * 24)
