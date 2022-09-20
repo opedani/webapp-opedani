@@ -122,6 +122,12 @@ function apiFilterSearchResults(request, response)
     response.json(searchResults)
 }
 
+function apiSendContactEmail(request, response)
+{
+    const arguments = url.parse(request.url, true).query
+    response.json({success: false})
+}
+
 function get404Page(request, response)
 {
     response.status(404).render('404')
@@ -143,6 +149,7 @@ app.get('/search', getSearchPage)
 app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
+app.get('/api/send-contact-email', apiSendContactEmail)
 app.get('*', get404Page)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)

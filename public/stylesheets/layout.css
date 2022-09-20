@@ -127,3 +127,18 @@
     gap: 20px;
     padding: 20px;
 }
+
+.layout-status
+{
+    align-items: center;
+    animation: fade-in-out 5000ms;
+    background-color: var(--color-primary);
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+}

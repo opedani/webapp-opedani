@@ -2,9 +2,14 @@
 // ELEMENTS
 //////////////////////////////////////////////////////////////////////
 
+import showStatusMessage from "/scripts/status.js"
+
 const contactCategory = $('#contact-category')
 const contactDescription = $('#contact-description')
 const contactForm = $('#contact-form')
+const contactName = $('#contact-name')
+const contactEmail = $('#contact-email')
+const contactMessage = $('#contact-message')
 
 //////////////////////////////////////////////////////////////////////
 // CALLBACK FUNCTIONS
@@ -34,6 +39,32 @@ function contactCategory_onInput()
 function contactForm_onSubmit(event)
 {
     event.preventDefault()
+    const request =
+    {
+        url: `${location.origin}/api/send-contact-email`,
+        data:
+        {
+            category: contactCategory.val(),
+            name: contactName.val(),
+            email: contactEmail.val(),
+            message: contactMessage.val()
+        },
+        success: response =>
+        {
+            if (response.success)
+            {
+                showStatusMessage('Success! Your email was sent to the OpEdAni team.')
+                contactName.val('')
+                contactEmail.val('')
+                contactMessage.val('')
+            }
+            else
+            {
+                showStatusMessage('Something went wrong. Please refresh the page and try again.')
+            }
+        }
+    }
+    $.ajax(request)
 }
 
 //////////////////////////////////////////////////////////////////////
