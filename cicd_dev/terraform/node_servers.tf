@@ -2,20 +2,20 @@
 
 
 # Node app server
-#resource "aws_instance" "node1_ec2" {
-#  ami                         = data.aws_ami.amazon_linux_2_ami.id
-#  instance_type               = "t2.micro"
-#  key_name                    = aws_key_pair.ansible_ssh_key.key_name
-#  vpc_security_group_ids      = [aws_security_group.node_sg.id]
-#  subnet_id                   = aws_subnet.public_subnet.id
-#  associate_public_ip_address = true
-#}
+resource "aws_instance" "node1_ec2" {
+  ami                         = data.aws_ami.amazon_linux_2_ami.id
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.ansible_ssh_key.key_name
+  vpc_security_group_ids      = [aws_security_group.node_sg.id]
+  subnet_id                   = aws_subnet.public_subnet.id
+  associate_public_ip_address = true
+}
 
 
 # Public IP for node1 server (Elastic IP)
 resource "aws_eip" "node1_eip" {
-  #  instance = aws_instance.node1_ec2.id
-  vpc = true
+  instance = aws_instance.node1_ec2.id
+  vpc      = true
 }
 
 
