@@ -1,0 +1,36 @@
+extends layout
+
+block head-content
+    title OpEdAni: Contact
+    link(rel='stylesheet' href='/stylesheets/contact.css')
+
+block body-content
+    script(src='/scripts/contact.js' type='module')
+
+block main-content
+    div.background
+        div.clamp.flex-column.gap.padding-large
+            p Choose the appropriate contact form that best matches your situation:
+            select#contact-category
+                option(value='technical') Technical
+                option(value='suggestion') Suggestion
+                option(value='business') Business
+                option(value='other') Other
+            p#contact-description.soft Report a technical issue if the site does not function as expected or erroneous information is displayed.
+    form#contact-form.clamp.grid.fluid-small.gap.padding-large
+        div.flex-column.gap
+            div.aligned-content
+                i.fa-solid.fa-signature
+                label(for='contact-name') Name
+            input#contact-name(type='text' placeholder='Jane Doe' autocomplete='off' spellcheck='false' required)
+        div.flex-column.gap
+            div.aligned-content
+                i.fa-solid.fa-envelope
+                label(for='contact-email') Email
+            input#contact-email(type='email' placeholder='janedoe@gmail.com' autocomplete='off' spellcheck='false' required)
+        div.flex-column.gap.span
+            div.aligned-content
+                i.fa-solid.fa-message
+                label(for='contact-message') Message
+            textarea#contact-message(required)
+        button(type='submit').button-box.span Submit

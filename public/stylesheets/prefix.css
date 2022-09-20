@@ -1,3 +1,7 @@
+/********************************************************************/
+/* PALETTE
+/********************************************************************/
+
 :root
 {
     --color-white: #d9d9d9;
@@ -12,15 +16,11 @@
     --color-gray-dark: #303036;
     --color-selection: #9e66cc88;
     --color-shadow: #0d0d0d;
-    --breakpoint-small: 600px;
-    --breakpoint-medium: 1000px;
-    --breakpoint-large: 1400px;
 }
 
-::selection
-{
-    background: var(--color-selection);
-}
+/********************************************************************/
+/* ANIMATIONS
+/********************************************************************/
 
 @keyframes fade-in
 {
@@ -28,6 +28,35 @@
     {
         opacity: 0;
     }
+}
+
+@keyframes fade-out
+{
+    100%
+    {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in-out
+{
+    10%
+    {
+        opacity: 1;
+    }
+    90%
+    {
+        opacity: 1;
+    }
+}
+
+/********************************************************************/
+/* GENERAL
+/********************************************************************/
+
+::selection
+{
+    background: var(--color-selection);
 }
 
 *
@@ -96,7 +125,6 @@ li
 
 label
 {
-    color: var(--color-white-dark);
     line-height: 1.5;
 }
 
@@ -143,6 +171,24 @@ input[type=email]
 }
 
 input[type=email]:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+input[type=url]
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+input[type=url]:focus
 {
     border: 1px solid var(--color-gray);
     outline: none;
@@ -197,6 +243,30 @@ button
     font-weight: normal;
 }
 
+textarea
+{
+    background-color: var(--color-black);
+    border: 1px solid var(--color-gray-dark);
+    border-radius: 0;
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    height: 100px;
+    padding: 10px;
+    resize: vertical;
+    width: 100%;
+}
+
+textarea:focus
+{
+    border: 1px solid var(--color-gray);
+    outline: none;
+}
+
+/********************************************************************/
+/* ABSTRACTIONS
+/********************************************************************/
+
 .aligned-content
 {
     align-items: center;
@@ -231,16 +301,10 @@ button
     width: 32px;
 }
 
-.center-frame
+.clamp
 {
-    background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: auto;
-    max-width: 640px;
-    padding: 10px;
+    margin: 0 auto;
+    max-width: 1400px;
     width: 100%;
 }
 

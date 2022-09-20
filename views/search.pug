@@ -8,19 +8,17 @@ block body-content
     script(src='/scripts/search.js' type='module')
 
 block main-content
-    div.search-form-container
-        form#search-form.search-form
-            div.flex-column.gap
-                label(for='search-query') Query
-                input#search-query(type='text' placeholder='Search...' autocomplete='off' spellcheck='false')
-            div.flex-column.gap
-                label(for='search-limit') Limit
-                input#search-limit(type='text', value='20' placeholder='20', autocomplete='off' spellcheck='false')
-            div.flex-column.gap
-                label(for='search-category') Category
-                select#search-category
-                    option(value='anime' selected) Anime
-                    option(value='oped') OpEd
-                    option(value='user') User
-        p.subtle Results: #[span#search-result-count 0]
+    div.background
+        div.clamp.flex-column.gap.padding-large
+            form#search-form.search-form
+                div.flex-column.gap
+                    label(for='search-query') Query
+                    input#search-query(type='text' placeholder='Search...' autocomplete='off' spellcheck='false')
+                div.flex-column.gap
+                    label(for='search-category') Category
+                    select#search-category
+                        option(value='anime' selected) Anime
+                        option(value='oped') OpEd
+                        option(value='user') User
+            p.subtle Results: #[span#search-result-count 0]
     div#search-result-container.search-result-container
