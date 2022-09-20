@@ -111,7 +111,7 @@ function getAnimePage(request, response)
     }
     else
     {
-        response.status(404).render('404')
+        response.status(404).render('page-not-found')
     }
 }
 
@@ -128,9 +128,9 @@ function apiSendContactEmail(request, response)
     response.json({success: false})
 }
 
-function get404Page(request, response)
+function getPageNotFoundPage(request, response)
 {
-    response.status(404).render('404')
+    response.status(404).render('page-not-found')
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('/api/send-contact-email', apiSendContactEmail)
-app.get('*', get404Page)
+app.get('*', getPageNotFoundPage)
 
 console.log(`Launching OpEdAni... { port: ${port} }`)
 app.listen(port, () => console.log(`Launched OpEdAni. { url: http://localhost:${port} }`))
