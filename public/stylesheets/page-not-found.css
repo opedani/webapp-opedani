@@ -1,0 +1,21 @@
+.page-not-found-container
+{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    justify-content: center;
+    margin-top: -16px;
+    padding: 20px;
+}
+
+.page-not-found-heading
+{
+    font-size: 64px;
+}
+
+.page-not-found-subheading
+{
+    color: var(--color-white-dark);
+    font-size: 24px;
+}
