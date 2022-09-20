@@ -3,10 +3,12 @@
 
 # Apache Web Server (ec2 instance)
 resource "aws_instance" "apache_ec2" {
-  ami             = data.aws_ami.amazon_linux_2_ami.id
-  instance_type   = "t2.micro"
-  security_groups = [aws_security_group.apache_sg.name]
-  key_name        = aws_key_pair.ansible_ssh_key.key_name
+  ami                         = data.aws_ami.amazon_linux_2_ami.id
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.ansible_ssh_key.key_name
+  vpc_security_group_ids      = [aws_security_group.apache_sg.id]
+  subnet_id                   = aws_subnet.public_subnet.id
+  associate_public_ip_address = true
 }
 
 
@@ -19,6 +21,7 @@ resource "aws_eip" "apache_eip" {
 
 # Security Group and Rules for Apache Web Server
 resource "aws_security_group" "apache_sg" {
+  vpc_id      = aws_vpc.vpc.id
   name        = "apache_sg"
   description = "Security Group for Apache Web Server"
 }
