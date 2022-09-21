@@ -101,7 +101,41 @@ function getContactPage(request, response)
 function getAnimePage(request, response)
 {
     const id = request.params[0]
-    // const anime = getAnime(id)
+    const anime =
+    {
+        thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
+        titles: ['Steins;Gate'],
+        openings:
+        [
+            {
+                id: 1,
+                ordinal: 1,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            },
+            {
+                id: 2,
+                ordinal: 2,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            },
+            {
+                id: 3,
+                ordinal: 3,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            }
+        ],
+        endings:
+        [
+            {
+                id: 4,
+                ordinal: 1,
+                titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
+                artists: ['PHANTASM']
+            }
+        ]
+    }
     if (anime)
     {
         response.render('anime',
@@ -113,6 +147,11 @@ function getAnimePage(request, response)
     {
         response.status(404).render('page-not-found')
     }
+}
+
+function getOpedPage(request, response)
+{
+    response.render('oped')
 }
 
 function apiFilterSearchResults(request, response)
@@ -148,6 +187,7 @@ app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
 app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
+app.get(/^\/oped\/(\d+)$/, getOpedPage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('/api/send-contact-email', apiSendContactEmail)
 app.get('*', getPageNotFoundPage)

@@ -83,7 +83,7 @@ function updateSearchResultContainer(delay)
                                         </div>
                                         <div class="aligned-content">
                                             <i class="fa-solid fa-ranking-star"></i>
-                                            <p>#${oped.rank}</p>
+                                            <p>${oped.rank}</p>
                                         </div>
                                     </div>
                                 </div>
