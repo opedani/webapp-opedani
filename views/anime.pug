@@ -87,10 +87,12 @@ block main-content
                 div.aligned-content
                     i.fa-solid.fa-music
                     label(for='anime-titles') Titles
-                input#anime-titles(type='text' placeholder='Hadaka no Yuusha, Naked Hero' autocomplete='off' spellcheck='false' required)
+                    i(data-help='Enter a comma-separated list. The first title is displayed across OpEdAni, while the following titles are added to the search engine.').fa-solid.fa-circle-question.help
+                input#anime-titles(type='text' autocomplete='off' spellcheck='false' required)
             div.flex-column.gap
                 div.aligned-content
                     i.fa-solid.fa-guitar
                     label(for='anime-artists') Artists
-                input#anime-artists(type='text' placeholder='Linked Horizon, Itou Kanako' autocomplete='off' spellcheck='false' required)
+                    i(data-help='Enter a comma-separated list.').fa-solid.fa-circle-question.help
+                input#anime-artists(type='text' autocomplete='off' spellcheck='false' required)
             button(type='submit').button-box.span Submit

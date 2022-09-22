@@ -2,7 +2,7 @@
 // ELEMENTS
 //////////////////////////////////////////////////////////////////////
 
-import showStatusMessage from "/scripts/status.js"
+import message from "/scripts/message.js"
 
 const contactCategory = $('#contact-category')
 const contactDescription = $('#contact-description')
@@ -53,14 +53,14 @@ function contactForm_onSubmit(event)
         {
             if (response.success)
             {
-                showStatusMessage('Success! Your email was sent to the OpEdAni team.')
+                message.showStatusMessage('Success! Your email was sent to the OpEdAni team.')
                 contactName.val('')
                 contactEmail.val('')
                 contactMessage.val('')
             }
             else
             {
-                showStatusMessage('Something went wrong. Please refresh the page and try again.')
+                message.showStatusMessage('Something went wrong. Please refresh the page and try again.')
             }
         }
     }

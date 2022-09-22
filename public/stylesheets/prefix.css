@@ -342,3 +342,14 @@ textarea:focus
     justify-content: center;
     padding: 20px;
 }
+
+.help
+{
+    color: var(--color-gray);
+    cursor: pointer;
+}
+
+.help:hover
+{
+    color: var(--color-white);
+}
