@@ -67,23 +67,23 @@ function updateSearchResultContainer(delay)
                         `)
                     }
                 }
-                else if (category == 'oped')
+                else if (category == 'song')
                 {
-                    for (const oped of searchResults)
+                    for (const song of searchResults)
                     {
                         searchResultContainer.append(`
-                            <a class="flex-row fade-in-slow" href="/oped/${oped.id}">
-                                <img class="thumbnail" src="${oped.thumbnail}" alt="Thumbnail">
+                            <a class="flex-row fade-in-slow" href="/song/${song.id}">
+                                <img class="thumbnail" src="${song.thumbnail}" alt="Thumbnail">
                                 <div class="search-result-body">
-                                    <div class="padding">${oped.title}</div>
+                                    <div class="padding">${song.title}</div>
                                     <div class="flex-row gap-large padding soft">
                                         <div class="aligned-content">
                                             <i class="fa-solid fa-star"></i>
-                                            <p>${oped.rating.toFixed(2)}</p>
+                                            <p>${song.rating.toFixed(2)}</p>
                                         </div>
                                         <div class="aligned-content">
                                             <i class="fa-solid fa-ranking-star"></i>
-                                            <p>${oped.rank}</p>
+                                            <p>${song.rank}</p>
                                         </div>
                                     </div>
                                 </div>

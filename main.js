@@ -50,27 +50,27 @@ function filterSearchResults(query, limit, category)
         //     }
         // }
     }
-    else if (category == 'oped')
+    else if (category == 'song')
     {
-        for (const oped of opedani)
-        {
-            if (oped.title.toLowerCase().includes(query))
-            {
-                const anime = getAnime(oped.animeId)
-                const opedExtended =
-                {
-                    ...oped,
-                    thumbnail: anime.thumbnail
-                }
-                result.searchResults.push(opedExtended)
-                if (result.searchResults.length >= limit)
-                {
-                    result.reachedLimit = true
-                    return result
-                }
-                break
-            }
-        }
+        // for (const song of opedani)
+        // {
+        //     if (song.title.toLowerCase().includes(query))
+        //     {
+        //         const anime = getAnime(song.animeId)
+        //         const songExtended =
+        //         {
+        //             ...song,
+        //             thumbnail: anime.thumbnail
+        //         }
+        //         result.searchResults.push(songExtended)
+        //         if (result.searchResults.length >= limit)
+        //         {
+        //             result.reachedLimit = true
+        //             return result
+        //         }
+        //         break
+        //     }
+        // }
     }
     else if (category == 'user')
     {
@@ -149,9 +149,9 @@ function getAnimePage(request, response)
     }
 }
 
-function getOpedPage(request, response)
+function getSongPage(request, response)
 {
-    response.render('oped')
+    response.render('song')
 }
 
 function apiFilterSearchResults(request, response)
@@ -187,7 +187,7 @@ app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
 app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
-app.get(/^\/oped\/(\d+)$/, getOpedPage)
+app.get(/^\/song\/(\d+)$/, getSongPage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('/api/send-contact-email', apiSendContactEmail)
 app.get('*', getPageNotFoundPage)
