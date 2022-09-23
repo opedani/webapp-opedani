@@ -33,3 +33,41 @@
         min-height: 400px;
     }
 }
+
+.anime-header
+{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.anime-oped
+{
+    background-color: var(--color-black);
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.anime-oped-edit
+{
+    color: var(--color-gray);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.anime-oped-edit:hover
+{
+    color: var(--color-white);
+}
+
+.anime-oped-bottom
+{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}

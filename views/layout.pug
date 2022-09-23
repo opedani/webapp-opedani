@@ -8,6 +8,7 @@ html(lang='en')
         meta(name='viewport' content='width=device-width, initial-scale=1')
         link(rel='stylesheet' href='/stylesheets/prefix.css')
         link(rel='stylesheet' href='/stylesheets/layout.css')
+        link(rel='stylesheet' href='/stylesheets/accessory.css')
         block head-content
         link(rel='stylesheet' href='/stylesheets/postfix.css')
     body
@@ -71,6 +72,6 @@ html(lang='en')
             p.soft Copyright &copy #{new Date().getFullYear()} OpEdAni Team
         script(src='https://kit.fontawesome.com/9020366a17.js' crossorigin='anonymous')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-        script(src='/scripts/authenticate.js' type='module')
+        script(src='/scripts/accessory.js' type='module')
         script(src='/scripts/layout.js' type='module')
         block body-content

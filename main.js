@@ -50,27 +50,27 @@ function filterSearchResults(query, limit, category)
         //     }
         // }
     }
-    else if (category == 'oped')
+    else if (category == 'song')
     {
-        for (const oped of opedani)
-        {
-            if (oped.title.toLowerCase().includes(query))
-            {
-                const anime = getAnime(oped.animeId)
-                const opedExtended =
-                {
-                    ...oped,
-                    thumbnail: anime.thumbnail
-                }
-                result.searchResults.push(opedExtended)
-                if (result.searchResults.length >= limit)
-                {
-                    result.reachedLimit = true
-                    return result
-                }
-                break
-            }
-        }
+        // for (const song of opedani)
+        // {
+        //     if (song.title.toLowerCase().includes(query))
+        //     {
+        //         const anime = getAnime(song.animeId)
+        //         const songExtended =
+        //         {
+        //             ...song,
+        //             thumbnail: anime.thumbnail
+        //         }
+        //         result.searchResults.push(songExtended)
+        //         if (result.searchResults.length >= limit)
+        //         {
+        //             result.reachedLimit = true
+        //             return result
+        //         }
+        //         break
+        //     }
+        // }
     }
     else if (category == 'user')
     {
@@ -101,7 +101,41 @@ function getContactPage(request, response)
 function getAnimePage(request, response)
 {
     const id = request.params[0]
-    // const anime = getAnime(id)
+    const anime =
+    {
+        thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
+        titles: ['Steins;Gate'],
+        openings:
+        [
+            {
+                id: 1,
+                ordinal: 1,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            },
+            {
+                id: 2,
+                ordinal: 2,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            },
+            {
+                id: 3,
+                ordinal: 3,
+                titles: ['Hacking to the Gate'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            }
+        ],
+        endings:
+        [
+            {
+                id: 4,
+                ordinal: 1,
+                titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
+                artists: ['PHANTASM']
+            }
+        ]
+    }
     if (anime)
     {
         response.render('anime',
@@ -113,6 +147,11 @@ function getAnimePage(request, response)
     {
         response.status(404).render('page-not-found')
     }
+}
+
+function getSongPage(request, response)
+{
+    response.render('song')
 }
 
 function apiFilterSearchResults(request, response)
@@ -148,6 +187,7 @@ app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
 app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
+app.get(/^\/song\/(\d+)$/, getSongPage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('/api/send-contact-email', apiSendContactEmail)
 app.get('*', getPageNotFoundPage)

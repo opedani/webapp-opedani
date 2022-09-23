@@ -1,3 +1,5 @@
+import message from '/scripts/message.js'
+
 function handleAuthState()
 {
     sessionStorage.setItem('authState', 'signedOut')
@@ -16,4 +18,13 @@ function handleAuthState()
     }
 }
 
+function setHelpMessages()
+{
+    $('.help').on('click', event =>
+    {
+        message.showHelpMessage($(event.target).attr('data-help'))
+    })
+}
+
 handleAuthState()
+setHelpMessages()

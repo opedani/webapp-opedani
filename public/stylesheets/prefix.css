@@ -8,10 +8,10 @@
     --color-white-dark: #a6a6a6;
     --color-black: #1a1a1a;
     --color-black-dark: #000000;
-    --color-primary: #4090bf;
-    --color-primary-dark: #265773;
+    --color-primary: #64a4ca;
+    --color-primary-dark: #35769d;
     --color-accent: #9e66cc;
-    --color-accent-dark: #6b3399;
+    --color-accent-dark: #7035a0;
     --color-gray: #494950;
     --color-gray-dark: #303036;
     --color-selection: #9e66cc88;
@@ -100,16 +100,15 @@ hr
 
 h1
 {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: normal;
     line-height: 1.5;
-    text-align: center;
 }
 
 h2
 {
-    font-size: 24px;
-    font-weight: normal;
+    color: var(--color-primary);
+    font-size: 16px;
     line-height: 1.5;
 }
 
@@ -275,6 +274,13 @@ textarea:focus
     min-width: max-content;
 }
 
+.aligned-content-wrap
+{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
 .button-box
 {
     background-color: var(--color-gray-dark);
@@ -335,4 +341,15 @@ textarea:focus
     gap: 20px;
     justify-content: center;
     padding: 20px;
+}
+
+.help
+{
+    color: var(--color-gray);
+    cursor: pointer;
+}
+
+.help:hover
+{
+    color: var(--color-white);
 }

@@ -1,0 +1,15 @@
+.accessory-message
+{
+    align-items: center;
+    animation: fade-in-out 5s;
+    background-color: var(--color-primary-dark);
+    bottom: 0;
+    box-shadow: 0 0 10px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+}
