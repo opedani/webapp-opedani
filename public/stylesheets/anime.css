@@ -42,13 +42,6 @@
     padding: 20px;
 }
 
-.anime-oped-container
-{
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-}
-
 .anime-oped
 {
     background-color: var(--color-black);
@@ -57,6 +50,19 @@
     flex-direction: column;
     gap: 10px;
     padding: 10px;
+}
+
+.anime-oped-edit
+{
+    color: var(--color-gray);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.anime-oped-edit:hover
+{
+    color: var(--color-white);
 }
 
 .anime-oped-bottom

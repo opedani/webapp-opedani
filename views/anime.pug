@@ -23,7 +23,7 @@ block main-content
                     p #{anime.endings.length}
     div.clamp.flex-column.gap-large.padding-large
         h2 Openings
-        div.anime-oped-container
+        div.grid.gap-large.fluid-medium
             each opening in anime.openings
                 a(href=`/oped/${opening.id}`).anime-oped
                     div.flex-column.gap
@@ -46,7 +46,7 @@ block main-content
                             i.fa-solid.fa-ranking-star
                             p #0
         h2 Endings
-        div.anime-oped-container
+        div.grid.gap-large.fluid-medium
             each ending in anime.endings
                 a(href=`/oped/${ending.id}`).anime-oped
                     div.flex-column.gap
@@ -68,31 +68,30 @@ block main-content
                         div.aligned-content
                             i.fa-solid.fa-ranking-star
                             p #0
-        hr
-        h2 Contribute
-        form#anime-contribute-form.grid.fluid-small.gap
-            div.flex-column.gap
-                div.aligned-content
-                    i.fa-solid.fa-list
-                    label(for='anime-category') Category
-                select(required)#anime-category
-                    option(value='Opening') Opening
-                    option(value='Ending') Ending
-            div.flex-column.gap
-                div.aligned-content
-                    i.fa-solid.fa-list-ol
-                    label(for='anime-ordinal') Ordinal
-                input#anime-ordinal(type='text' autocomplete='off' spellcheck='false' required)
-            div.flex-column.gap
-                div.aligned-content
-                    i.fa-solid.fa-music
-                    label(for='anime-titles') Titles
-                    i(data-help='Enter a comma-separated list. The first title is displayed across OpEdAni, while the following titles are added to the search engine.').fa-solid.fa-circle-question.help
-                input#anime-titles(type='text' autocomplete='off' spellcheck='false' required)
-            div.flex-column.gap
-                div.aligned-content
-                    i.fa-solid.fa-guitar
-                    label(for='anime-artists') Artists
-                    i(data-help='Enter a comma-separated list.').fa-solid.fa-circle-question.help
-                input#anime-artists(type='text' autocomplete='off' spellcheck='false' required)
-            button(type='submit').button-box.span Submit
+        //- h2 Contribute
+        //- form#anime-contribute-form.grid.fluid-small.gap
+        //-     div.flex-column.gap
+        //-         div.aligned-content
+        //-             i.fa-solid.fa-list
+        //-             label(for='anime-category') Category
+        //-         select(required)#anime-category
+        //-             option(value='opening') Opening
+        //-             option(value='ending') Ending
+        //-     div.flex-column.gap
+        //-         div.aligned-content
+        //-             i.fa-solid.fa-list-ol
+        //-             label(for='anime-ordinal') Ordinal
+        //-         input#anime-ordinal(type='text' autocomplete='off' spellcheck='false' required)
+        //-     div.flex-column.gap
+        //-         div.aligned-content
+        //-             i.fa-solid.fa-music
+        //-             label(for='anime-titles') Titles
+        //-             i(data-help='Enter a comma-separated list. The first title is displayed across OpEdAni, while the following titles are added to the search engine.').fa-solid.fa-circle-question.help
+        //-         input#anime-titles(type='text' autocomplete='off' spellcheck='false' required)
+        //-     div.flex-column.gap
+        //-         div.aligned-content
+        //-             i.fa-solid.fa-guitar
+        //-             label(for='anime-artists') Artists
+        //-             i(data-help='Enter a comma-separated list.').fa-solid.fa-circle-question.help
+        //-         input#anime-artists(type='text' autocomplete='off' spellcheck='false' required)
+        //-     button(type='submit').button-box.span Submit
