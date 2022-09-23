@@ -1,11 +1,34 @@
 .song-theater
 {
+    align-items: center;
     background-color: var(--color-black-dark);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
 }
 
 .song-theater-video
 {
+    aspect-ratio: 16 / 9;
+    max-width: 640px;
+    width: 100%;
+}
 
+.song-theater-bottom
+{
+    align-items: center;
+    background-color: var(--color-gray-dark);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    max-width: 640px;
+    padding: 10px;
+    width: 100%;
+}
+
+.song-header
+{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px;
 }

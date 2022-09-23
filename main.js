@@ -159,7 +159,9 @@ function getSongPage(request, response)
         ordinal: 1,
         titles: ['Hacking to the Gate'],
         artists: ['Itou Kanako', 'Klayton Kowalski'],
-        youtube: ['https://www.youtube.com/watch?v=dd7BILZcYAY']
+        videos: ['https://www.youtube.com/embed/dd7BILZcYAY', 'https://www.youtube.com/embed/DvNVdo8Tchw', 'https://www.youtube.com/embed/DVv8hzYdido'],
+        globalRating: 0.00,
+        globalRanking: 0
     }
     if (song)
     {
