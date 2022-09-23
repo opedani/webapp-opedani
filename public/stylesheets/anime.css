@@ -52,19 +52,6 @@
     padding: 10px;
 }
 
-.anime-oped-edit
-{
-    color: var(--color-gray);
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
-
-.anime-oped-edit:hover
-{
-    color: var(--color-white);
-}
-
 .anime-oped-bottom
 {
     display: flex;

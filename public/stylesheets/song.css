@@ -1,0 +1,11 @@
+.song-theater
+{
+    background-color: var(--color-black-dark);
+    display: flex;
+    justify-content: center;
+}
+
+.song-theater-video
+{
+
+}

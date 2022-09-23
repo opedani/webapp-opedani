@@ -151,7 +151,27 @@ function getAnimePage(request, response)
 
 function getSongPage(request, response)
 {
-    response.render('song')
+    const id = request.params[0]
+    const song =
+    {
+        id: 1,
+        animeId: 1,
+        ordinal: 1,
+        titles: ['Hacking to the Gate'],
+        artists: ['Itou Kanako', 'Klayton Kowalski'],
+        youtube: ['https://www.youtube.com/watch?v=dd7BILZcYAY']
+    }
+    if (song)
+    {
+        response.render('song',
+        {
+            song: song
+        })
+    }
+    else
+    {
+        response.status(404).render('page-not-found')
+    }
 }
 
 function apiFilterSearchResults(request, response)
