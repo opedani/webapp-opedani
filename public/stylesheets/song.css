@@ -9,14 +9,13 @@
 .song-theater-video
 {
     aspect-ratio: 16 / 9;
-    max-width: 640px;
+    max-width: 1400px;
     width: 100%;
 }
 
 .song-theater-bottom
 {
     align-items: center;
-    background-color: var(--color-gray-dark);
     display: flex;
     gap: 10px;
     justify-content: center;
