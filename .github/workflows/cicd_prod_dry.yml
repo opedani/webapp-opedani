@@ -54,7 +54,7 @@ jobs:
 
       # Dry run the Ansible playbook
       - name: Dry Run Playbooks
-        uses: dawidd6/action-ansible-playbook@v2.6.0
+        uses: dawidd6/action-ansible-playbook@v2.6.1
         with:
           playbook: playbook.yml
           directory: ./cicd_prod/ansible
