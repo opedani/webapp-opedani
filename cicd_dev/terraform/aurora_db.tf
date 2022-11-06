@@ -17,8 +17,8 @@ resource "aws_rds_cluster" "aurora_cluster" {
 
   # Changeable input
   allow_major_version_upgrade      = false
-  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.aurora_cluster_param_grp
-  db_instance_parameter_group_name = aws_db_parameter_group.aurora_db_param_grp
+  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.aurora_cluster_param_grp.name
+  db_instance_parameter_group_name = aws_db_parameter_group.aurora_db_param_grp.name
 
   # Scaling info
   serverlessv2_scaling_configuration {
