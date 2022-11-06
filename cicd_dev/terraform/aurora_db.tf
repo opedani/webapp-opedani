@@ -20,6 +20,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.aurora_cluster_param_grp
   db_instance_parameter_group_name = aws_db_parameter_group.aurora_db_param_grp
 
+  # Scaling info
   serverlessv2_scaling_configuration {
     max_capacity = 1.0
     min_capacity = 0.5
