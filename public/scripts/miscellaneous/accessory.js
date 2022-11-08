@@ -1,4 +1,4 @@
-import message from '/scripts/message.js'
+import message from '/scripts/miscellaneous/message.js'
 
 function handleAuthState()
 {
