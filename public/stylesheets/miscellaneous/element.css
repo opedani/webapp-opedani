@@ -12,12 +12,13 @@ html
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     height: 100%;
+    visibility: hidden;
 }
 
 body
 {
     background-color: var(--color-black);
-    background-image: url('/assets/images/background.png');
+    background-image: url('/assets/images/background-dark.png');
     display: flex;
     flex-direction: column;
     min-height: 100%;

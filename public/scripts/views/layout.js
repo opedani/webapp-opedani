@@ -14,6 +14,8 @@ const layoutSignInForm = $('#layout-sign-in-form')
 const layoutSignUpItem = $('#layout-sign-up-item')
 const layoutSignUpToggle = $('#layout-sign-up-toggle')
 const layoutSignUpForm = $('#layout-sign-up-form')
+const layoutPaletteDark = $('#layout-palette-dark')
+const layoutPaletteLight = $('#layout-palette-light')
 
 //////////////////////////////////////////////////////////////////////
 // PROPERTIES
@@ -80,6 +82,19 @@ function updateLayoutResultContainer(delay)
     {
         layoutSearchResultContainer.empty()
         layoutSearchResultContainer.toggleClass('hidden', true)
+    }
+}
+
+function initPaletteButton()
+{
+    const palette = localStorage.getItem('palette')
+    if (palette == 'dark')
+    {
+        layoutPaletteDark.trigger('click')
+    }
+    else if (palette == 'light')
+    {
+        layoutPaletteLight.trigger('click')
     }
 }
 
@@ -162,6 +177,20 @@ function layoutSignUpToggle_onClick()
     layoutSignUpForm.toggleClass('hidden')
 }
 
+function layoutPaletteDark_onClick()
+{
+    layoutPaletteDark.toggleClass('hidden', true)
+    layoutPaletteLight.toggleClass('hidden', false)
+    localStorage.setItem('palette', 'dark')
+}
+
+function layoutPaletteLight_onClick()
+{
+    layoutPaletteLight.toggleClass('hidden', true)
+    layoutPaletteDark.toggleClass('hidden', false)
+    localStorage.setItem('palette', 'light')
+}
+
 //////////////////////////////////////////////////////////////////////
 // CONFIGURATION
 //////////////////////////////////////////////////////////////////////
@@ -173,3 +202,7 @@ layoutSearchForm.on('submit', layoutSearchForm_onSubmit)
 layoutSearchQuery.on('focus', layoutSearchQuery_onFocus)
 layoutSignInToggle.on('click', layoutSignInToggle_onClick)
 layoutSignUpToggle.on('click', layoutSignUpToggle_onClick)
+layoutPaletteDark.on('click', layoutPaletteDark_onClick)
+layoutPaletteLight.on('click', layoutPaletteLight_onClick)
+
+initPaletteButton()

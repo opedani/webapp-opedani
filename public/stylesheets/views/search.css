@@ -25,7 +25,7 @@
 .search-result-body
 {
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
