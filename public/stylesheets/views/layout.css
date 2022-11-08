@@ -20,11 +20,11 @@
 
 .layout-nav-item:nth-child(2)
 {
-    flex-basis: 800px;
+    flex-basis: 640px;
     margin: 0 auto;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-nav-item
     {
@@ -47,12 +47,12 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-menu-container
     {
         top: calc(100% + 10px);
-        width: 350px;
+        width: 320px;
     }
 }
 
@@ -78,7 +78,7 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-result-container
     {
@@ -109,12 +109,12 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-sign-container
     {
         top: calc(100% + 10px);
-        width: 350px;
+        width: 320px;
     }
 }
 

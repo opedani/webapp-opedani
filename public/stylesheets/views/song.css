@@ -9,7 +9,7 @@
 .song-theater-video
 {
     aspect-ratio: 16 / 9;
-    max-width: 1400px;
+    max-width: 1280px;
     width: 100%;
 }
 
@@ -19,9 +19,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    max-width: 640px;
     padding: 10px;
-    width: 100%;
 }
 
 .song-header
