@@ -2,10 +2,10 @@ extends layout
 
 block head-content
     title OpEdAni: Anime Openings &amp Endings
-    link(rel='stylesheet' href='/stylesheets/song.css')
+    link(rel='stylesheet' href='/stylesheets/views/song.css')
 
 block body-content
-    script(src='/scripts/song.js' type='module')
+    script(src='/scripts/views/song.js' type='module')
 
 block main-content
     if song.videos.length > 0

@@ -1,6 +1,6 @@
-import message from '/scripts/message.js'
+import message from '/scripts/miscellaneous/message.js'
 
-function handleAuthState()
+function setAuthState()
 {
     sessionStorage.setItem('authState', 'signedOut')
     const authState = sessionStorage.getItem('authState')
@@ -26,5 +26,12 @@ function setHelpMessages()
     })
 }
 
-handleAuthState()
+function document_onReady()
+{
+    $('html').css('visibility', 'visible')
+}
+
+$(document).ready(document_onReady)
+
+setAuthState()
 setHelpMessages()

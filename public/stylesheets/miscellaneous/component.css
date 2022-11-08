@@ -1,0 +1,87 @@
+.aligned-content
+{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    min-width: max-content;
+}
+
+.aligned-content-wrap
+{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.button-box
+{
+    background-color: var(--color-gray-dark);
+    padding: 10px;
+}
+
+.button-box:focus
+{
+    background-color: var(--color-gray);
+    outline: none;
+}
+
+.icon-small
+{
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+
+.icon-large
+{
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+}
+
+.clamp
+{
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 100%;
+}
+
+.thumbnail
+{
+    object-fit: cover;
+    object-position: center;
+    max-width: 60px;
+    min-height: 80px;
+    width: 100%;
+}
+
+@media screen and (min-width: 640px)
+{
+    .thumbnail
+    {
+        max-width: 120px;
+        min-height: 160px;
+    }
+}
+
+.primary-header
+{
+    align-items: center;
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-dark);
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.help
+{
+    color: var(--color-gray);
+    cursor: pointer;
+}
+
+.help:hover
+{
+    color: var(--color-white);
+}

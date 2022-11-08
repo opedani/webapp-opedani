@@ -2,7 +2,7 @@
 {
     align-items: center;
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     gap: 20px;
     padding: 10px 20px;
@@ -20,11 +20,11 @@
 
 .layout-nav-item:nth-child(2)
 {
-    flex-basis: 800px;
+    flex-basis: 640px;
     margin: 0 auto;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-nav-item
     {
@@ -36,7 +36,7 @@
 {
     animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -47,12 +47,12 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-menu-container
     {
         top: calc(100% + 10px);
-        width: 350px;
+        width: 320px;
     }
 }
 
@@ -67,7 +67,7 @@
 {
     animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     flex-direction: column;
     left: 0;
@@ -78,7 +78,7 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-result-container
     {
@@ -98,7 +98,7 @@
 {
     animation: fade-in 500ms;
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -109,12 +109,12 @@
     width: 100%;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .layout-sign-container
     {
         top: calc(100% + 10px);
-        width: 350px;
+        width: 320px;
     }
 }
 

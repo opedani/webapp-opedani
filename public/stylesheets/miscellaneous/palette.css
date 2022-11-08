@@ -1,0 +1,14 @@
+:root
+{
+    --color-white: #dadada;
+    --color-white-dark: #a3a3a3;
+    --color-black: #202020;
+    --color-black-dark: #000000;
+    --color-primary: #64a4ca;
+    --color-primary-dark: #397fa8;
+    --color-accent: #9e66cc;
+    --color-accent-dark: #7839ac;
+    --color-selection: #7839ac88;
+    --color-gray: #6f6f6f;
+    --color-gray-dark: #515151;
+}

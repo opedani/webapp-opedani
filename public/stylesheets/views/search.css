@@ -5,7 +5,7 @@
     grid-template-columns: 1fr;
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 640px)
 {
     .search-form
     {
@@ -17,7 +17,7 @@
 {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     padding: 20px;
     width: 100%;
 }
@@ -25,7 +25,7 @@
 .search-result-body
 {
     background-color: var(--color-black);
-    box-shadow: 0 0 10px var(--color-shadow);
+    box-shadow: 0 0 10px var(--color-black-dark);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
