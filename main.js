@@ -103,35 +103,24 @@ function getAnimePage(request, response)
     const id = request.params[0]
     const anime =
     {
+        id: id,
         thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
-        titles: ['Steins;Gate', 'Steiner'],
+        title: 'Steins;Gate',
         openings:
         [
             {
                 id: 1,
                 ordinal: 1,
-                titles: ['Hacking to the Gate', 'Farting Bubbles'],
-                artists: ['Itou Kanako', 'Klayton Kowalski']
-            },
-            {
-                id: 2,
-                ordinal: 2,
-                titles: ['Hacking to the Gate', 'Farting Bubbles'],
+                title: 'Hacking to the Gate',
                 artists: ['Itou Kanako', 'Klayton Kowalski']
             }
         ],
         endings:
         [
             {
-                id: 3,
+                id: 2,
                 ordinal: 1,
-                titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
-                artists: ['PHANTASM']
-            },
-            {
-                id: 3,
-                ordinal: 2,
-                titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
+                title: 'Toki Tsukasadoru Juuni no Meiyaku',
                 artists: ['PHANTASM']
             }
         ]
@@ -139,6 +128,46 @@ function getAnimePage(request, response)
     if (anime)
     {
         response.render('anime',
+        {
+            anime: anime
+        })
+    }
+    else
+    {
+        response.status(404).render('page-not-found')
+    }
+}
+
+function getAnimeContributePage(request, response)
+{
+    const id = request.params[0]
+    const anime =
+    {
+        id: id,
+        thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
+        titles: ['Steins;Gate', 'The Microwave That Lept Through Time'],
+        openings:
+        [
+            {
+                id: 1,
+                ordinal: 1,
+                titles: ['Hacking to the Gate', 'Cracking al la Gay-Toe'],
+                artists: ['Itou Kanako', 'Klayton Kowalski']
+            }
+        ],
+        endings:
+        [
+            {
+                id: 2,
+                ordinal: 1,
+                titles: ['Toki Tsukasadoru Juuni no Meiyaku', 'The Ending Song'],
+                artists: ['PHANTASM', 'Klayton Kowalski']
+            }
+        ]
+    }
+    if (anime)
+    {
+        response.render('anime-contribute',
         {
             anime: anime
         })
@@ -157,7 +186,7 @@ function getSongPage(request, response)
         id: 1,
         animeId: 1,
         ordinal: 1,
-        titles: ['Hacking to the Gate'],
+        title: 'Hacking to the Gate',
         artists: ['Itou Kanako', 'Klayton Kowalski'],
         videos: ['https://www.youtube.com/embed/dd7BILZcYAY', 'https://www.youtube.com/embed/DvNVdo8Tchw', 'https://www.youtube.com/embed/DVv8hzYdido'],
         globalRating: 0.00,
@@ -166,6 +195,33 @@ function getSongPage(request, response)
     if (song)
     {
         response.render('song',
+        {
+            song: song
+        })
+    }
+    else
+    {
+        response.status(404).render('page-not-found')
+    }
+}
+
+function getSongContributePage(request, response)
+{
+    const id = request.params[0]
+    const song =
+    {
+        id: 1,
+        animeId: 1,
+        ordinal: 1,
+        titles: ['Hacking to the Gate', 'The Microwave That Lept Through Time'],
+        artists: ['Itou Kanako', 'Klayton Kowalski'],
+        videos: ['https://www.youtube.com/embed/dd7BILZcYAY', 'https://www.youtube.com/embed/DvNVdo8Tchw', 'https://www.youtube.com/embed/DVv8hzYdido'],
+        globalRating: 0.00,
+        globalRanking: 0
+    }
+    if (song)
+    {
+        response.render('song-contribute',
         {
             song: song
         })
@@ -209,7 +265,9 @@ app.get('/', getIndexPage)
 app.get('/search', getSearchPage)
 app.get('/contact', getContactPage)
 app.get(/^\/anime\/(\d+)$/, getAnimePage)
+app.get('/anime-contribute', getAnimeContributePage)
 app.get(/^\/song\/(\d+)$/, getSongPage)
+app.get('/song-contribute', getSongContributePage)
 app.get('/api/filter-search-results', apiFilterSearchResults)
 app.get('/api/send-contact-email', apiSendContactEmail)
 app.get('*', getPageNotFoundPage)

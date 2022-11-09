@@ -73,6 +73,13 @@ a
     text-decoration: none;
 }
 
+input[type=file]
+{
+    color: var(--color-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+}
+
 input[type=text]
 {
     background-color: var(--color-black);

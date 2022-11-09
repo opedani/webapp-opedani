@@ -1,7 +1,7 @@
 extends layout
 
 block head-content
-    title OpEdAni: Anime Openings &amp Endings
+    title OpEdAni: #{song.title}
     link(rel='stylesheet' href='/stylesheets/views/song.css')
 
 block body-content
@@ -20,7 +20,7 @@ block main-content
                         i.fa-solid.fa-arrow-right
     div.background
         header.clamp.song-header
-            h1 #{song.titles[0]}
+            h1 #{song.title}
             div.flex-row.gap-large
                 div.aligned-content
                     i.fa-solid.fa-star.fa-2x
@@ -28,12 +28,6 @@ block main-content
                 div.aligned-content
                     i.fa-solid.fa-ranking-star.fa-2x
                     p #{song.globalRanking}
-                button#song-contribute.aligned-content
+                a(href=`/song-contribute?id=${song.id}`).aligned-content
                     i.fa-solid.fa-pen-to-square.fa-2x
                     p(data-breakpoint='gt-medium') Contribute
-                button#song-submit.aligned-content.hidden
-                    i.fa-solid.fa-check.fa-2x
-                    p(data-breakpoint='gt-medium') Submit
-                button#song-cancel.aligned-content.hidden
-                    i.fa-solid.fa-x.fa-2x
-                    p(data-breakpoint='gt-medium') Cancel

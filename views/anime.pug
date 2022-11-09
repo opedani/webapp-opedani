@@ -1,42 +1,32 @@
 extends layout
 
 block head-content
-    title OpEdAni: #{anime.titles[0]}
+    title OpEdAni: #{anime.title}
     link(rel='stylesheet' href='/stylesheets/views/anime.css')
 
 block body-content
     script(src='/scripts/views/anime.js' type='module')
 
 block main-content
-    div#anime-banner.anime-banner
+    div.anime-banner
         div(style=`background-image: url("${anime.thumbnail}")`).anime-banner-background
         img(src=`${anime.thumbnail}`).anime-banner-thumbnail
     div.background
-        header.clamp.flex-column.gap.padding-large
-            input#anime-thumbnail-input(type='text' value=`${anime.thumbnail}` autocomplete='off' spellcheck='false' required).hidden
-            div.flex-row.gap-large.separate
-                h1#anime-title #{anime.titles[0]}
-                input#anime-title-input(type='text' value=`${anime.titles.join(', ')}` autocomplete='off' spellcheck='false' required).hidden
-                div.flex-row.gap-large
-                    div.aligned-content
-                        i.fa-solid.fa-o.fa-2x
-                        p #{anime.openings.length}
-                    div.aligned-content
-                        i.fa-solid.fa-e.fa-2x
-                        p #{anime.endings.length}
-                    button#anime-contribute.aligned-content
-                        i.fa-solid.fa-pen-to-square.fa-2x
-                        p(data-breakpoint='gt-medium') Contribute
-                    button#anime-submit.aligned-content.hidden
-                        i.fa-solid.fa-check.fa-2x
-                        p(data-breakpoint='gt-medium') Submit
-                    button#anime-cancel.aligned-content.hidden
-                        i.fa-solid.fa-x.fa-2x
-                        p(data-breakpoint='gt-medium') Cancel
+        header.clamp.flex-row.gap-large.padding-large.separate
+            h1 #{anime.title}
+            div.flex-row.gap-large
+                div.aligned-content
+                    i.fa-solid.fa-o.fa-2x
+                    p #{anime.openings.length}
+                div.aligned-content
+                    i.fa-solid.fa-e.fa-2x
+                    p #{anime.endings.length}
+                a(href=`/anime-contribute?id=${anime.id}`).aligned-content
+                    i.fa-solid.fa-pen-to-square.fa-2x
+                    p(data-breakpoint='gt-medium') Contribute
     div.clamp.flex-column.gap-large.padding-large
         h2 Openings
-        input#anime-opening-input(type='text' autocomplete='off' spellcheck='false' required).hidden
-        div#anime-opening-container.grid.gap-large.fluid-medium
+        div.grid.gap-large.fluid-medium
             each opening in anime.openings
                 a(href=`/song/${opening.id}`).anime-oped
                     div.flex-column.gap
@@ -44,7 +34,7 @@ block main-content
                             p OP #{opening.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
-                            p #{opening.titles[0]}
+                            p #{opening.titles}
                         div.aligned-content-wrap
                             i.fa-solid.fa-guitar
                             p #{opening.artists.join(', ')}
@@ -56,15 +46,14 @@ block main-content
                             i.fa-solid.fa-ranking-star
                             p #0
         h2 Endings
-        input#anime-ending-input(type='text' autocomplete='off' spellcheck='false' required).hidden
-        div#anime-ending-container.grid.gap-large.fluid-medium
+        div.grid.gap-large.fluid-medium
             each ending in anime.endings
                 a(href=`/song/${ending.id}`).anime-oped
                     div.flex-column.gap
                         p ED #{ending.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
-                            p #{ending.titles[0]}
+                            p #{ending.title}
                         div.aligned-content-wrap
                             i.fa-solid.fa-guitar
                             p #{ending.artists.join(', ')}
