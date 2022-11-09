@@ -34,14 +34,6 @@
     }
 }
 
-.anime-header
-{
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    padding: 20px;
-}
-
 .anime-oped
 {
     background-color: var(--color-black);

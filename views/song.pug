@@ -28,4 +28,12 @@ block main-content
                 div.aligned-content
                     i.fa-solid.fa-ranking-star.fa-2x
                     p #{song.globalRanking}
-    
+                button#song-contribute.aligned-content
+                    i.fa-solid.fa-pen-to-square.fa-2x
+                    p(data-breakpoint='gt-medium') Contribute
+                button#song-submit.aligned-content.hidden
+                    i.fa-solid.fa-check.fa-2x
+                    p(data-breakpoint='gt-medium') Submit
+                button#song-cancel.aligned-content.hidden
+                    i.fa-solid.fa-x.fa-2x
+                    p(data-breakpoint='gt-medium') Cancel

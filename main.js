@@ -104,33 +104,33 @@ function getAnimePage(request, response)
     const anime =
     {
         thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
-        titles: ['Steins;Gate'],
+        titles: ['Steins;Gate', 'Steiner'],
         openings:
         [
             {
                 id: 1,
                 ordinal: 1,
-                titles: ['Hacking to the Gate'],
+                titles: ['Hacking to the Gate', 'Farting Bubbles'],
                 artists: ['Itou Kanako', 'Klayton Kowalski']
             },
             {
                 id: 2,
                 ordinal: 2,
-                titles: ['Hacking to the Gate'],
-                artists: ['Itou Kanako', 'Klayton Kowalski']
-            },
-            {
-                id: 3,
-                ordinal: 3,
-                titles: ['Hacking to the Gate'],
+                titles: ['Hacking to the Gate', 'Farting Bubbles'],
                 artists: ['Itou Kanako', 'Klayton Kowalski']
             }
         ],
         endings:
         [
             {
-                id: 4,
+                id: 3,
                 ordinal: 1,
+                titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
+                artists: ['PHANTASM']
+            },
+            {
+                id: 3,
+                ordinal: 2,
                 titles: ['Toki Tsukasadoru Juuni no Meiyaku'],
                 artists: ['PHANTASM']
             }

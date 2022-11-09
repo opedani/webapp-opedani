@@ -88,6 +88,16 @@
     padding: 20px;
 }
 
+.join
+{
+    justify-content: center;
+}
+
+.separate
+{
+    justify-content: space-between;
+}
+
 .fade-in-slow
 {
     animation: fade-in 1s;
