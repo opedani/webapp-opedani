@@ -1,7 +1,7 @@
 .song-theater
 {
     align-items: center;
-    background-color: var(--color-black-dark);
+    background-color: var(--color-shadow);
     display: flex;
     flex-direction: column;
 }
@@ -9,7 +9,7 @@
 .song-theater-video
 {
     aspect-ratio: 16 / 9;
-    max-width: 1280px;
+    max-width: 640px;
     width: 100%;
 }
 

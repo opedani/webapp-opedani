@@ -85,19 +85,6 @@ function updateLayoutResultContainer(delay)
     }
 }
 
-function initPaletteButton()
-{
-    const palette = localStorage.getItem('palette')
-    if (palette == 'dark')
-    {
-        layoutPaletteDark.trigger('click')
-    }
-    else if (palette == 'light')
-    {
-        layoutPaletteLight.trigger('click')
-    }
-}
-
 //////////////////////////////////////////////////////////////////////
 // CALLBACK FUNCTIONS
 //////////////////////////////////////////////////////////////////////
@@ -179,16 +166,14 @@ function layoutSignUpToggle_onClick()
 
 function layoutPaletteDark_onClick()
 {
-    layoutPaletteDark.toggleClass('hidden', true)
-    layoutPaletteLight.toggleClass('hidden', false)
     localStorage.setItem('palette', 'dark')
+    setPalette()
 }
 
 function layoutPaletteLight_onClick()
 {
-    layoutPaletteLight.toggleClass('hidden', true)
-    layoutPaletteDark.toggleClass('hidden', false)
     localStorage.setItem('palette', 'light')
+    setPalette()
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -204,5 +189,3 @@ layoutSignInToggle.on('click', layoutSignInToggle_onClick)
 layoutSignUpToggle.on('click', layoutSignUpToggle_onClick)
 layoutPaletteDark.on('click', layoutPaletteDark_onClick)
 layoutPaletteLight.on('click', layoutPaletteLight_onClick)
-
-initPaletteButton()
