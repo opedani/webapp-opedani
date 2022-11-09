@@ -73,12 +73,6 @@ a
     text-decoration: none;
 }
 
-a:focus
-{
-    color: var(--color-white-dark);
-    outline: none;
-}
-
 input[type=text]
 {
     background-color: var(--color-black);
