@@ -1,25 +1,30 @@
+.song-theater-container
+{
+    background-color: var(--color-black-dark);
+    display: flex;
+    justify-content: center;
+}
+
 .song-theater
 {
-    align-items: center;
-    background-color: var(--color-shadow);
     display: flex;
     flex-direction: column;
+    flex-basis: 100%;
+    max-width: 1280px;
 }
 
 .song-theater-video
 {
     aspect-ratio: 16 / 9;
-    max-width: 640px;
-    width: 100%;
 }
 
 .song-theater-bottom
 {
     align-items: center;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    padding: 10px;
+    background-color: var(--color-black);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr auto 1fr;
 }
 
 .song-header

@@ -9,15 +9,16 @@ block body-content
 
 block main-content
     if song.videos.length > 0
-        div.song-theater
-            iframe#song-theater-video(src=song.videos[0] data-videos=song.videos allowfullscreen).song-theater-video
-            if song.videos.length > 1
-                div.song-theater-bottom
-                    button#song-theater-left
-                        i.fa-solid.fa-arrow-left
-                    p#song-theater-middle 1 of #{song.videos.length}
-                    button#song-theater-right
-                        i.fa-solid.fa-arrow-right
+        div.song-theater-container
+            div.song-theater
+                iframe#song-theater-video(src=song.videos[0] data-videos=song.videos allowfullscreen).song-theater-video
+                if song.videos.length > 1
+                    div.song-theater-bottom
+                        button#song-theater-left.button-box
+                            i.fa-solid.fa-arrow-left
+                        p#song-theater-middle 1 of #{song.videos.length}
+                        button#song-theater-right.button-box
+                            i.fa-solid.fa-arrow-right
     div.background
         header.clamp.song-header
             h1 #{song.title}

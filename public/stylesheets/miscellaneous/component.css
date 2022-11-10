@@ -19,12 +19,6 @@
     padding: 10px;
 }
 
-.button-box:focus
-{
-    background-color: var(--color-gray);
-    outline: none;
-}
-
 .icon-small
 {
     font-size: 16px;
@@ -73,15 +67,4 @@
     gap: 20px;
     justify-content: center;
     padding: 20px;
-}
-
-.help
-{
-    color: var(--color-gray);
-    cursor: pointer;
-}
-
-.help:hover
-{
-    color: var(--color-white);
 }
