@@ -14,10 +14,10 @@ block main-content
                 iframe#song-theater-video(src=song.videos[0] data-videos=song.videos allowfullscreen).song-theater-video
                 if song.videos.length > 1
                     div.song-theater-bottom
-                        button#song-theater-left.button-box
+                        button#song-theater-left.song-theater-button-left.button-box
                             i.fa-solid.fa-arrow-left
-                        p#song-theater-middle 1 of #{song.videos.length}
-                        button#song-theater-right.button-box
+                        p#song-theater-middle.soft 1 of #{song.videos.length}
+                        button#song-theater-right.song-theater-button-right.button-box
                             i.fa-solid.fa-arrow-right
     div.background
         header.clamp.song-header
@@ -32,3 +32,25 @@ block main-content
                 a(href=`/song-contribute?id=${song.id}`).aligned-content
                     i.fa-solid.fa-pen-to-square.fa-2x
                     p(data-breakpoint='gt-medium') Contribute
+    div.clamp.grid.gap-large.padding-large.fluid-small
+        div.grid.gap-large
+            h2 Information
+            div.background.flex-column.gap.padding.shadow-hard
+                div.aligned-content-wrap
+                    i.fa-solid.fa-music
+                    a(href=`/anime/${song.anime.id}`).inline-link #{song.anime.title}
+                div.aligned-content-wrap
+                    i.fa-solid.fa-list-ol
+                    p
+                        if song.opening
+                            | Opening 
+                        else
+                            | Ending 
+                        | #{song.ordinal}
+                div.aligned-content-wrap
+                    i.fa-solid.fa-guitar
+                    p
+                        each artist, index in song.artists
+                            a(href=`/artist/${artist.id}`).inline-link #{artist.name}
+                            if index < song.artists.length - 1
+                                | , 

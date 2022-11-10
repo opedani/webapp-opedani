@@ -112,7 +112,6 @@ function getAnimePage(request, response)
                 id: 1,
                 ordinal: 1,
                 title: 'Hacking to the Gate',
-                artists: ['Itou Kanako', 'Klayton Kowalski']
             }
         ],
         endings:
@@ -121,7 +120,6 @@ function getAnimePage(request, response)
                 id: 2,
                 ordinal: 1,
                 title: 'Toki Tsukasadoru Juuni no Meiyaku',
-                artists: ['PHANTASM']
             }
         ]
     }
@@ -152,7 +150,6 @@ function getAnimeContributePage(request, response)
                 id: 1,
                 ordinal: 1,
                 titles: ['Hacking to the Gate', 'Cracking al la Gay-Toe'],
-                artists: ['Itou Kanako', 'Klayton Kowalski']
             }
         ],
         endings:
@@ -161,7 +158,6 @@ function getAnimeContributePage(request, response)
                 id: 2,
                 ordinal: 1,
                 titles: ['Toki Tsukasadoru Juuni no Meiyaku', 'The Ending Song'],
-                artists: ['PHANTASM', 'Klayton Kowalski']
             }
         ]
     }
@@ -184,10 +180,19 @@ function getSongPage(request, response)
     const song =
     {
         id: 1,
-        animeId: 1,
+        anime:
+        {
+            id: 1,
+            title: 'Steins;Gate'
+        },
+        opening: false,
         ordinal: 1,
         title: 'Hacking to the Gate',
-        artists: ['Itou Kanako', 'Klayton Kowalski'],
+        artists:
+        [
+            { id: 1, name: 'Itou Kanako' },
+            { id: 2, name: 'Klayton Kowalski' }
+        ],
         videos: ['https://www.youtube.com/embed/dd7BILZcYAY', 'https://www.youtube.com/embed/DvNVdo8Tchw', 'https://www.youtube.com/embed/DVv8hzYdido'],
         globalRating: 0.00,
         globalRanking: 0

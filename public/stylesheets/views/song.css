@@ -27,6 +27,16 @@
     grid-template-columns: 1fr auto 1fr;
 }
 
+.song-theater-button-left
+{
+    border-bottom-right-radius: 5px;
+}
+
+.song-theater-button-right
+{
+    border-bottom-left-radius: 5px;
+}
+
 .song-header
 {
     display: flex;
