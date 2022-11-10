@@ -10,7 +10,8 @@ block body-content
 block main-content
     div.background
         div.clamp.flex-column.gap.padding-large
-            p Thank you for contributing to the "#{anime.titles[0]}" anime. Changes will be reviewed by the OpEdAni team before taking effect. #[span(data-unauth) Sign in before submitting if you would like this contribution to be added to your profile statistics.]
+            p Thank you for contributing to the "#{anime.titles[0]}" anime. Changes will be reviewed by the OpEdAni team before taking effect. An anime's opening and ending lists can be edited by visiting their song pages and clicking the #[i Contribute] button.
+            p(data-unauth) Sign in before submitting if you would like this contribution to be added to your profile statistics.
     form#anime-contribute-form.clamp.grid.fluid-small.gap.padding-large
         div.flex-column.gap
             div.aligned-content
@@ -21,5 +22,5 @@ block main-content
             div.aligned-content
                 i.fa-solid.fa-image
                 label(for='anime-contribute-thumbnail') Thumbnail
-            input#anime-contribute-thumbnail(type='file' accept='image/*' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)
+            input#anime-contribute-thumbnail(type='file' accept='image/*' value=`${anime.thumbnail}` autocomplete='off' spellcheck='false')
         button(type='submit').button-box.span Submit
