@@ -1,0 +1,16 @@
+extends layout
+
+block head-content
+    title OpEdAni: Contribute to "#{song.titles[0]}"
+    link(rel='stylesheet' href='/stylesheets/views/song-contribute.css')
+
+block body-content
+    script(src='/scripts/views/song-contribute.js' type='module')
+
+block main-content
+    //- div.flex-column.gap
+    //-     div.aligned-content
+    //-         i.fa-solid.fa-music
+    //-         label(for='anime-contribute-songs-query') Songs
+    //-         i(data-help-text='Enter a list where each song id is separated by a backslash (/). Visit the OpEdAni page for any song to identify its id in the address bar. For example, https://opedani.net/song/1, where the song id is 1.', data-help-duration=15000).fa-solid.fa-circle-question.help
+    //-     input#anime-contribute-songs(type='text' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)

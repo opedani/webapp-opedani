@@ -1,7 +1,7 @@
 extends layout
 
 block head-content
-    title OpEdAni: #{anime.titles[0]}
+    title OpEdAni: #{anime.title}
     link(rel='stylesheet' href='/stylesheets/views/anime.css')
 
 block body-content
@@ -12,8 +12,8 @@ block main-content
         div(style=`background-image: url("${anime.thumbnail}")`).anime-banner-background
         img(src=`${anime.thumbnail}`).anime-banner-thumbnail
     div.background
-        header.clamp.anime-header
-            h1 #{anime.titles[0]}
+        header.clamp.flex-row.gap-large.padding-large.separate
+            h1 #{anime.title}
             div.flex-row.gap-large
                 div.aligned-content
                     i.fa-solid.fa-o.fa-2x
@@ -21,23 +21,23 @@ block main-content
                 div.aligned-content
                     i.fa-solid.fa-e.fa-2x
                     p #{anime.endings.length}
+                a(href=`/anime-contribute?id=${anime.id}`).aligned-content
+                    i.fa-solid.fa-pen-to-square.fa-2x
+                    p(data-breakpoint='gt-medium') Contribute
     div.clamp.flex-column.gap-large.padding-large
         h2 Openings
         div.grid.gap-large.fluid-medium
             each opening in anime.openings
                 a(href=`/song/${opening.id}`).anime-oped
                     div.flex-column.gap
-                        p OP #{opening.ordinal}
+                        div.aligned-content-wrap
+                            p OP #{opening.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
-                            p #{opening.titles[0]}
+                            p #{opening.title}
                         div.aligned-content-wrap
                             i.fa-solid.fa-guitar
-                            p
-                                each artist, index in opening.artists
-                                    | #{artist}
-                                    if index < opening.artists.length - 1
-                                        | , 
+                            p #{opening.artists.join(', ')}
                     div.anime-oped-bottom
                         div.aligned-content
                             i.fa-solid.fa-star
@@ -53,14 +53,10 @@ block main-content
                         p ED #{ending.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
-                            p #{ending.titles[0]}
+                            p #{ending.title}
                         div.aligned-content-wrap
                             i.fa-solid.fa-guitar
-                            p
-                                each artist, index in ending.artists
-                                    | #{artist}
-                                    if index < ending.artists.length - 1
-                                        | , 
+                            p #{ending.artists.join(', ')}
                     div.anime-oped-bottom
                         div.aligned-content
                             i.fa-solid.fa-star
@@ -68,30 +64,3 @@ block main-content
                         div.aligned-content
                             i.fa-solid.fa-ranking-star
                             p #0
-        //- h2 Contribute
-        //- form#anime-contribute-form.grid.fluid-small.gap
-        //-     div.flex-column.gap
-        //-         div.aligned-content
-        //-             i.fa-solid.fa-list
-        //-             label(for='anime-category') Category
-        //-         select(required)#anime-category
-        //-             option(value='opening') Opening
-        //-             option(value='ending') Ending
-        //-     div.flex-column.gap
-        //-         div.aligned-content
-        //-             i.fa-solid.fa-list-ol
-        //-             label(for='anime-ordinal') Ordinal
-        //-         input#anime-ordinal(type='text' autocomplete='off' spellcheck='false' required)
-        //-     div.flex-column.gap
-        //-         div.aligned-content
-        //-             i.fa-solid.fa-music
-        //-             label(for='anime-titles') Titles
-        //-             i(data-help='Enter a comma-separated list. The first title is displayed across OpEdAni, while the following titles are added to the search engine.').fa-solid.fa-circle-question.help
-        //-         input#anime-titles(type='text' autocomplete='off' spellcheck='false' required)
-        //-     div.flex-column.gap
-        //-         div.aligned-content
-        //-             i.fa-solid.fa-guitar
-        //-             label(for='anime-artists') Artists
-        //-             i(data-help='Enter a comma-separated list.').fa-solid.fa-circle-question.help
-        //-         input#anime-artists(type='text' autocomplete='off' spellcheck='false' required)
-        //-     button(type='submit').button-box.span Submit

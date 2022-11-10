@@ -22,7 +22,8 @@ function setHelpMessages()
 {
     $('.help').on('click', event =>
     {
-        message.showHelpMessage($(event.target).attr('data-help'))
+        const element = $(event.target)
+        message.showHelpMessage(element.attr('data-help-text'), element.attr('data-help-duration'))
     })
 }
 

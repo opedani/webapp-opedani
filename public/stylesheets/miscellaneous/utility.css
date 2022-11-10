@@ -88,14 +88,24 @@
     padding: 20px;
 }
 
-.fade-in-slow
+.join
 {
-    animation: fade-in 1s;
+    justify-content: center;
 }
 
-.fade-in-fast
+.separate
 {
-    animation: fade-in 0.5s;
+    justify-content: space-between;
+}
+
+.fade-in
+{
+    animation: fade-in 500ms;
+}
+
+.fade-out
+{
+    animation: fade-out 500ms;
 }
 
 .hidden

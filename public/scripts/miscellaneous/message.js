@@ -1,17 +1,19 @@
-function showStatusMessage(message)
+function showStatusMessage(text, duration)
 {
     $('.accessory-message').remove()
-    const element = $(`<div class="accessory-message"><p>${message}</p></div>`)
+    const element = $(`<div class="accessory-message fade-in"><div class="clamp"><p>${text}</p></div></div>`)
     $(document.body).append(element)
-    setTimeout(() => element.remove(), 5000)
+    setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
+    setTimeout(() => element.remove(), duration)
 }
 
-function showHelpMessage(message)
+function showHelpMessage(text, duration)
 {
     $('.accessory-message').remove()
-    const element = $(`<div class="accessory-message"><p>${message}</p></div>`)
+    const element = $(`<div class="accessory-message fade-in"><div class="clamp"><p>${text}</p></div></div>`)
     $(document.body).append(element)
-    setTimeout(() => element.remove(), 10000)
+    setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
+    setTimeout(() => element.remove(), duration)
 }
 
 const message =
