@@ -57,14 +57,14 @@ function contactForm_onSubmit(event)
         {
             if (response.success)
             {
-                message.showStatusMessage('Success! Your email was sent to the OpEdAni team.')
+                message.showStatusMessage('Success! Your email was sent to the OpEdAni team.', 5000)
                 contactName.val('')
                 contactEmail.val('')
                 contactMessage.val('')
             }
             else
             {
-                message.showStatusMessage('Something went wrong. Please refresh the page and try again.')
+                message.showStatusMessage('Something went wrong. Please refresh the page and try again.', 5000)
             }
         }
     }

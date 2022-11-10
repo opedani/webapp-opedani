@@ -75,9 +75,12 @@ a
 
 input[type=file]
 {
+    align-items: center;
     color: var(--color-white);
+    display: flex;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
+    width: 100%;
 }
 
 input[type=text]

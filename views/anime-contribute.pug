@@ -8,3 +8,18 @@ block body-content
     script(src='/scripts/views/anime-contribute.js' type='module')
 
 block main-content
+    div.background
+        div.clamp.flex-column.gap.padding-large
+            p Thank you for contributing to the "#{anime.titles[0]}" anime. Changes will be reviewed by the OpEdAni team before taking effect. #[span(data-unauth) Sign in before submitting if you would like this contribution to be added to your profile statistics.]
+    form#anime-contribute-form.clamp.grid.fluid-small.gap.padding-large
+        div.flex-column.gap
+            div.aligned-content
+                label(for='anime-contribute-titles') Titles
+                i(data-help-text='Enter a list where each title is separated by a backslash (/). The first title will be prominently displayed across OpEdAni, while following titles will be included only in the search engine.' data-help-duration=10000).fa-solid.fa-circle-question.help
+            input#anime-contribute-titles(type='text' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)
+        div.flex-column.gap
+            div.aligned-content
+                i.fa-solid.fa-image
+                label(for='anime-contribute-thumbnail') Thumbnail
+            input#anime-contribute-thumbnail(type='file' accept='image/*' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)
+        button(type='submit').button-box.span Submit
