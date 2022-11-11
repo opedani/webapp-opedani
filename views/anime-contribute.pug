@@ -16,7 +16,8 @@ block main-content
         div.flex-column.gap
             div.aligned-content
                 label(for='anime-contribute-titles') Titles
-                i(data-help-text='Enter a list where each title is separated by a backslash (/). The first title will be prominently displayed across OpEdAni, while following titles will be included only in the search engine.' data-help-duration=10000).fa-solid.fa-circle-question.help
+                button(data-help data-help-text='Enter a list where each title is separated by a backslash (/). The first title will be prominently displayed across OpEdAni, while following titles will be included only in the search engine.' data-help-duration=10000)
+                    i.fa-solid.fa-circle-question
             input#anime-contribute-titles(type='text' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)
         div.flex-column.gap
             div.aligned-content

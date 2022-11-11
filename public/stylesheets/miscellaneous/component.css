@@ -19,10 +19,9 @@
     padding: 10px;
 }
 
-.button-box:focus
+.inline-link
 {
-    background-color: var(--color-gray);
-    outline: none;
+    color: var(--color-accent);
 }
 
 .icon-small
@@ -73,15 +72,4 @@
     gap: 20px;
     justify-content: center;
     padding: 20px;
-}
-
-.help
-{
-    color: var(--color-gray);
-    cursor: pointer;
-}
-
-.help:hover
-{
-    color: var(--color-white);
 }

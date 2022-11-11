@@ -26,13 +26,13 @@ function contactCategory_onInput()
     {
         contactDescription.text('Report a technical issue if the site does not function as expected or erroneous information is displayed.')
     }
-    else if (category == 'suggestion')
-    {
-        contactDescription.text('Submit a suggestion if you think of a potentially beneficial addition or change to the site.')
-    }
     else if (category == 'business')
     {
         contactDescription.text('Submit a business inquiry if you would like to partner with the OpEdAni team or request information.')
+    }
+    else if (category == 'suggestion')
+    {
+        contactDescription.text('Submit a suggestion if you think of a potentially beneficial addition or change to the site.')
     }
     else if (category == 'other')
     {

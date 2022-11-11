@@ -108,6 +108,16 @@
     animation: fade-out 500ms;
 }
 
+.shadow-soft
+{
+    box-shadow: 0 0 10px var(--color-shadow);
+}
+
+.shadow-hard
+{
+    box-shadow: 5px 5px 0 var(--color-shadow);
+}
+
 .hidden
 {
     display: none;

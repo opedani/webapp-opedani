@@ -20,9 +20,9 @@ function setAuthState()
 
 function setHelpMessages()
 {
-    $('.help').on('click', event =>
+    $('[data-help]').on('click', event =>
     {
-        const element = $(event.target)
+        const element = $(event.currentTarget)
         message.showHelpMessage(element.attr('data-help-text'), element.attr('data-help-duration'))
     })
 }

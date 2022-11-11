@@ -12,7 +12,7 @@ block main-content
         div(style=`background-image: url("${anime.thumbnail}")`).anime-banner-background
         img(src=`${anime.thumbnail}`).anime-banner-thumbnail
     div.background
-        header.clamp.flex-row.gap-large.padding-large.separate
+        header.anime-header.clamp
             h1 #{anime.title}
             div.flex-row.gap-large
                 div.aligned-content
@@ -28,39 +28,42 @@ block main-content
         h2 Openings
         div.grid.gap-large.fluid-medium
             each opening in anime.openings
-                a(href=`/song/${opening.id}`).anime-oped
+                a(href=`/song/${opening.id}`).background.shadow-hard.flex-column.gap.padding.relative
                     div.flex-column.gap
                         div.aligned-content-wrap
-                            p OP #{opening.ordinal}
+                            i.fa-solid.fa-list-ol
+                            p Opening #{opening.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
                             p #{opening.title}
-                        div.aligned-content-wrap
-                            i.fa-solid.fa-guitar
-                            p #{opening.artists.join(', ')}
                     div.anime-oped-bottom
                         div.aligned-content
                             i.fa-solid.fa-star
-                            p 0.00
+                            p #{opening.globalRating.toFixed(2)}
                         div.aligned-content
                             i.fa-solid.fa-ranking-star
-                            p #0
+                            p #{opening.globalRanking}
+                        div.aligned-content
+                            i.fa-solid.fa-users
+                            p #{opening.popularity}
         h2 Endings
         div.grid.gap-large.fluid-medium
             each ending in anime.endings
-                a(href=`/song/${ending.id}`).anime-oped
+                a(href=`/song/${ending.id}`).background.shadow-hard.flex-column.gap.padding
                     div.flex-column.gap
-                        p ED #{ending.ordinal}
+                        div.aligned-content-wrap
+                            i.fa-solid.fa-list-ol
+                            p Ending #{ending.ordinal}
                         div.aligned-content-wrap
                             i.fa-solid.fa-music
                             p #{ending.title}
-                        div.aligned-content-wrap
-                            i.fa-solid.fa-guitar
-                            p #{ending.artists.join(', ')}
                     div.anime-oped-bottom
                         div.aligned-content
                             i.fa-solid.fa-star
-                            p 0.00
+                            p #{ending.globalRating.toFixed(2)}
                         div.aligned-content
                             i.fa-solid.fa-ranking-star
-                            p #0
+                            p #{ending.globalRanking}
+                        div.aligned-content
+                            i.fa-solid.fa-users
+                            p #{ending.popularity}
