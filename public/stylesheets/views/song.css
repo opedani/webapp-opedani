@@ -39,8 +39,20 @@
 
 .song-header
 {
+    align-items: center;
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    flex-flow: column-reverse;
+    gap: 10px;
     justify-content: space-between;
     padding: 20px;
+}
+
+@media screen and (min-width: 640px)
+{
+    .song-header
+    {
+        flex-direction: row;
+        gap: 20px;
+    }
 }

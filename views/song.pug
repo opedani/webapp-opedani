@@ -20,7 +20,7 @@ block main-content
                         button#song-theater-right.song-theater-button-right.button-box
                             i.fa-solid.fa-arrow-right
     div.background
-        header.clamp.song-header
+        header.song-header.clamp
             h1 #{song.title}
             div.flex-row.gap-large
                 div.aligned-content
@@ -29,15 +29,18 @@ block main-content
                 div.aligned-content
                     i.fa-solid.fa-ranking-star.fa-2x
                     p #{song.globalRanking}
+                div.aligned-content
+                    i.fa-solid.fa-users.fa-2x
+                    p #{song.popularity}
                 a(href=`/song-contribute?id=${song.id}`).aligned-content
                     i.fa-solid.fa-pen-to-square.fa-2x
                     p(data-breakpoint='gt-medium') Contribute
     div.clamp.grid.gap-large.padding-large.fluid-small
-        div.grid.gap-large
+        div.flex-column.gap-large
             h2 Information
             div.background.flex-column.gap.padding.shadow-hard
                 div.aligned-content-wrap
-                    i.fa-solid.fa-music
+                    i.fa-solid.fa-film
                     a(href=`/anime/${song.anime.id}`).inline-link #{song.anime.title}
                 div.aligned-content-wrap
                     i.fa-solid.fa-list-ol
@@ -54,3 +57,26 @@ block main-content
                             a(href=`/artist/${artist.id}`).inline-link #{artist.name}
                             if index < song.artists.length - 1
                                 | , 
+        div.flex-column.gap-large
+            h2 Ratings
+            div.background.flex-column.gap.padding.shadow-hard
+                div.aligned-content-wrap
+                    i.fa-solid.fa-star
+                    select#song-rating
+                        option(value='none') ---
+                        option(value='10') 10 (Masterpiece)
+                        option(value='9') 9 (Excellent)
+                        option(value='8') 8 (Great)
+                        option(value='7') 7 (Good)
+                        option(value='6') 6 (Decent)
+                        option(value='5') 5 (Meh)
+                        option(value='4') 4 (Bad)
+                        option(value='3') 3 (Horrible)
+                        option(value='2') 2 (Garbage)
+                        option(value='1') 1 (Abhorrent)
+        div.flex-column.gap-large.span
+            h2 Reviews
+            div.background.flex-column.gap.padding.shadow-hard
+        div.flex-column.gap-large.span
+            h2 Discussions
+            div.background.flex-column.gap.padding.shadow-hard

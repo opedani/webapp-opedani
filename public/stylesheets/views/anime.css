@@ -34,6 +34,26 @@
     }
 }
 
+.anime-header
+{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-flow: column-reverse;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+@media screen and (min-width: 640px)
+{
+    .anime-header
+    {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
 .anime-oped-bottom
 {
     display: flex;

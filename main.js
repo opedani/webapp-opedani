@@ -112,6 +112,9 @@ function getAnimePage(request, response)
                 id: 1,
                 ordinal: 1,
                 title: 'Hacking to the Gate',
+                globalRating: 0.00,
+                globalRanking: 0,
+                popularity: 0
             }
         ],
         endings:
@@ -120,6 +123,9 @@ function getAnimePage(request, response)
                 id: 2,
                 ordinal: 1,
                 title: 'Toki Tsukasadoru Juuni no Meiyaku',
+                globalRating: 0.00,
+                globalRanking: 0,
+                popularity: 0
             }
         ]
     }
@@ -195,7 +201,8 @@ function getSongPage(request, response)
         ],
         videos: ['https://www.youtube.com/embed/dd7BILZcYAY', 'https://www.youtube.com/embed/DvNVdo8Tchw', 'https://www.youtube.com/embed/DVv8hzYdido'],
         globalRating: 0.00,
-        globalRanking: 0
+        globalRanking: 0,
+        popularity: 0
     }
     if (song)
     {
