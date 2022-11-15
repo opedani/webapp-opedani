@@ -3,8 +3,14 @@ function showStatusMessage(text, duration)
     $('.accessory-message').remove()
     const element = $(`<div class="accessory-message fade-in"><div class="clamp"><p>${text}</p></div></div>`)
     $(document.body).append(element)
-    setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
-    setTimeout(() => element.remove(), duration)
+    const fadeHandle = setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
+    const removeHandle = setTimeout(() => element.remove(), duration)
+    element.on('click', () =>
+    {
+        element.remove()
+        clearTimeout(fadeHandle)
+        clearTimeout(removeHandle)
+    })
 }
 
 function showHelpMessage(text, duration)
@@ -12,8 +18,14 @@ function showHelpMessage(text, duration)
     $('.accessory-message').remove()
     const element = $(`<div class="accessory-message fade-in"><div class="clamp"><p>${text}</p></div></div>`)
     $(document.body).append(element)
-    setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
-    setTimeout(() => element.remove(), duration)
+    const fadeHandle = setTimeout(() => element.toggleClass('fade-out', true), duration - 500)
+    const removeHandle = setTimeout(() => element.remove(), duration)
+    element.on('click', () =>
+    {
+        element.remove()
+        clearTimeout(fadeHandle)
+        clearTimeout(removeHandle)
+    })
 }
 
 const message =
