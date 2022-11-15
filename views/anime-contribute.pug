@@ -1,27 +1,45 @@
 extends layout
 
 block head-content
-    title OpEdAni: Contribute to "#{anime.titles[0]}"
+    title OpEdAni: Anime Contribute
     link(rel='stylesheet' href='/stylesheets/views/anime-contribute.css')
 
 block body-content
+    script const data = !{JSON.stringify(data)}
     script(src='/scripts/views/anime-contribute.js' type='module')
 
 block main-content
     div.background
         div.clamp.flex-column.gap.padding-large
-            p Thank you for contributing to the "#{anime.titles[0]}" anime. Changes will be reviewed by the OpEdAni team before taking effect. An anime's opening and ending lists can be edited by visiting their song pages and clicking the #[i Contribute] button.
+            p Thank you for contributing to our anime pages. Changes will be reviewed by the OpEdAni team before taking effect.
             p(data-unauth) Sign in before submitting if you would like this contribution to be added to your profile statistics.
     form#anime-contribute-form.clamp.grid.fluid-small.gap.padding-large
         div.flex-column.gap
             div.aligned-content
-                label(for='anime-contribute-titles') Titles
-                button(data-help data-help-text='Enter a list where each title is separated by a backslash (/). The first title will be prominently displayed across OpEdAni, while following titles will be included only in the search engine.' data-help-duration=10000)
+                i.fa-solid.fa-pencil
+                label(for='anime-contribute-action') Action
+            select#anime-contribute-action
+                option(value='create') Create a new anime page
+                option(value='modify') Modify an existing anime page
+        div#anime-contribute-id-container.flex-column.gap.hidden
+            div.aligned-content
+                i.fa-solid.fa-list-ol
+                label(for='anime-contribute-id') Id
+                button(data-help data-help-text='Visit the OpEdAni page for any anime to identify its id in the address bar. For example, https://opedani.net/anime/1, where the anime id is 1.' data-help-duration=10000).subtle
                     i.fa-solid.fa-circle-question
-            input#anime-contribute-titles(type='text' value=`${anime.titles.join(' / ')}` autocomplete='off' spellcheck='false' required)
+            input#anime-contribute-id(type='number' autocomplete='off' spellcheck='false' required)
         div.flex-column.gap
             div.aligned-content
                 i.fa-solid.fa-image
                 label(for='anime-contribute-thumbnail') Thumbnail
-            input#anime-contribute-thumbnail(type='file' accept='image/*' autocomplete='off' spellcheck='false')
+                button(data-help data-help-text='Choose an image with the .png or .jpg file extension.' data-help-duration=10000).subtle
+                    i.fa-solid.fa-circle-question
+            input#anime-contribute-thumbnail(type='file' accept='.png, .jpg' autocomplete='off' spellcheck='false')
+        div.flex-column.gap
+            div.aligned-content
+                i.fa-solid.fa-heading
+                label(for='anime-contribute-titles') Titles
+                button(data-help data-help-text='Enter a list where each title is separated by a backslash (/). The first title will be prominently displayed across OpEdAni, while following titles will only be included in the search engine.' data-help-duration=10000).subtle
+                    i.fa-solid.fa-circle-question
+            input#anime-contribute-titles(type='text' placeholder='Attack on Titan / Shingeki no Kyojin' autocomplete='off' spellcheck='false' required)
         button(type='submit').button-box.span Submit

@@ -100,7 +100,7 @@ function getContactPage(request, response)
 
 function getAnimePage(request, response)
 {
-    const id = request.params[0]
+    const id = request.query.id
     const anime =
     {
         id: id,
@@ -144,10 +144,10 @@ function getAnimePage(request, response)
 
 function getAnimeContributePage(request, response)
 {
-    const id = request.params[0]
-    const anime =
+    const query = request.query
+    const data =
     {
-        id: id,
+        id: query.id,
         thumbnail: 'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',
         titles: ['Steins;Gate', 'The Microwave That Lept Through Time'],
         openings:
@@ -167,11 +167,11 @@ function getAnimeContributePage(request, response)
             }
         ]
     }
-    if (anime)
+    if (data)
     {
         response.render('anime-contribute',
         {
-            anime: anime
+            data: data
         })
     }
     else
