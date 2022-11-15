@@ -62,14 +62,3 @@
         min-height: 160px;
     }
 }
-
-.primary-header
-{
-    align-items: center;
-    background-color: var(--color-primary);
-    border-bottom: 1px solid var(--color-primary-dark);
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
