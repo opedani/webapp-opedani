@@ -19,9 +19,4 @@ resource "aws_dynamodb_table" "anime_table" {
     name = "Titles"
     type = "S"
   }
-
-  attribute {
-    name = "Songs"
-    type = "S"
-  }
 }
