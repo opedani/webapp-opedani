@@ -5,7 +5,7 @@
 resource "aws_cognito_user_pool" "user_pool" {
   name = "user-pool"
 
-  username_attributes = ["email"]
+  username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
   password_policy {
     minimum_length = 6
@@ -13,8 +13,8 @@ resource "aws_cognito_user_pool" "user_pool" {
 
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
-    email_subject = "Account Confirmation"
-    email_message = "Your confirmation code is {####}"
+    email_subject        = "Account Confirmation"
+    email_message        = "Your confirmation code is {####}"
   }
 
   schema {
@@ -36,9 +36,9 @@ resource "aws_cognito_user_pool" "user_pool" {
 resource "aws_cognito_user_pool_client" "client" {
   name = "cognito-client"
 
-  user_pool_id = aws_cognito_user_pool.user_pool.id
-  generate_secret = false
-  refresh_token_validity = 90
+  user_pool_id                  = aws_cognito_user_pool.user_pool.id
+  generate_secret               = false
+  refresh_token_validity        = 90
   prevent_user_existence_errors = "ENABLED"
   explicit_auth_flows = [
     "ALLOW_REFRESH_TOKEN_AUTH",
